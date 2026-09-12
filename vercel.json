@@ -3,7 +3,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "client/dist",
   "functions": {
-    "api/[...path].cjs": {
+    "api/[...path].js": {
       "includeFiles": "server/dist/**"
     }
   },
