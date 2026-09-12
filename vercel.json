@@ -3,11 +3,15 @@
   "buildCommand": "npm run build",
   "outputDirectory": "client/dist",
   "functions": {
-    "api/[...path].js": {
+    "api/**/*.js": {
       "includeFiles": "{server/package.json,server/dist/**,node_modules/sql.js/dist/sql-wasm.wasm}"
     }
   },
   "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api?path=:path*"
+    },
     {
       "source": "/((?!api/).*)",
       "destination": "/index.html"
