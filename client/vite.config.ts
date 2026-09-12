@@ -5,7 +5,8 @@ import react from '@vitejs/plugin-react';
 // In production the app is served same-origin, so these paths just work.
 const API_TARGET = 'http://localhost:4000';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  base: mode === 'github-pages' ? '/fuelIQ/' : '/',
   plugins: [react()],
   server: {
     port: 5173,
@@ -14,4 +15,4 @@ export default defineConfig({
       '/uploads': { target: API_TARGET, changeOrigin: true },
     },
   },
-});
+}));
