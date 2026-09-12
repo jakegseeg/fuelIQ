@@ -12,9 +12,17 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const dataDir = resolveDataDir(path.resolve(__dirname, '../../data'));
 fs.mkdirSync(dataDir, { recursive: true });
 const dbPath = path.join(dataDir, 'fueliq.db');
+const sqlWasmPath =
+  [
+    path.resolve(process.cwd(), 'node_modules/sql.js/dist/sql-wasm.wasm'),
+    path.resolve(__dirname, '../../../node_modules/sql.js/dist/sql-wasm.wasm'),
+    path.resolve(__dirname, '../../node_modules/sql.js/dist/sql-wasm.wasm'),
+  ].find(fs.existsSync) || 'sql-wasm.wasm';
 
 // sql.js is async — we initialise once and export a ready promise
-const SQL = await initSqlJs();
+const SQL = await initSqlJs({
+  locateFile: (file) => (file === 'sql-wasm.wasm' ? sqlWasmPath : file),
+});
 
 let _db: SqlJsDatabase;
 

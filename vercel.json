@@ -4,7 +4,7 @@
   "outputDirectory": "client/dist",
   "functions": {
     "api/[...path].js": {
-      "includeFiles": "server/dist/**"
+      "includeFiles": "{server/package.json,server/dist/**,node_modules/sql.js/dist/sql-wasm.wasm}"
     }
   },
   "rewrites": [
