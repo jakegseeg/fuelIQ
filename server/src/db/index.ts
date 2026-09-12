@@ -6,9 +6,10 @@ import initSqlJs, { Database as SqlJsDatabase } from 'sql.js';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { dataDir as resolveDataDir } from '../runtimePaths.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const dataDir = path.resolve(__dirname, '../../data');
+const dataDir = resolveDataDir(path.resolve(__dirname, '../../data'));
 fs.mkdirSync(dataDir, { recursive: true });
 const dbPath = path.join(dataDir, 'fueliq.db');
 

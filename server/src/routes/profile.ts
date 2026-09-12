@@ -21,13 +21,14 @@ import { workoutScheduleSchema } from '../domain/workoutScheduleSchema.js';
 import { applyWorkoutSchedule } from '../domain/workoutSchedule.js';
 import { getActivePlan, updateActivePlanJson } from '../db/workoutRepo.js';
 import { z } from 'zod';
+import { uploadsDir as resolveUploadsDir } from '../runtimePaths.js';
 
 const pantrySchema = z.object({
   pantry: z.array(z.string().trim().min(1).max(80)).max(50),
 });
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const uploadsDir = path.resolve(__dirname, '../../uploads');
+const uploadsDir = resolveUploadsDir(path.resolve(__dirname, '../../uploads'));
 fs.mkdirSync(uploadsDir, { recursive: true });
 
 const router = Router();

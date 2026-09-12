@@ -208,7 +208,8 @@ async function rankWithClaude(
       messages: [{ role: 'user', content: prompt }],
     });
 
-    const text = msg.content
+    const content = msg.content as Array<{ type: string; text?: string }>;
+    const text = content
       .filter((b): b is { type: 'text'; text: string } => b.type === 'text')
       .map((b) => b.text)
       .join('');
