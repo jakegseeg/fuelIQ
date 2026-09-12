@@ -127,6 +127,19 @@ export class ApiError extends Error {
   }
 }
 
+function errorMessage(body: { error?: unknown }): string | null {
+  if (typeof body.error === 'string') return body.error;
+  if (
+    body.error &&
+    typeof body.error === 'object' &&
+    'message' in body.error &&
+    typeof body.error.message === 'string'
+  ) {
+    return body.error.message;
+  }
+  return null;
+}
+
 async function handle<T>(res: Response): Promise<T> {
   if (!res.ok) {
     if (res.status === 401) {
@@ -137,13 +150,13 @@ async function handle<T>(res: Response): Promise<T> {
         window.location.assign(`${appBase}login`);
       }
     }
-    let body: { error?: string; issues?: unknown } = {};
+    let body: { error?: unknown; issues?: unknown } = {};
     try {
       body = await res.json();
     } catch {
       /* ignore non-JSON bodies */
     }
-    throw new ApiError(res.status, body.error || res.statusText, body.issues);
+    throw new ApiError(res.status, errorMessage(body) || res.statusText, body.issues);
   }
   return res.json() as Promise<T>;
 }
