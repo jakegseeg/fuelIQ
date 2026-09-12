@@ -1,3 +1,5 @@
+import { publicAsset } from '../lib/assets';
+
 /** Insite mark aspect ratio (1024×1003 source). */
 const INSITE_ASPECT = 1024 / 1003;
 
@@ -13,7 +15,7 @@ export function IsoInsiteLogo({ size = 32, className = '' }: IsoInsiteLogoProps)
 
   return (
     <img
-      src="/iso-insite-logo.png"
+      src={publicAsset('iso-insite-logo.png')}
       alt=""
       width={width}
       height={height}

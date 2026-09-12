@@ -1,3 +1,5 @@
+import { publicAsset } from '../lib/assets';
+
 interface IsoAppIconProps {
   size?: number;
   className?: string;
@@ -7,7 +9,7 @@ interface IsoAppIconProps {
 export function IsoAppIcon({ size = 32, className = '' }: IsoAppIconProps) {
   return (
     <img
-      src="/iso-app-icon.png"
+      src={publicAsset('iso-app-icon.png')}
       alt=""
       width={size}
       height={size}

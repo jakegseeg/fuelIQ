@@ -1,4 +1,5 @@
 /** Browser notification preferences (spec 7.2 — frontend only). */
+import { publicAsset } from './assets';
 
 export interface NotificationSettings {
   enabled: boolean;
@@ -68,7 +69,7 @@ export async function requestNotificationPermission(): Promise<NotificationPermi
 export function showBrowserNotification(title: string, body: string, tag?: string): void {
   if (!('Notification' in window) || Notification.permission !== 'granted') return;
   try {
-    new Notification(title, { body, tag, icon: '/favicon.png' });
+    new Notification(title, { body, tag, icon: publicAsset('favicon.png') });
   } catch {
     /* Safari / restricted contexts */
   }

@@ -47,6 +47,10 @@ import type {
 const TOKEN_KEY = 'fueliq.token';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') ?? '';
 
+export function isStaticPagesBuildWithoutApi(): boolean {
+  return window.location.hostname.endsWith('github.io') && API_BASE_URL === '';
+}
+
 function apiUrl(path: string): string {
   return `${API_BASE_URL}${path}`;
 }
@@ -128,8 +132,9 @@ async function handle<T>(res: Response): Promise<T> {
     if (res.status === 401) {
       auth.set(null);
       const path = window.location.pathname;
-      if (!path.startsWith('/login') && !path.startsWith('/signup')) {
-        window.location.assign('/login');
+      const appBase = import.meta.env.BASE_URL;
+      if (!path.startsWith(`${appBase}login`) && !path.startsWith(`${appBase}signup`)) {
+        window.location.assign(`${appBase}login`);
       }
     }
     let body: { error?: string; issues?: unknown } = {};

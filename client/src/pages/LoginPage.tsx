@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { IsoInsiteLogo } from '../components/IsoInsiteLogo';
-import { api, ApiError } from '../lib/api';
+import { api, ApiError, isStaticPagesBuildWithoutApi } from '../lib/api';
 
 export function LoginPage() {
   const navigate = useNavigate();
@@ -20,6 +20,10 @@ export function LoginPage() {
       await api.login(email.trim(), password);
       navigate(from, { replace: true });
     } catch (err) {
+      if (isStaticPagesBuildWithoutApi()) {
+        setError('This GitHub Pages link is only hosting the frontend. Connect it to the backend before sign in will work.');
+        return;
+      }
       setError(err instanceof ApiError ? err.message : 'Login failed. Please try again.');
     } finally {
       setBusy(false);
