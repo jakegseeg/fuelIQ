@@ -1,0 +1,89 @@
+@config "../tailwind.config.js";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+  /* HIG-inspired wellness palette: soft neutrals + a semantic Sage tint. */
+  --ios-background: 249 249 247;
+  --ios-secondary-background: 255 255 255;
+  --ios-tertiary-background: 244 245 242;
+  --ios-label: 33 37 41;
+  --ios-secondary-label: 108 117 125;
+  --ios-tertiary-label: 108 117 125;
+  --ios-separator: 211 215 210;
+  --ios-opaque-separator: 198 203 197;
+  --ios-fill: 126 135 130;
+  --ios-quaternary-fill: 232 235 230;
+  --sage: 143 168 155;       /* #8FA89B — signature progress and active state */
+  --sage-soft: 207 221 213;
+  --sage-wash: 232 239 234;
+  --sage-ink: 74 105 90;     /* accessible text/control variant of Sage */
+  --sage-strong: 55 82 69;
+  --clay: 197 143 114;       /* #C58F72 — reserved for high-emphasis actions */
+  --clay-strong: 157 103 77;
+  --clay-wash: 247 232 223;
+  --macro-protein: 74 105 90;
+  --macro-carbs: 173 118 44;
+  --macro-fat: 190 89 69;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ios-background: 24 31 28;
+    --ios-secondary-background: 33 43 38;
+    --ios-tertiary-background: 43 54 49;
+    --ios-label: 243 246 242;
+    --ios-secondary-label: 186 197 189;
+    --ios-tertiary-label: 160 174 165;
+    --ios-separator: 78 92 83;
+    --ios-opaque-separator: 61 74 66;
+    --ios-fill: 142 155 146;
+    --ios-quaternary-fill: 55 68 60;
+    --sage: 166 190 177;
+    --sage-soft: 101 128 113;
+    --sage-wash: 47 63 54;
+    --sage-ink: 190 213 200;
+    --sage-strong: 212 229 217;
+    --clay: 218 169 141;
+    --clay-strong: 239 194 168;
+    --clay-wash: 73 55 46;
+    --macro-protein: 166 190 177;
+    --macro-carbs: 242 191 113;
+    --macro-fat: 245 146 125;
+  }
+}
+
+html, body, #root { min-height: 100%; }
+body { @apply bg-bg font-sans text-[17px] text-ink-900 antialiased; font-feature-settings: 'tnum' 1, 'ss01' 1; }
+button, input, textarea, select { font: inherit; }
+button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+
+@layer components {
+  .btn { @apply inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-2 text-[17px] font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-400 focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-45; }
+  .btn-primary, .btn-accent { @apply btn bg-accent-500 text-white active:scale-[0.98] hover:bg-accent-600; }
+  /* Raw variables avoid coupling this shared primitive to Tailwind's config
+     reload lifecycle while keeping Clay reserved for high-emphasis actions. */
+  .btn-emphasis { @apply btn active:scale-[0.98]; background-color: rgb(var(--clay)); color: rgb(var(--ios-label)); }
+  .btn-emphasis:hover { background-color: rgb(var(--clay-strong)); color: white; }
+  .wellness-emphasis-icon { display: flex; height: 2.75rem; width: 2.75rem; flex: none; align-items: center; justify-content: center; border-radius: 9999px; background-color: rgb(var(--clay-wash)); color: rgb(var(--clay-strong)); }
+  .btn-ghost { @apply btn bg-transparent text-accent-500 hover:bg-accent-100 active:bg-accent-100; }
+  .field-label { @apply mb-1.5 block text-[15px] font-normal text-ink-600; }
+  .field-input { @apply min-h-11 w-full rounded-xl border-0 bg-surface2 px-3.5 py-2 text-[17px] text-ink-900 outline-none ring-1 ring-inset ring-ink-200 transition placeholder:text-ink-400 focus:ring-2 focus:ring-inset focus:ring-accent-500; }
+  .surface-card { @apply overflow-hidden rounded-card border-0 bg-surface shadow-none ring-1 ring-inset ring-ink-200; }
+  .section-label { @apply text-[13px] font-normal normal-case tracking-normal text-ink-600; }
+  .card { @apply overflow-hidden rounded-card border-0 bg-surface p-4 shadow-none ring-1 ring-inset ring-ink-200 sm:p-5; }
+  .card-hover { @apply hover:ring-accent-400/40; }
+  .state-accent { @apply border border-accent-500 bg-accent-100/30 ring-0; }
+  .state-accent-text, .state-accent-text-muted { @apply text-accent-500; }
+  .state-accent-check { @apply border border-accent-500 bg-accent-500 text-white; }
+  .panel-mint { @apply rounded-card bg-accent-100/20 p-4 ring-1 ring-inset ring-accent-400/25; }
+  .chip-mint { @apply bg-accent-500 text-white; }
+}
+
+@layer utilities {
+  .page-enter { @apply animate-page-in; }
+  .glass { background: rgb(var(--ios-background) / 0.84); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; } }
+}

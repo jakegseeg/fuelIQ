@@ -1,0 +1,23 @@
+node_modules/
+dist/
+build/
+*.log
+.DS_Store
+
+# Env
+.env
+.env.local
+*.local
+
+# Database (local dev SQLite)
+server/data/*.db
+server/data/*.db-*
+server/data/*.sqlite
+
+# Uploaded progress photos (stored locally)
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Editor
+.vscode/
+.idea/
