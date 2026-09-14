@@ -11,6 +11,7 @@ export function LoginPage() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [guestBusy, setGuestBusy] = useState(false);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,6 +28,17 @@ export function LoginPage() {
       setError(err instanceof ApiError ? err.message : 'Login failed. Please try again.');
     } finally {
       setBusy(false);
+    }
+  };
+
+  const viewAsGuest = async () => {
+    setError(null);
+    setGuestBusy(true);
+    try {
+      await api.viewAsGuest();
+      navigate('/dashboard', { replace: true });
+    } finally {
+      setGuestBusy(false);
     }
   };
 
@@ -80,6 +92,16 @@ export function LoginPage() {
           Create one
         </Link>
       </p>
+      <div className="mt-4 border-t border-ink-200 pt-4">
+        <button
+          type="button"
+          onClick={viewAsGuest}
+          disabled={guestBusy || busy}
+          className="w-full rounded-xl border border-ink-200 bg-surface px-4 py-3 text-sm font-bold text-ink-800 transition hover:bg-surface2 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {guestBusy ? 'Opening demo…' : 'View as guest'}
+        </button>
+      </div>
     </AuthShell>
   );
 }

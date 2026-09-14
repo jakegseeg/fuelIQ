@@ -43,8 +43,35 @@ import type {
   WorkoutStats,
   WorkoutType,
 } from './workoutTypes';
+import {
+  demoAddEntry,
+  demoAddSupplement,
+  demoCheckin,
+  demoDashboard,
+  demoDay,
+  demoFinishWorkout,
+  demoLogSummary,
+  demoLogWeight,
+  demoLoggingStreak,
+  demoPhotos,
+  demoPreviewTargets,
+  demoProfile,
+  demoProgressSummary,
+  demoRecipes,
+  demoSaveProfile,
+  demoSearchFoods,
+  demoSuggestions,
+  demoSupplements,
+  demoTemplates,
+  demoWeightSeries,
+  demoWorkoutLogs,
+  demoWorkoutPlan,
+  demoWorkoutPlanFromInput,
+  demoWorkoutStats,
+} from './demoData';
 
 const TOKEN_KEY = 'fueliq.token';
+const GUEST_TOKEN = 'demo:max';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') ?? '';
 
 export function isStaticPagesBuildWithoutApi(): boolean {
@@ -70,6 +97,12 @@ export const auth = {
   },
   get isAuthenticated(): boolean {
     return !!localStorage.getItem(TOKEN_KEY);
+  },
+  get isGuest(): boolean {
+    return localStorage.getItem(TOKEN_KEY) === GUEST_TOKEN;
+  },
+  startGuestSession() {
+    localStorage.setItem(TOKEN_KEY, GUEST_TOKEN);
   },
 };
 
@@ -163,6 +196,11 @@ async function handle<T>(res: Response): Promise<T> {
 
 export const api = {
   // --- Chunk 5: auth ----------------------------------------------------
+  async viewAsGuest(): Promise<PublicUser> {
+    auth.startGuestSession();
+    return { id: demoProfile.userId, email: 'max.demo@fueliq.local', createdAt: demoProfile.createdAt };
+  },
+
   async register(email: string, password: string): Promise<PublicUser> {
     const res = await apiFetch('/api/auth/register', {
       method: 'POST',
@@ -197,6 +235,9 @@ export const api = {
 
   async me(): Promise<PublicUser | null> {
     if (!auth.isAuthenticated) return null;
+    if (auth.isGuest) {
+      return { id: demoProfile.userId, email: 'max.demo@fueliq.local', createdAt: demoProfile.createdAt };
+    }
     const res = await apiFetch('/api/auth/me', { headers: headers() });
     if (res.status === 401 || res.status === 404) {
       auth.set(null);
@@ -206,11 +247,28 @@ export const api = {
   },
 
   async coachInsights(): Promise<{ insights: string[] }> {
+    if (auth.isGuest) {
+      return {
+        insights: [
+          'Max is close to target calories today.',
+          'Dinner should prioritize lean protein and colorful carbs.',
+          'Training volume is trending up without a weight spike.',
+        ],
+      };
+    }
     const res = await apiFetch('/api/ai/coach/insights', { headers: headers() });
     return handle(res);
   },
 
   async chat(messages: ChatMessage[]): Promise<{ reply: string }> {
+    if (auth.isGuest) {
+      const latest = messages.at(-1)?.content.toLowerCase() ?? '';
+      return {
+        reply: latest.includes('workout')
+          ? "For Max, I would keep today's session around 50 minutes: press, row, shoulder work, then face pulls. The goal is steady progressive overload without draining recovery."
+          : "Looking at Max's demo day, he is in a good spot: protein is strong, water is on pace, and dinner can finish the day cleanly with salmon, rice, and vegetables.",
+      };
+    }
     const res = await apiFetch('/api/ai/chat', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -225,6 +283,11 @@ export const api = {
     onDelta: (text: string) => void,
     signal?: AbortSignal,
   ): Promise<void> {
+    if (auth.isGuest) {
+      const fallback = await api.chat(messages);
+      onDelta(fallback.reply);
+      return;
+    }
     const res = await apiFetch('/api/ai/chat/stream', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -271,12 +334,14 @@ export const api = {
 
   // --- Chunk 7: supplements ---------------------------------------------
   async listSupplements(date?: string): Promise<SupplementWithStreak[]> {
+    if (auth.isGuest) return demoSupplements();
     const qs = date ? `?date=${date}` : '';
     const res = await apiFetch(`/api/supplements${qs}`, { headers: headers() });
     return (await handle<{ supplements: SupplementWithStreak[] }>(res)).supplements;
   },
 
   async addSupplement(name: string, dose?: string, notes?: string): Promise<Supplement> {
+    if (auth.isGuest) return demoAddSupplement(name, dose, notes);
     const res = await apiFetch('/api/supplements', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -286,10 +351,16 @@ export const api = {
   },
 
   async deleteSupplement(id: number): Promise<void> {
+    if (auth.isGuest) return;
     await handle(await apiFetch(`/api/supplements/${id}`, { method: 'DELETE', headers: headers() }));
   },
 
   async toggleSupplementLog(id: number, date: string, log: boolean): Promise<SupplementWithStreak[]> {
+    if (auth.isGuest) {
+      return demoSupplements().map((item) =>
+        item.id === id ? { ...item, loggedToday: log, streak: log ? Math.max(item.streak, 1) : item.streak } : item,
+      );
+    }
     if (log) {
       const res = await apiFetch(`/api/supplements/${id}/log`, {
         method: 'POST',
@@ -307,6 +378,9 @@ export const api = {
 
   // --- Chunk 7: MFP import ----------------------------------------------
   async importMfpCsv(csv: string): Promise<MfpImportResult> {
+    if (auth.isGuest) {
+      return { imported: 8, skipped: 1, dateRange: { from: '2026-09-01', to: '2026-09-07' }, avgFuelScore: 81, errors: [] };
+    }
     const res = await apiFetch('/api/import/mfp', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -316,6 +390,7 @@ export const api = {
   },
 
   async getProfile(): Promise<Profile | null> {
+    if (auth.isGuest) return demoProfile;
     const authHeaders = headers();
     const hasAuth = Boolean((authHeaders as Record<string, string>).Authorization);
     console.log('[api] GET /api/profile — Authorization header:', hasAuth ? 'present' : 'missing');
@@ -326,6 +401,7 @@ export const api = {
   },
 
   async saveProfile(input: ProfileInput): Promise<Profile> {
+    if (auth.isGuest) return demoSaveProfile(input);
     const res = await apiFetch('/api/profile', {
       method: 'PUT',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -335,6 +411,7 @@ export const api = {
   },
 
   async previewTargets(input: ProfileInput): Promise<NutritionTargets> {
+    if (auth.isGuest) return demoPreviewTargets();
     const res = await apiFetch('/api/profile/preview', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -344,11 +421,13 @@ export const api = {
   },
 
   async getTargets(): Promise<NutritionTargets> {
+    if (auth.isGuest) return demoProfile.targets;
     const res = await apiFetch('/api/profile/targets', { headers: headers() });
     return handle<NutritionTargets>(res);
   },
 
   async getWorkoutSchedule(): Promise<WorkoutSchedulePreferences | null> {
+    if (auth.isGuest) return demoProfile.workoutSchedule ?? null;
     const res = await apiFetch('/api/profile/workout-schedule', { headers: headers() });
     if (res.status === 404) return null;
     return (await handle<{ schedule: WorkoutSchedulePreferences | null }>(res)).schedule;
@@ -357,6 +436,7 @@ export const api = {
   async saveWorkoutSchedule(
     schedule: WorkoutSchedulePreferences,
   ): Promise<{ schedule: WorkoutSchedulePreferences; plan: WorkoutPlanRecord | null }> {
+    if (auth.isGuest) return { schedule, plan: demoWorkoutPlan };
     const res = await apiFetch('/api/profile/workout-schedule', {
       method: 'PUT',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -366,11 +446,13 @@ export const api = {
   },
 
   async getPantry(): Promise<string[]> {
+    if (auth.isGuest) return demoProfile.pantry ?? [];
     const res = await apiFetch('/api/profile/pantry', { headers: headers() });
     return (await handle<{ pantry: string[] }>(res)).pantry;
   },
 
   async savePantry(pantry: string[]): Promise<string[]> {
+    if (auth.isGuest) return pantry;
     const res = await apiFetch('/api/profile/pantry', {
       method: 'PUT',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -380,11 +462,15 @@ export const api = {
   },
 
   async listPhotos(): Promise<ProgressPhoto[]> {
+    if (auth.isGuest) return demoPhotos;
     const res = await apiFetch('/api/profile/photos', { headers: headers() });
     return handle<ProgressPhoto[]>(res);
   },
 
   async uploadPhoto(file: File, weightKg?: number | null): Promise<ProgressPhoto> {
+    if (auth.isGuest) {
+      return { id: Date.now(), url: URL.createObjectURL(file), weightKg: weightKg ?? null, takenAt: new Date().toISOString() };
+    }
     const form = new FormData();
     form.append('photo', file);
     if (weightKg != null) form.append('weightKg', String(weightKg));
@@ -398,6 +484,7 @@ export const api = {
 
   // --- Chunk 2: food logging -------------------------------------------
   async searchFoods(query: string, limit = 20): Promise<ScoredFood[]> {
+    if (auth.isGuest) return demoSearchFoods(query, limit);
     const res = await apiFetch(
       `/api/foods/search?q=${encodeURIComponent(query)}&limit=${limit}`,
       { headers: headers() },
@@ -407,6 +494,7 @@ export const api = {
   },
 
   async lookupBarcode(code: string): Promise<ScoredFood | null> {
+    if (auth.isGuest) return demoSearchFoods(code, 1)[0] ?? null;
     const res = await apiFetch(`/api/foods/barcode/${encodeURIComponent(code)}`, {
       headers: headers(),
     });
@@ -420,6 +508,7 @@ export const api = {
     novaGroup: number | null,
     micronutrientCount: number,
   ): Promise<FuelScore> {
+    if (auth.isGuest) return demoSearchFoods('', 1)[0].fuelScore;
     const res = await apiFetch('/api/foods/score', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -429,11 +518,13 @@ export const api = {
   },
 
   async getDay(date: string): Promise<DaySummary> {
+    if (auth.isGuest) return demoDay(date);
     const res = await apiFetch(`/api/log?date=${date}`, { headers: headers() });
     return handle<DaySummary>(res);
   },
 
   async getLogSummary(date: string): Promise<LogSummary> {
+    if (auth.isGuest) return demoLogSummary(date);
     const res = await apiFetch(`/api/log/summary?date=${date}`, { headers: headers() });
     return handle<LogSummary>(res);
   },
@@ -445,6 +536,7 @@ export const api = {
     quantityG: number,
     servingLabel?: string,
   ): Promise<{ entry: LogEntry; day: DaySummary }> {
+    if (auth.isGuest) return demoAddEntry(date, meal, food, quantityG);
     const res = await apiFetch('/api/log/entry', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -458,6 +550,11 @@ export const api = {
     quantityG: number,
     servingLabel?: string,
   ): Promise<{ entry: LogEntry; day: DaySummary }> {
+    if (auth.isGuest) {
+      const day = demoDay(new Date().toISOString().slice(0, 10));
+      const entry = day.meals.flatMap((meal) => meal.entries).find((item) => item.id === id) ?? day.meals[0].entries[0];
+      return { entry: { ...entry, quantityG, servingLabel: servingLabel ?? entry.servingLabel }, day };
+    }
     const res = await apiFetch(`/api/log/entry/${id}`, {
       method: 'PATCH',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -467,6 +564,13 @@ export const api = {
   },
 
   async deleteEntry(id: number, date: string): Promise<DaySummary> {
+    if (auth.isGuest) {
+      const day = demoDay(date);
+      day.meals.forEach((meal) => {
+        meal.entries = meal.entries.filter((entry) => entry.id !== id);
+      });
+      return day;
+    }
     const res = await apiFetch(`/api/log/entry/${id}?date=${date}`, {
       method: 'DELETE',
       headers: headers(),
@@ -476,11 +580,13 @@ export const api = {
   },
 
   async recentFoods(): Promise<ScoredFood[]> {
+    if (auth.isGuest) return demoSearchFoods('', 6);
     const res = await apiFetch('/api/log/recent', { headers: headers() });
     return (await handle<{ foods: ScoredFood[] }>(res)).foods;
   },
 
   async frequentFoods(): Promise<ScoredFood[]> {
+    if (auth.isGuest) return demoSearchFoods('', 6);
     const res = await apiFetch('/api/log/frequent', { headers: headers() });
     return (await handle<{ foods: ScoredFood[] }>(res)).foods;
   },
@@ -489,6 +595,7 @@ export const api = {
     remaining: { protein: number; carbs: number; fat: number },
     goal: string,
   ): Promise<SuggestionResponse> {
+    if (auth.isGuest) return demoSuggestions();
     const params = new URLSearchParams({
       remaining_protein: String(Math.round(remaining.protein)),
       remaining_carbs: String(Math.round(remaining.carbs)),
@@ -501,11 +608,24 @@ export const api = {
 
   // --- Water ------------------------------------------------------------
   async getWater(date: string): Promise<{ date: string; totalOz: number; entries: { id: number; oz: number }[] }> {
+    if (auth.isGuest) {
+      const day = demoDay(date);
+      return { date, ...day.water };
+    }
     const res = await apiFetch(`/api/water?date=${date}`, { headers: headers() });
     return handle(res);
   },
 
   async addWater(date: string, oz: number): Promise<DaySummary['water'] & { date: string }> {
+    if (auth.isGuest) {
+      const day = demoDay(date);
+      return {
+        date,
+        totalOz: day.water.totalOz + oz,
+        goalOz: day.water.goalOz,
+        entries: [...day.water.entries, { id: Date.now(), oz }],
+      };
+    }
     const res = await apiFetch('/api/water', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -516,11 +636,21 @@ export const api = {
 
   // --- Templates --------------------------------------------------------
   async listTemplates(): Promise<MealTemplate[]> {
+    if (auth.isGuest) return demoTemplates;
     const res = await apiFetch('/api/templates', { headers: headers() });
     return (await handle<{ templates: MealTemplate[] }>(res)).templates;
   },
 
   async createTemplate(name: string, items: TemplateItem[]): Promise<MealTemplate> {
+    if (auth.isGuest) {
+      return {
+        id: Date.now(),
+        name,
+        items,
+        totals: { calories: 0, protein: 0, carbs: 0, fat: 0 },
+        createdAt: new Date().toISOString(),
+      };
+    }
     const res = await apiFetch('/api/templates', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -530,12 +660,14 @@ export const api = {
   },
 
   async deleteTemplate(id: number): Promise<void> {
+    if (auth.isGuest) return;
     await handle(
       await apiFetch(`/api/templates/${id}`, { method: 'DELETE', headers: headers() }),
     );
   },
 
   async logTemplate(id: number, date: string): Promise<DaySummary> {
+    if (auth.isGuest) return demoDay(date);
     const res = await apiFetch(`/api/templates/${id}/log`, {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -546,6 +678,7 @@ export const api = {
 
   // --- Recipes ----------------------------------------------------------
   async listRecipes(): Promise<Recipe[]> {
+    if (auth.isGuest) return demoRecipes;
     const res = await apiFetch('/api/recipes', { headers: headers() });
     return (await handle<{ recipes: Recipe[] }>(res)).recipes;
   },
@@ -555,6 +688,16 @@ export const api = {
     servings: number,
     ingredients: RecipeIngredient[],
   ): Promise<Recipe> {
+    if (auth.isGuest) {
+      return {
+        id: Date.now(),
+        name,
+        servings,
+        ingredients,
+        perServing: { calories: 0, protein: 0, carbs: 0, fat: 0 },
+        createdAt: new Date().toISOString(),
+      };
+    }
     const res = await apiFetch('/api/recipes', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -564,11 +707,13 @@ export const api = {
   },
 
   async deleteRecipe(id: number): Promise<void> {
+    if (auth.isGuest) return;
     await handle(await apiFetch(`/api/recipes/${id}`, { method: 'DELETE', headers: headers() }));
   },
 
   // --- Chunk 3: workouts ------------------------------------------------
   async generatePlan(input: PlanInput): Promise<{ plan: WorkoutPlanRecord; source: string }> {
+    if (auth.isGuest) return { plan: demoWorkoutPlanFromInput(input), source: 'demo' };
     const res = await apiFetch('/api/workouts/generate-plan', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -578,16 +723,19 @@ export const api = {
   },
 
   async getPlan(): Promise<WorkoutPlanRecord | null> {
+    if (auth.isGuest) return demoWorkoutPlan;
     const res = await apiFetch('/api/workouts/plan', { headers: headers() });
     return (await handle<{ plan: WorkoutPlanRecord | null }>(res)).plan;
   },
 
   async getActivePlan(): Promise<WorkoutPlanRecord | null> {
+    if (auth.isGuest) return demoWorkoutPlan;
     const res = await apiFetch('/api/workouts/plan/active', { headers: headers() });
     return (await handle<{ plan: WorkoutPlanRecord | null }>(res)).plan;
   },
 
   async getGroceryPlan(): Promise<GroceryPlanRecord | null> {
+    if (auth.isGuest) return null;
     try {
       const res = await apiFetch('/api/grocery/plan', { headers: headers() });
       if (res.status === 404 || !res.ok) return null;
@@ -598,6 +746,7 @@ export const api = {
   },
 
   async getGroceryMealDetail(mealId: string): Promise<GroceryMealDetailResponse> {
+    if (auth.isGuest) throw new ApiError(404, 'No demo meal detail available.');
     const res = await apiFetch(`/api/grocery/meals/${encodeURIComponent(mealId)}`, {
       headers: headers(),
     });
@@ -605,6 +754,7 @@ export const api = {
   },
 
   async generateGroceryPlan(input: GenerateGroceryInput): Promise<GroceryPlanRecord> {
+    if (auth.isGuest) throw new ApiError(501, 'Demo grocery generation is not connected.');
     const res = await apiFetch('/api/grocery/generate', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -614,6 +764,7 @@ export const api = {
   },
 
   async deleteGroceryPlan(): Promise<void> {
+    if (auth.isGuest) return;
     await handle(await apiFetch('/api/grocery/plan', { method: 'DELETE', headers: headers() }));
   },
 
@@ -621,6 +772,7 @@ export const api = {
     date: string,
     slot: 'breakfast' | 'lunch' | 'dinner',
   ): Promise<MealSwapAlternative[]> {
+    if (auth.isGuest) return [];
     const qs = new URLSearchParams({ date, slot });
     const res = await apiFetch(`/api/grocery/alternatives?${qs}`, { headers: headers() });
     return (await handle<{ alternatives: MealSwapAlternative[] }>(res)).alternatives;
@@ -631,6 +783,7 @@ export const api = {
     slot: 'breakfast' | 'lunch' | 'dinner';
     mealId: string;
   }): Promise<GroceryPlanRecord> {
+    if (auth.isGuest) throw new ApiError(501, 'Demo grocery swaps are not connected.');
     const res = await apiFetch('/api/grocery/swap', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -644,6 +797,7 @@ export const api = {
     exerciseIndex: number;
     exercise: PlanExercise;
   }): Promise<WorkoutPlanRecord> {
+    if (auth.isGuest) return demoWorkoutPlan;
     const res = await apiFetch('/api/workouts/plan/exercise', {
       method: 'PATCH',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -656,6 +810,7 @@ export const api = {
     dayIndex: number;
     mode: 'default' | 'shorter_rest' | 'fewer_sets';
   }): Promise<WorkoutPlanRecord> {
+    if (auth.isGuest) return demoWorkoutPlan;
     const res = await apiFetch('/api/workouts/plan/day/tradeoff', {
       method: 'PATCH',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -665,11 +820,19 @@ export const api = {
   },
 
   async getCustomSplit(): Promise<CustomSplitRecord | null> {
+    if (auth.isGuest) return null;
     const res = await apiFetch('/api/workouts/custom-split', { headers: headers() });
     return (await handle<{ split: CustomSplitRecord | null }>(res)).split;
   },
 
   async saveCustomSplit(config: CustomSplitConfig): Promise<CustomSplitRecord> {
+    if (auth.isGuest) {
+      return {
+        id: 1,
+        split: { config, generatedPlan: demoWorkoutPlan.plan },
+        createdAt: new Date().toISOString(),
+      };
+    }
     const res = await apiFetch('/api/workouts/custom-split', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -679,6 +842,16 @@ export const api = {
   },
 
   async regenerateCustomSplit(): Promise<CustomSplitRecord> {
+    if (auth.isGuest) {
+      return {
+        id: 1,
+        split: {
+          config: { days: [], defaultDurationMin: 45, preset: 'custom' },
+          generatedPlan: demoWorkoutPlan.plan,
+        },
+        createdAt: new Date().toISOString(),
+      };
+    }
     const res = await apiFetch('/api/workouts/custom-split/regenerate', {
       method: 'POST',
       headers: headers(),
@@ -691,6 +864,16 @@ export const api = {
     exerciseIndex: number;
     exercise: PlanExercise;
   }): Promise<CustomSplitRecord> {
+    if (auth.isGuest) {
+      return {
+        id: 1,
+        split: {
+          config: { days: [], defaultDurationMin: 45, preset: 'custom' },
+          generatedPlan: demoWorkoutPlan.plan,
+        },
+        createdAt: new Date().toISOString(),
+      };
+    }
     const res = await apiFetch('/api/workouts/custom-split/exercise', {
       method: 'PATCH',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -703,6 +886,16 @@ export const api = {
     dayIndex: number;
     mode: 'default' | 'shorter_rest' | 'fewer_sets';
   }): Promise<CustomSplitRecord> {
+    if (auth.isGuest) {
+      return {
+        id: 1,
+        split: {
+          config: { days: [], defaultDurationMin: 45, preset: 'custom' },
+          generatedPlan: demoWorkoutPlan.plan,
+        },
+        createdAt: new Date().toISOString(),
+      };
+    }
     const res = await apiFetch('/api/workouts/custom-split/day/tradeoff', {
       method: 'PATCH',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -715,6 +908,7 @@ export const api = {
     rotationGroup: string,
     exclude: string[] = [],
   ): Promise<PlanExercise[]> {
+    if (auth.isGuest) return demoWorkoutPlan.plan.weeklySchedule.flatMap((day) => day.exercises).slice(0, 6);
     const qs = new URLSearchParams({ rotationGroup, exclude: exclude.join(',') });
     const res = await apiFetch(`/api/exercises/swap-alternatives?${qs}`, { headers: headers() });
     return handle<PlanExercise[]>(res);
@@ -730,6 +924,7 @@ export const api = {
     notes?: string;
     logSource?: 'plan' | 'custom' | 'cardio';
   }): Promise<{ log: WorkoutLog; day: DaySummary }> {
+    if (auth.isGuest) return demoFinishWorkout(payload);
     const res = await apiFetch('/api/workouts/logs', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -739,22 +934,26 @@ export const api = {
   },
 
   async listWorkoutLogs(): Promise<WorkoutLog[]> {
+    if (auth.isGuest) return demoWorkoutLogs;
     const res = await apiFetch('/api/workouts/logs', { headers: headers() });
     return (await handle<{ logs: WorkoutLog[] }>(res)).logs;
   },
 
   async deleteWorkoutLog(id: number, date: string): Promise<void> {
+    if (auth.isGuest) return;
     await handle(
       await apiFetch(`/api/workouts/logs/${id}?date=${date}`, { method: 'DELETE', headers: headers() }),
     );
   },
 
   async workoutHistory(): Promise<WorkoutStats> {
+    if (auth.isGuest) return demoWorkoutStats();
     const res = await apiFetch('/api/workouts/history', { headers: headers() });
     return handle<WorkoutStats>(res);
   },
 
   async exerciseDemo(name: string): Promise<{ name: string; imageUrl: string | null }> {
+    if (auth.isGuest) return { name, imageUrl: null };
     const res = await apiFetch(`/api/exercises/demo?name=${encodeURIComponent(name)}`, {
       headers: headers(),
     });
@@ -764,6 +963,17 @@ export const api = {
   async searchExercises(q: string): Promise<
     { id: number; name: string; primaryMuscles: string[]; categoryName: string }[]
   > {
+    if (auth.isGuest) {
+      return demoWorkoutPlan.plan.weeklySchedule
+        .flatMap((day) => day.exercises)
+        .filter((exercise) => exercise.name.toLowerCase().includes(q.toLowerCase()))
+        .map((exercise, index) => ({
+          id: index + 1,
+          name: exercise.name,
+          primaryMuscles: exercise.muscleGroups,
+          categoryName: exercise.primaryMuscle ?? 'Strength',
+        }));
+    }
     const res = await apiFetch(`/api/exercises/search?q=${encodeURIComponent(q)}`, {
       headers: headers(),
     });
@@ -772,12 +982,14 @@ export const api = {
 
   // --- Chunk 4: dashboard & progress ------------------------------------
   async getDashboard(date?: string): Promise<DashboardResponse> {
+    if (auth.isGuest) return demoDashboard(date);
     const qs = date ? `?date=${date}` : '';
     const res = await apiFetch(`/api/dashboard${qs}`, { headers: headers() });
     return handle<DashboardResponse>(res);
   },
 
   async logWeight(weightKg: number, date?: string): Promise<WeightPoint> {
+    if (auth.isGuest) return demoLogWeight(weightKg, date);
     const res = await apiFetch('/api/progress/weight', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -787,26 +999,31 @@ export const api = {
   },
 
   async getWeightSeries(range: WeightRange): Promise<WeightSeriesResponse> {
+    if (auth.isGuest) return demoWeightSeries(range);
     const res = await apiFetch(`/api/progress/weight?range=${range}`, { headers: headers() });
     return handle<WeightSeriesResponse>(res);
   },
 
   async getProgressSummary(): Promise<ProgressSummary> {
+    if (auth.isGuest) return demoProgressSummary();
     const res = await apiFetch('/api/progress/summary', { headers: headers() });
     return handle<ProgressSummary>(res);
   },
 
   async getLoggingStreak(): Promise<LoggingStreakResponse> {
+    if (auth.isGuest) return demoLoggingStreak();
     const res = await apiFetch('/api/progress/streak', { headers: headers() });
     return handle<LoggingStreakResponse>(res);
   },
 
   async getCheckin(): Promise<CheckinRecord | null> {
+    if (auth.isGuest) return demoCheckin;
     const res = await apiFetch('/api/checkin', { headers: headers() });
     return (await handle<{ checkin: CheckinRecord | null }>(res)).checkin;
   },
 
   async generateCheckin(force = false): Promise<CheckinRecord> {
+    if (auth.isGuest) return demoCheckin;
     const res = await apiFetch('/api/checkin/generate', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
