@@ -65,7 +65,7 @@ export function WaterWidget({ water, onAdd }: Props) {
                 key={oz}
                 onClick={() => add(oz)}
                 disabled={busy}
-                className="rounded-lg bg-sky-500/15 px-3 py-1.5 text-sm font-semibold text-ink-800 transition hover:bg-sky-500/25 disabled:opacity-50"
+                className="btn-pill disabled:opacity-50"
               >
                 +{oz} oz
               </button>
@@ -89,7 +89,7 @@ export function WaterWidget({ water, onAdd }: Props) {
                 }
               }}
               disabled={busy || !custom}
-              className="rounded-lg bg-sky-500 px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-sky-400 disabled:opacity-50"
+              className="btn-primary px-3 py-1.5 text-xs disabled:opacity-50"
             >
               Add
             </button>

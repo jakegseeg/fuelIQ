@@ -168,10 +168,10 @@ function MySplitView({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <button type="button" onClick={onEdit} className="btn-ghost">
+          <button type="button" onClick={onEdit} className="btn-secondary">
             Edit split
           </button>
-          <button type="button" onClick={onRegenerate} className="btn-ghost" disabled={regenerating}>
+          <button type="button" onClick={onRegenerate} className="btn-secondary" disabled={regenerating}>
             {regenerating ? 'Regenerating…' : 'Regenerate exercises'}
           </button>
         </div>
@@ -250,7 +250,7 @@ function MySplitView({
               )}
             </div>
             {day.exercises.length > 0 && (
-              <button className="btn-emphasis" onClick={() => startWorkout(day)}>
+              <button className="btn-primary" onClick={() => startWorkout(day)}>
                 Start workout
               </button>
             )}

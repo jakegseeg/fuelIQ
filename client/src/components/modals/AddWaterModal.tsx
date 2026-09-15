@@ -33,7 +33,7 @@ export function AddWaterModal({ open, onClose, onAdd }: Props) {
             key={oz}
             onClick={() => add(oz)}
             disabled={busy}
-            className="rounded-xl bg-sky-500/15 py-4 text-lg font-bold text-ink-800 transition hover:bg-sky-500/25 disabled:opacity-50"
+            className="btn-pill py-4 text-base disabled:opacity-50"
           >
             +{oz} oz
           </button>

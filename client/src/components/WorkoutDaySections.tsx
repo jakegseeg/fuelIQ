@@ -49,7 +49,7 @@ export function TimeTradeoffBanner({
           type="button"
           disabled={busy}
           onClick={() => apply('shorter_rest')}
-          className="rounded-lg bg-white px-3 py-1.5 text-xs font-bold text-amber-900 ring-1 ring-amber-200 hover:bg-amber-100 disabled:opacity-50"
+          className="btn-secondary text-xs disabled:opacity-50"
         >
           Shorter rest periods
         </button>
@@ -57,7 +57,7 @@ export function TimeTradeoffBanner({
           type="button"
           disabled={busy}
           onClick={() => apply('fewer_sets')}
-          className="rounded-lg bg-white px-3 py-1.5 text-xs font-bold text-amber-900 ring-1 ring-amber-200 hover:bg-amber-100 disabled:opacity-50"
+          className="btn-secondary text-xs disabled:opacity-50"
         >
           Fewer sets
         </button>

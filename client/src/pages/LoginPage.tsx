@@ -82,7 +82,7 @@ export function LoginPage() {
             {error}
           </p>
         )}
-        <button type="submit" disabled={busy} className="btn-accent w-full">
+        <button type="submit" disabled={busy} className="btn-primary w-full">
           {busy ? 'Signing in…' : 'Sign in'}
         </button>
       </form>
@@ -97,7 +97,7 @@ export function LoginPage() {
           type="button"
           onClick={viewAsGuest}
           disabled={guestBusy || busy}
-          className="w-full rounded-xl border border-ink-200 bg-surface px-4 py-3 text-sm font-bold text-ink-800 transition hover:bg-surface2 disabled:cursor-not-allowed disabled:opacity-60"
+          className="btn-ghost w-full disabled:opacity-50"
         >
           {guestBusy ? 'Opening demo…' : 'View as guest'}
         </button>

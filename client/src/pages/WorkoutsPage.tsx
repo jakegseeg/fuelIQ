@@ -257,7 +257,7 @@ function PlanView({
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <button type="button" onClick={onCustomize} className="btn-ghost">
+          <button type="button" onClick={onCustomize} className="btn-secondary">
             Customize schedule
           </button>
           <button type="button" onClick={onRegenerate} className="btn-ghost">
@@ -340,7 +340,7 @@ function PlanView({
               )}
             </div>
             {day.exercises.length > 0 && (
-              <button className="btn-emphasis" onClick={() => startWorkout(day)}>
+              <button className="btn-primary" onClick={() => startWorkout(day)}>
                 Start workout
               </button>
             )}

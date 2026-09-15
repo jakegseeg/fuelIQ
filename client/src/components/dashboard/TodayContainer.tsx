@@ -222,7 +222,7 @@ function WorkoutSubCard({
           </p>
         </div>
       </div>
-      <button type="button" onClick={start} className="btn-emphasis mt-2 w-full py-1.5 text-xs">
+      <button type="button" onClick={start} className="btn-primary mt-2 w-full text-xs">
         Start
       </button>
     </SubCard>
@@ -267,7 +267,7 @@ function WaterSubCard({
             type="button"
             disabled={busy}
             onClick={() => add(oz)}
-            className="rounded-md bg-sky-500/15 px-2 py-1 text-xs font-bold text-ink-800 hover:bg-sky-500/25 disabled:opacity-50"
+            className="btn-pill disabled:opacity-50"
           >
             +{oz} oz
           </button>

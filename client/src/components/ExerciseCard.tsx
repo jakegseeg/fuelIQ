@@ -72,11 +72,7 @@ export function ExerciseCard({ exercise, onSwap }: Props) {
             )}
           </div>
           {onSwap && (
-            <button
-              type="button"
-              onClick={onSwap}
-              className="flex-none rounded-lg px-2.5 py-1 text-xs font-bold text-accent-300 ring-1 ring-accent-400/35 transition hover:bg-accent-400/10 hover:text-accent-400"
-            >
+            <button type="button" onClick={onSwap} className="btn-secondary flex-none px-3 py-1.5 text-xs">
               Swap
             </button>
           )}

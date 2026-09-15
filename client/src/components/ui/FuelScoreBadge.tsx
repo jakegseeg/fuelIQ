@@ -39,11 +39,11 @@ interface Props {
 export function FuelScoreBadge({ score, size = 'sm', interactive = true }: Props) {
   const [open, setOpen] = useState(false);
   const s = STYLES[score.rating];
-  const pad = size === 'sm' ? 'px-2 py-0.5 text-xs' : 'px-2.5 py-1 text-sm';
+  const pad = size === 'sm' ? 'px-2.5 py-0.5 text-xs font-semibold' : 'px-2.5 py-1 text-sm font-semibold';
 
   const badge = (
     <span
-      className={`inline-flex items-center gap-1 rounded-full font-bold ring-1 ${pad} ${s.bg} ${s.text}`}
+      className={`inline-flex items-center gap-1 rounded-full ring-1 ${pad} ${s.bg} ${s.text}`}
       title={`FuelScore ${score.score}/10 — ${s.label}`}
     >
       <span className={`inline-block h-1.5 w-1.5 rounded-full ${s.dot}`} />

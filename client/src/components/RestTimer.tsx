@@ -43,7 +43,7 @@ export function RestTimer({ triggerKey, seconds, onDone }: Props) {
   return (
     <div
       className={`flex items-center justify-between rounded-2xl px-4 py-3 transition ${
-        idle ? 'bg-ink-100' : 'bg-brand-500 text-white'
+        idle ? 'bg-ink-100' : 'bg-accent-500 text-white'
       }`}
     >
       <div>
@@ -58,16 +58,14 @@ export function RestTimer({ triggerKey, seconds, onDone }: Props) {
         <button
           onClick={() => setRemaining((r) => r + 15)}
           disabled={idle}
-          className={`rounded-lg px-3 py-1.5 text-sm font-semibold ${
-            idle ? 'bg-surface text-ink-600' : 'bg-surface/20 text-white hover:bg-surface/30'
-          }`}
+          className={idle ? 'btn-ghost text-xs' : 'btn-ghost border-white/40 px-3 py-1.5 text-sm text-white hover:bg-white/10'}
         >
           +15s
         </button>
         {!idle && (
           <button
             onClick={() => setRunning((r) => !r)}
-            className="rounded-lg bg-surface/20 px-3 py-1.5 text-sm font-semibold text-white hover:bg-surface/30"
+            className="btn-ghost border-white/40 px-3 py-1.5 text-sm text-white hover:bg-white/10"
           >
             {running ? 'Pause' : 'Resume'}
           </button>
@@ -78,7 +76,7 @@ export function RestTimer({ triggerKey, seconds, onDone }: Props) {
               setRunning(false);
               setRemaining(0);
             }}
-            className="rounded-lg bg-surface/20 px-3 py-1.5 text-sm font-semibold text-white hover:bg-surface/30"
+            className="btn-ghost border-white/40 px-3 py-1.5 text-sm text-white hover:bg-white/10"
           >
             Skip
           </button>

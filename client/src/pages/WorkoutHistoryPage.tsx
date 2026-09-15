@@ -119,7 +119,7 @@ export function WorkoutHistoryPage() {
 
 function StatCard({ label, value, unit, accent }: { label: string; value: string; unit?: string; accent?: boolean }) {
   return (
-    <div className={`card ${accent ? 'bg-brand-500 text-white ring-0' : ''}`}>
+    <div className={`card ${accent ? 'bg-accent-500 text-white ring-0' : ''}`}>
       <p className={`text-3xl font-extrabold ${accent ? 'text-white' : 'text-ink-900'}`}>
         {value}
         {unit && <span className={`text-sm font-semibold ${accent ? 'text-white/70' : 'text-ink-600'}`}> {unit}</span>}

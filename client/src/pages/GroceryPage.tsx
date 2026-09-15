@@ -248,7 +248,7 @@ function SetupForm({
 
         {error && <p className="text-sm text-coral-300">{error}</p>}
 
-        <button type="submit" disabled={generating} className="btn-accent w-full">
+        <button type="submit" disabled={generating} className="btn-primary w-full">
           {generating ? 'Generating…' : 'Generate my grocery plan'}
         </button>
       </form>
@@ -516,7 +516,7 @@ function MealCard({
         <p className="text-[10px] font-semibold uppercase text-ink-600">{SLOT_LABELS[slot]}</p>
         <div className="flex items-center gap-1">
           {meal.isLeftover && (
-            <span className="rounded-md bg-ink-200/80 px-1.5 py-0.5 text-[9px] font-bold text-ink-600">
+            <span className="chip-neutral text-[10px]">
               Leftover
             </span>
           )}
@@ -526,7 +526,7 @@ function MealCard({
               e.stopPropagation();
               onSwap();
             }}
-            className="rounded-md px-1.5 py-0.5 text-[9px] font-bold text-accent-300 ring-1 ring-accent-400/30 hover:bg-accent-400/10"
+            className="btn-secondary px-2 py-0.5 text-[10px]"
           >
             Swap
           </button>
@@ -639,7 +639,7 @@ function SwapMealModal({
                   type="button"
                   disabled={swapping !== null}
                   onClick={() => void choose(alt.mealId)}
-                  className="btn-accent mt-2 w-full py-2 text-sm"
+                  className="btn-primary mt-2 w-full py-2 text-sm"
                 >
                   {swapping === alt.mealId ? 'Updating…' : 'Choose this meal'}
                 </button>
@@ -787,7 +787,7 @@ function PlanMealModal({
           type="button"
           onClick={() => void handleLog()}
           disabled={logging}
-          className="btn-accent w-full"
+          className="btn-primary w-full"
         >
           {logging ? 'Logging…' : 'Log this meal'}
         </button>

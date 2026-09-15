@@ -98,7 +98,7 @@ export function SignupPage() {
                 {error}
               </p>
             )}
-            <button type="submit" disabled={busy} className="btn-accent w-full">
+            <button type="submit" disabled={busy} className="btn-primary w-full">
               {busy ? 'Creating account…' : 'Sign up'}
             </button>
           </form>

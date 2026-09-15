@@ -104,7 +104,7 @@ export function ExercisePickerModal({ open, onClose, onSelect }: Props) {
           <button
             type="button"
             onClick={() => setShowCustom(true)}
-            className="w-full rounded-xl border border-dashed border-ink-200 px-3 py-3 text-sm font-semibold text-accent-600 transition hover:border-accent-300 hover:bg-accent-50"
+            className="btn-ghost w-full border-dashed"
           >
             Custom exercise
           </button>

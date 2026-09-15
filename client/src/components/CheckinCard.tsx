@@ -42,7 +42,7 @@ export function CheckinCard({ checkin, onGenerate }: Props) {
           <button
             onClick={() => run(true)}
             disabled={busy}
-            className="flex-none rounded-lg px-2 py-1 text-xs font-semibold text-accent-400 hover:bg-accent-100 hover:text-accent-500 disabled:opacity-50"
+            className="btn-ghost flex-none px-2 py-1 text-xs disabled:opacity-50"
           >
             {busy ? '…' : 'Refresh'}
           </button>

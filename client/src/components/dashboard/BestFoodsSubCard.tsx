@@ -105,7 +105,7 @@ export function BestFoodsSubCard({ date, remaining, goal, onLogged }: Props) {
         <div className="mb-2 flex flex-wrap items-center gap-1.5">
           <h3 className="text-xs font-bold uppercase tracking-wide text-ink-700">Best Foods</h3>
           {!onTrack && (
-            <span className="rounded-full chip-mint px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide">
+            <span className="chip-status uppercase tracking-wide">
               Smart picks
             </span>
           )}
@@ -132,7 +132,7 @@ export function BestFoodsSubCard({ date, remaining, goal, onLogged }: Props) {
                     type="button"
                     disabled={addingKey !== null}
                     onClick={(e) => addSuggestion(s, e)}
-                    className="flex-none rounded-md bg-surface px-2 py-0.5 text-[10px] font-bold text-accent-300 ring-1 ring-accent-400/30 hover:bg-accent-400/10 disabled:opacity-50"
+                    className="btn-ghost flex-none px-2 py-0.5 text-[10px] disabled:opacity-50"
                   >
                     {addingKey === `${s.food.name}-${s.suggestedServingG}` ? '…' : '+ Add'}
                   </button>
@@ -203,7 +203,7 @@ function BestFoodsDetailModal({
                   type="button"
                   disabled={addingKey !== null}
                   onClick={(e) => onAdd(s, e)}
-                  className="flex-none rounded-md bg-surface px-2.5 py-1 text-xs font-bold text-accent-300 ring-1 ring-accent-400/30 hover:bg-accent-400/10 disabled:opacity-50"
+                  className="btn-ghost flex-none px-2.5 py-1 text-xs disabled:opacity-50"
                 >
                   + Add
                 </button>
@@ -270,7 +270,7 @@ function BestFoodsDetailModal({
                     type="button"
                     disabled={addingKey !== null}
                     onClick={(e) => onAdd(s, e)}
-                    className="btn-accent mt-3 w-full py-2.5 text-sm disabled:opacity-50"
+                    className="btn-primary mt-3 w-full py-2.5 text-sm disabled:opacity-50"
                   >
                     {addingKey === itemKey ? 'Adding…' : '+ Add to log'}
                   </button>

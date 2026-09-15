@@ -139,7 +139,7 @@ export function MealsPanel({ day, date, onChanged }: Props) {
                 <button
                   onClick={() => logTemplate(t.id)}
                   disabled={busy}
-                  className="rounded-lg bg-brand-500 px-3 py-1.5 text-sm font-semibold text-white hover:bg-brand-600 disabled:opacity-50"
+                  className="btn-primary text-xs disabled:opacity-50"
                 >
                   Quick-log
                 </button>
@@ -166,7 +166,7 @@ export function MealsPanel({ day, date, onChanged }: Props) {
                 <button
                   onClick={() => logRecipe(r)}
                   disabled={busy}
-                  className="rounded-lg bg-brand-500 px-3 py-1.5 text-sm font-semibold text-white hover:bg-brand-600 disabled:opacity-50"
+                  className="btn-primary text-xs disabled:opacity-50"
                 >
                   Log serving
                 </button>

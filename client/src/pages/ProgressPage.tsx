@@ -190,7 +190,12 @@ function WeightSection({
             onChange={(e) => setInput(e.target.value)}
           />
         </div>
-        <button onClick={submit} disabled={busy || !input} className="btn-primary">
+        <button
+          type="button"
+          onClick={submit}
+          disabled={busy || !input.trim()}
+          className="btn-primary"
+        >
           {busy ? 'Saving…' : 'Log weight'}
         </button>
       </div>

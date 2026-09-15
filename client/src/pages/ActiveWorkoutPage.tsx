@@ -204,7 +204,7 @@ function ActiveSession({ payload, onExit }: { payload: ActivePayload; onExit: ()
         <Logo />
         <button
           onClick={onExit}
-          className="rounded-lg px-3 py-1.5 text-sm font-semibold text-ink-600 transition hover:bg-surface2 hover:text-ink-800"
+          className="btn-ghost text-xs"
         >
           Quit
         </button>
@@ -235,11 +235,7 @@ function ActiveSession({ payload, onExit }: { payload: ActivePayload; onExit: ()
                 <p className="mt-1 text-sm text-ink-600">Targeting: {targetLabel}</p>
               )}
             </div>
-            <button
-              type="button"
-              onClick={() => setSwapOpen(true)}
-              className="flex-none rounded-lg px-3 py-1.5 text-sm font-bold text-accent-300 ring-1 ring-accent-400/35 transition hover:bg-accent-400/10 hover:text-accent-400"
-            >
+            <button type="button" onClick={() => setSwapOpen(true)} className="btn-secondary flex-none text-xs">
               Swap
             </button>
           </div>
@@ -336,14 +332,14 @@ function ActiveSession({ payload, onExit }: { payload: ActivePayload; onExit: ()
           <button
             onClick={() => setIdx((i) => Math.max(0, i - 1))}
             disabled={idx === 0}
-            className="min-h-11 rounded-xl bg-surface2 px-5 py-3 text-sm font-semibold text-ink-800 ring-1 ring-ink-200 transition hover:bg-ink-200 disabled:opacity-40"
+            className="btn-ghost disabled:opacity-50"
           >
             Previous
           </button>
           {idx < sessionExercises.length - 1 ? (
             <button
               onClick={() => setIdx((i) => Math.min(sessionExercises.length - 1, i + 1))}
-              className="min-h-11 flex-1 rounded-xl bg-surface2 px-5 py-3 text-sm font-bold text-ink-900 ring-1 ring-ink-200 transition hover:bg-ink-200"
+              className="btn-secondary flex-1"
             >
               Next exercise
             </button>

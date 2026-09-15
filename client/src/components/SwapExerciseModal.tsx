@@ -83,7 +83,7 @@ export function SwapExerciseModal({
               type="button"
               disabled={saving}
               onClick={() => choose(alt)}
-              className="btn-accent mt-3 w-full py-2 text-sm disabled:opacity-50"
+              className="btn-primary mt-3 w-full py-2 text-sm disabled:opacity-50"
             >
               Choose this
             </button>

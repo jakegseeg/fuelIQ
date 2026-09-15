@@ -45,7 +45,7 @@ export function MealSection({ group, onAdd, onDelete, defaultOpen = true }: Prop
           )}
           <button
             onClick={onAdd}
-            className="mt-1 w-full rounded-xl border-2 border-dashed border-ink-200 py-2.5 text-sm font-semibold text-accent-300 transition hover:border-accent-400/50 hover:bg-accent-400/5"
+            className="btn-ghost mt-1 w-full"
           >
             + Add food
           </button>

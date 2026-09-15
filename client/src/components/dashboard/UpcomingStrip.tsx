@@ -338,7 +338,7 @@ function MealDetailModal({
           type="button"
           onClick={() => void handleLog()}
           disabled={logging}
-          className="btn-accent w-full"
+          className="btn-primary w-full"
         >
           {logging ? 'Logging…' : 'Log this meal'}
         </button>

@@ -33,7 +33,7 @@ export function FoodCard({ food, onSelect, onQuickAdd }: Props) {
             e.stopPropagation();
             onQuickAdd(food);
           }}
-          className="flex-none rounded-lg bg-accent-500 px-3 py-1.5 text-sm font-bold text-white transition hover:bg-brand-600"
+          className="btn-ghost flex-none text-xs"
         >
           + Add
         </button>

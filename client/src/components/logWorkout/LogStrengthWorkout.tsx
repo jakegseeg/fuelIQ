@@ -236,7 +236,7 @@ export function LogStrengthWorkout({ onBack }: Props) {
             <button
               type="button"
               onClick={() => addSetRow(ex.id)}
-              className="inline-flex items-center gap-1 text-xs font-semibold text-accent-600 hover:underline"
+              className="btn-ghost inline-flex items-center gap-1 px-2 py-1 text-xs"
             >
               <Plus size={14} aria-hidden />
               Add set

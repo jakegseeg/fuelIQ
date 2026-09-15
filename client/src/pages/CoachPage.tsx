@@ -174,7 +174,7 @@ export function CoachPage() {
             placeholder="Talk to Coach…"
             className="field-input max-h-32 flex-1 resize-none"
           />
-          <button type="submit" disabled={streaming || !input.trim()} className="btn-accent">
+          <button type="submit" disabled={streaming || !input.trim()} className="btn-primary">
             {streaming ? '…' : 'Send'}
           </button>
         </form>

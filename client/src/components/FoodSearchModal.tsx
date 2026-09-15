@@ -213,7 +213,7 @@ function SuggestedMealCard({
         type="button"
         onClick={onLog}
         disabled={logging}
-        className="btn-accent mt-3 w-full py-2 text-sm"
+        className="btn-primary mt-3 w-full py-2 text-sm"
       >
         {logging ? 'Logging…' : 'Log this meal'}
       </button>
@@ -263,7 +263,7 @@ function Browse({
         </div>
         <button
           onClick={onScan}
-          className="flex h-9 w-9 flex-none items-center justify-center rounded-xl bg-brand-500 text-white hover:bg-brand-600"
+          className="btn-primary flex h-9 w-9 flex-none p-0"
           title="Scan barcode"
           aria-label="Scan barcode"
         >
@@ -600,7 +600,7 @@ function ManualFoodFormPanel({
         )}
         <button
           type="button"
-          className={`btn-accent ${onCancel ? 'flex-1' : 'w-full'}`}
+          className={`btn-primary ${onCancel ? 'flex-1' : 'w-full'}`}
           disabled={!valid}
           onClick={submit}
         >
@@ -686,7 +686,7 @@ function BarcodeView({
               <button
                 type="button"
                 onClick={() => onSearchInstead(lastCode)}
-                className="btn-accent text-xs"
+                className="btn-primary text-xs"
               >
                 Search manually
               </button>

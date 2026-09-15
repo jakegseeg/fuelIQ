@@ -323,7 +323,7 @@ function WorkoutStrip({
       <button
         type="button"
         onClick={onStart}
-        className={`btn-accent flex-none ${large ? 'px-4 py-2 text-sm' : 'px-2.5 py-1 text-[10px]'}`}
+        className={`btn-primary flex-none ${large ? 'px-4 py-2 text-sm' : 'px-2.5 py-1 text-[10px]'}`}
       >
         Start
       </button>
