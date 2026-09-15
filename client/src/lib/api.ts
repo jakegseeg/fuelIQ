@@ -140,6 +140,7 @@ function setGuestGroceryPlan(plan: GroceryPlanRecord | null): void {
 
 export interface PublicUser {
   id: string;
+  username: string;
   email: string;
   createdAt: string;
 }
@@ -218,25 +219,30 @@ export const api = {
   // --- Chunk 5: auth ----------------------------------------------------
   async viewAsGuest(): Promise<PublicUser> {
     auth.startGuestSession();
-    return { id: demoProfile.userId, email: 'max.demo@fueliq.local', createdAt: demoProfile.createdAt };
+    return {
+      id: demoProfile.userId,
+      username: 'max',
+      email: 'max',
+      createdAt: demoProfile.createdAt,
+    };
   },
 
-  async register(email: string, password: string): Promise<PublicUser> {
+  async register(username: string, password: string): Promise<PublicUser> {
     const res = await apiFetch('/api/auth/register', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }, { withAuth: false }),
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ username, password }),
     });
     const data = await handle<{ token: string; user: PublicUser }>(res);
     auth.set(data.token);
     return data.user;
   },
 
-  async login(email: string, password: string): Promise<PublicUser> {
+  async login(username: string, password: string): Promise<PublicUser> {
     const res = await apiFetch('/api/auth/login', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }, { withAuth: false }),
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ username, password }),
     });
     const data = await handle<{ token: string; user: PublicUser }>(res);
     auth.set(data.token);
@@ -256,7 +262,12 @@ export const api = {
   async me(): Promise<PublicUser | null> {
     if (!auth.isAuthenticated) return null;
     if (auth.isGuest) {
-      return { id: demoProfile.userId, email: 'max.demo@fueliq.local', createdAt: demoProfile.createdAt };
+      return {
+        id: demoProfile.userId,
+        username: 'max',
+        email: 'max',
+        createdAt: demoProfile.createdAt,
+      };
     }
     const res = await apiFetch('/api/auth/me', { headers: headers() });
     if (res.status === 401 || res.status === 404) {

@@ -7,7 +7,7 @@ export function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const from = (location.state as { from?: string } | null)?.from ?? '/dashboard';
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -18,7 +18,7 @@ export function LoginPage() {
     setError(null);
     setBusy(true);
     try {
-      await api.login(email.trim(), password);
+      await api.login(username.trim(), password);
       navigate(from, { replace: true });
     } catch (err) {
       if (isStaticPagesBuildWithoutApi()) {
@@ -49,17 +49,17 @@ export function LoginPage() {
     >
       <form onSubmit={submit} className="space-y-4">
         <div>
-          <label className="field-label" htmlFor="login-email">
-            Email
+          <label className="field-label" htmlFor="login-username">
+            Username
           </label>
           <input
-            id="login-email"
-            type="email"
-            autoComplete="email"
+            id="login-username"
+            type="text"
+            autoComplete="username"
             required
             className="field-input"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div>

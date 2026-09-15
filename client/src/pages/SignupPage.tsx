@@ -5,7 +5,7 @@ import { api, ApiError, isStaticPagesBuildWithoutApi } from '../lib/api';
 
 export function SignupPage() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +24,7 @@ export function SignupPage() {
     }
     setBusy(true);
     try {
-      await api.register(email.trim(), password);
+      await api.register(username.trim(), password);
       navigate('/onboarding', { replace: true });
     } catch (err) {
       if (isStaticPagesBuildWithoutApi()) {
@@ -50,17 +50,17 @@ export function SignupPage() {
           </p>
           <form onSubmit={submit} className="mt-6 space-y-4">
             <div>
-              <label className="field-label" htmlFor="signup-email">
-                Email
+              <label className="field-label" htmlFor="signup-username">
+                Username
               </label>
               <input
-                id="signup-email"
-                type="email"
-                autoComplete="email"
+                id="signup-username"
+                type="text"
+                autoComplete="username"
                 required
                 className="field-input"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
             <div>

@@ -10,16 +10,21 @@ export interface UserRow {
 
 export interface PublicUser {
   id: string;
+  username: string;
   email: string;
   createdAt: string;
 }
 
 export function toPublic(row: UserRow): PublicUser {
-  return { id: row.id, email: row.email, createdAt: row.created_at };
+  return { id: row.id, username: row.email, email: row.email, createdAt: row.created_at };
 }
 
-export function findByEmail(email: string): UserRow | null {
-  const row = db.get<UserRow>('SELECT * FROM users WHERE email = ?', [email.toLowerCase()]);
+function normalizeUsername(username: string): string {
+  return username.trim().toLowerCase();
+}
+
+export function findByUsername(username: string): UserRow | null {
+  const row = db.get<UserRow>('SELECT * FROM users WHERE email = ?', [normalizeUsername(username)]);
   return row ?? null;
 }
 
@@ -28,11 +33,11 @@ export function findById(id: string): UserRow | null {
   return row ?? null;
 }
 
-export function createUser(email: string, passwordHash: string): UserRow {
+export function createUser(username: string, passwordHash: string): UserRow {
   const id = randomUUID();
   db.run('INSERT INTO users (id, email, password_hash) VALUES (?, ?, ?)', [
     id,
-    email.toLowerCase(),
+    normalizeUsername(username),
     passwordHash,
   ]);
   return findById(id)!;
