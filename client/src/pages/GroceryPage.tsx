@@ -1,4 +1,12 @@
-import { useCallback, useEffect, useState, type FormEvent, type KeyboardEvent, type ReactNode } from 'react';
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useState,
+  type FormEvent,
+  type KeyboardEvent,
+  type ReactNode,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Modal } from '../components/Modal';
 import { AppShell } from '../components/layout/AppShell';
@@ -61,6 +69,19 @@ const CATEGORY_HEADINGS: Record<GroceryCategory, string> = {
   dairy: 'DAIRY',
   grains: 'GRAINS & PANTRY',
 };
+
+function mealHealthScore(meal: ScheduledMeal): { score: number; label: string } {
+  const calories = Math.max(1, meal.macros.calories);
+  const proteinDensity = Math.min(35, (meal.macros.protein / calories) * 450);
+  const balancedCarbs = meal.macros.carbs >= 25 && meal.macros.carbs <= 65 ? 25 : 18;
+  const fatBalance = meal.macros.fat <= 20 ? 25 : meal.macros.fat <= 28 ? 20 : 14;
+  const costEfficiency = meal.costPerServing <= 2.5 ? 15 : meal.costPerServing <= 3.5 ? 11 : 8;
+  const score = Math.max(55, Math.min(96, Math.round(proteinDensity + balancedCarbs + fatBalance + costEfficiency)));
+  return {
+    score,
+    label: score >= 85 ? 'Excellent' : score >= 75 ? 'Strong' : score >= 65 ? 'Balanced' : 'Moderate',
+  };
+}
 
 export function GroceryPage() {
   const [plan, setPlan] = useState<GroceryPlanRecord | null>(null);
@@ -431,16 +452,7 @@ function MealPlanTab({
 
   return (
     <div className="space-y-5">
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-7">
-        {plan.mealPlan.map((day) => (
-          <DayColumn
-            key={day.date}
-            day={day}
-            onMealClick={setSelected}
-            onSwapClick={setSwapTarget}
-          />
-        ))}
-      </div>
+      <MealPlanGrid plan={plan} onMealClick={setSelected} onSwapClick={setSwapTarget} />
 
       <div className="rounded-xl bg-surface2 p-4 ring-1 ring-ink-200/60">
         <p className="text-xs font-semibold uppercase tracking-wide text-ink-600">
@@ -467,82 +479,85 @@ function MealPlanTab({
   );
 }
 
-function DayColumn({
-  day,
+function MealPlanGrid({
+  plan,
   onMealClick,
   onSwapClick,
 }: {
-  day: MealPlanDay;
+  plan: GroceryPlanRecord;
   onMealClick: (sel: { date: string; day: string; slot: GroceryMealSlot; meal: ScheduledMeal }) => void;
   onSwapClick: (sel: { date: string; day: string; slot: GroceryMealSlot; meal: ScheduledMeal }) => void;
 }) {
   return (
-    <div className="rounded-xl bg-surface2 p-3 ring-1 ring-ink-200/50">
-      <p className="text-xs font-bold uppercase tracking-wide text-ink-600">{day.day}</p>
-      <div className="mt-2 space-y-2">
+    <div className="overflow-x-auto pb-1">
+      <div className="grid min-w-[980px] grid-cols-[5.25rem_repeat(7,minmax(7.5rem,1fr))] gap-2">
+        <div aria-hidden="true" />
+        {plan.mealPlan.map((day) => (
+          <div
+            key={day.date}
+            className="rounded-lg bg-surface2 px-3 py-2 text-center text-xs font-bold uppercase tracking-wide text-ink-600 ring-1 ring-ink-200/50"
+          >
+            {day.day}
+          </div>
+        ))}
+
         {SLOTS.map((slot) => (
-          <MealCard
-            key={slot}
-            slot={slot}
-            meal={day.meals[slot]}
-            onClick={() =>
-              onMealClick({ date: day.date, day: day.day, slot, meal: day.meals[slot] })
-            }
-            onSwap={() =>
-              onSwapClick({ date: day.date, day: day.day, slot, meal: day.meals[slot] })
-            }
-          />
+          <Fragment key={slot}>
+            <div
+              key={`${slot}-label`}
+              className="flex h-24 items-center justify-center rounded-lg bg-surface2 px-2 text-center text-[11px] font-bold uppercase tracking-wide text-ink-600 ring-1 ring-ink-200/50"
+            >
+              {SLOT_LABELS[slot]}
+            </div>
+            {plan.mealPlan.map((day) => (
+              <MealCard
+                key={`${day.date}-${slot}`}
+                meal={day.meals[slot]}
+                onClick={() =>
+                  onMealClick({ date: day.date, day: day.day, slot, meal: day.meals[slot] })
+                }
+                onSwap={() =>
+                  onSwapClick({ date: day.date, day: day.day, slot, meal: day.meals[slot] })
+                }
+              />
+            ))}
+          </Fragment>
         ))}
       </div>
     </div>
   );
 }
 
-function MealCard({
-  slot,
-  meal,
-  onClick,
-  onSwap,
-}: {
-  slot: GroceryMealSlot;
+function MealCard({ meal, onClick, onSwap }: {
   meal: MealPlanDay['meals'][GroceryMealSlot];
   onClick: () => void;
   onSwap: () => void;
 }) {
   return (
-    <div className="rounded-lg bg-surface ring-1 ring-ink-200/40 transition hover:ring-accent-400/20">
-      <div className="flex items-start justify-between gap-1 px-2.5 pt-2">
-        <p className="text-[10px] font-semibold uppercase text-ink-600">{SLOT_LABELS[slot]}</p>
-        <div className="flex items-center gap-1">
-          {meal.isLeftover && (
-            <span className="chip-neutral text-[10px]">
-              Leftover
-            </span>
-          )}
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onSwap();
-            }}
-            className="btn-secondary px-2 py-0.5 text-[10px]"
-          >
-            Swap
-          </button>
-        </div>
-      </div>
+    <div className="flex h-24 flex-col overflow-hidden rounded-lg bg-surface ring-1 ring-ink-200/40 transition hover:ring-accent-400/25">
       <button
         type="button"
         onClick={onClick}
-        className="w-full px-2.5 pb-2.5 pt-1 text-left transition active:scale-[0.99]"
+        className="min-h-0 flex-1 px-2.5 pb-1 pt-2 text-left transition active:scale-[0.99]"
       >
-        <p className="text-xs font-semibold leading-snug text-ink-900">{meal.name}</p>
-        <p className="mt-1 text-[10px] text-ink-600">${meal.costPerServing.toFixed(2)}/serving</p>
-        <p className="text-[10px] tabular-nums text-ink-600">
-          {Math.round(meal.macros.protein)}P · {Math.round(meal.macros.carbs)}C ·{' '}
-          {Math.round(meal.macros.fat)}F
+        <p className="line-clamp-2 pr-1 text-xs font-semibold leading-snug text-ink-900">
+          {meal.name}
         </p>
       </button>
+      <div className="flex items-center justify-between gap-2 px-2.5 pb-2">
+        {meal.isLeftover ? (
+          <span className="truncate text-[10px] font-semibold text-ink-600">Leftover</span>
+        ) : (
+          <span aria-hidden="true" />
+        )}
+        <button
+          type="button"
+          onClick={onSwap}
+          className="shrink-0 rounded-md bg-accent-400/10 px-2 py-1 text-[10px] font-bold text-accent-500 ring-1 ring-accent-400/30 transition hover:bg-accent-400/15"
+        >
+          Swap
+        </button>
+      </div>
     </div>
   );
 }
@@ -693,6 +708,7 @@ function PlanMealModal({
   const { meal, slot, day, date } = selected;
   const slotLabel = SLOT_LABELS[slot];
   const thumbnailUrl = meal.thumbnailUrl ?? detail?.thumbnailUrl;
+  const health = mealHealthScore(meal);
 
   const handleLog = async () => {
     setLogging(true);
@@ -722,6 +738,16 @@ function PlanMealModal({
         <p className="text-sm font-semibold text-accent-500">
           {day} {slotLabel}
         </p>
+
+        <div className="rounded-md bg-surface2 p-3 ring-1 ring-ink-200/60">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wide text-ink-600">FuelIQ score</p>
+              <p className="mt-0.5 text-sm font-semibold text-ink-900">{health.label}</p>
+            </div>
+            <p className="text-2xl font-bold tabular-nums text-accent-500">{health.score}</p>
+          </div>
+        </div>
 
         <div className="flex flex-wrap gap-3 text-sm tabular-nums">
           <span className="font-semibold text-ink-900">{Math.round(meal.macros.calories)} kcal</span>
