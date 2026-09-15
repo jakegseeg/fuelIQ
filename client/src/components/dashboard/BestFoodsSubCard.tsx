@@ -39,9 +39,11 @@ interface Props {
   remaining: LogSummary['remaining'];
   goal: string | null;
   onLogged: () => void | Promise<void>;
+  /** When true, omit outer tile chrome (used inside dashboard highlight rows). */
+  compact?: boolean;
 }
 
-export function BestFoodsSubCard({ date, remaining, goal, onLogged }: Props) {
+export function BestFoodsSubCard({ date, remaining, goal, onLogged, compact = false }: Props) {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [loading, setLoading] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
@@ -87,30 +89,7 @@ export function BestFoodsSubCard({ date, remaining, goal, onLogged }: Props) {
     }
   };
 
-  return (
-    <>
-      <div
-        role="button"
-        tabIndex={0}
-        onClick={() => !onTrack && suggestions.length > 0 && setDetailOpen(true)}
-        onKeyDown={(e) =>
-          e.key === 'Enter' && !onTrack && suggestions.length > 0 && setDetailOpen(true)
-        }
-        className={`flex min-h-[140px] flex-col rounded-lg bg-surface2 p-3 ring-1 ring-ink-200/50 ${
-          !onTrack && suggestions.length > 0
-            ? 'cursor-pointer transition hover:ring-ink-300/70'
-            : ''
-        }`}
-      >
-        <div className="mb-2 flex flex-wrap items-center gap-1.5">
-          <h3 className="text-xs font-bold uppercase tracking-wide text-ink-700">Best Foods</h3>
-          {!onTrack && (
-            <span className="chip-status uppercase tracking-wide">
-              Smart picks
-            </span>
-          )}
-        </div>
-
+  const body = (
         <div className="min-h-0 flex-1">
           {onTrack ? (
             <p className="text-sm font-semibold text-accent-400">You&apos;re on track!</p>
@@ -141,7 +120,53 @@ export function BestFoodsSubCard({ date, remaining, goal, onLogged }: Props) {
             </ul>
           )}
         </div>
-      </div>
+  );
+
+  return (
+    <>
+      {compact ? (
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => !onTrack && suggestions.length > 0 && setDetailOpen(true)}
+          onKeyDown={(e) =>
+            e.key === 'Enter' && !onTrack && suggestions.length > 0 && setDetailOpen(true)
+          }
+          className={`flex h-full min-h-[140px] flex-col ${
+            !onTrack && suggestions.length > 0 ? 'cursor-pointer' : ''
+          }`}
+        >
+          <div className="mb-3 flex flex-wrap items-center gap-1.5">
+            <h3 className="card-header">Best Foods</h3>
+            {!onTrack && <span className="chip-status">Smart picks</span>}
+          </div>
+          {body}
+        </div>
+      ) : (
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={() => !onTrack && suggestions.length > 0 && setDetailOpen(true)}
+          onKeyDown={(e) =>
+            e.key === 'Enter' && !onTrack && suggestions.length > 0 && setDetailOpen(true)
+          }
+          className={`flex min-h-[140px] flex-col rounded-lg bg-surface2 p-3 ring-1 ring-ink-200/50 ${
+            !onTrack && suggestions.length > 0
+              ? 'cursor-pointer transition hover:ring-ink-300/70'
+              : ''
+          }`}
+        >
+          <div className="mb-2 flex flex-wrap items-center gap-1.5">
+            <h3 className="text-xs font-bold uppercase tracking-wide text-ink-700">Best Foods</h3>
+            {!onTrack && (
+              <span className="chip-status uppercase tracking-wide">
+                Smart picks
+              </span>
+            )}
+          </div>
+          {body}
+        </div>
+      )}
 
       <BestFoodsDetailModal
         open={detailOpen}

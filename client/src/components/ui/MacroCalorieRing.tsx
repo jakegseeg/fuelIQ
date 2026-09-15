@@ -128,14 +128,37 @@ export function MacroCalorieRing({ totals, target, size = 240, strokeWidth = 18 
 interface LegendProps {
   totals: MacroTotals;
   target: MacroTotals | null;
+  layout?: 'vertical' | 'horizontal';
 }
 
-export function MacroRingLegend({ totals, target }: LegendProps) {
+export function MacroRingLegend({ totals, target, layout = 'vertical' }: LegendProps) {
   const rows = [
     { color: PROTEIN_COLOR, label: 'Protein', current: totals.protein, goal: target?.protein ?? 0 },
     { color: CARBS_COLOR, label: 'Carbs', current: totals.carbs, goal: target?.carbs ?? 0 },
     { color: FAT_COLOR, label: 'Fat', current: totals.fat, goal: target?.fat ?? 0 },
   ];
+
+  if (layout === 'horizontal') {
+    return (
+      <div className="grid w-full max-w-lg grid-cols-3 gap-4 px-2">
+        {rows.map((row) => (
+          <div key={row.label} className="flex flex-col items-center text-center">
+            <span
+              className="mb-1.5 inline-block h-2.5 w-2.5 rounded-full"
+              style={{ backgroundColor: row.color }}
+            />
+            <span className="text-xs font-medium text-ink-500">{row.label}</span>
+            <span className="mt-0.5 text-sm font-semibold tabular-nums text-ink-900">
+              {Math.round(row.current)}
+              {row.goal > 0 && (
+                <span className="font-normal text-ink-500">/{Math.round(row.goal)}g</span>
+              )}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-2.5 text-xs">

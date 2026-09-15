@@ -1,9 +1,17 @@
-import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Check, Moon } from 'lucide-react';
 import { BestFoodsSubCard } from './BestFoodsSubCard';
 import { MacroCalorieRing, MacroRingLegend } from '../ui/MacroCalorieRing';
 import { Spinner } from '../Spinner';
+import { useRingSize } from '../../hooks/useRingSize';
 import { api } from '../../lib/api';
 import type { LogSummary } from '../../lib/foodTypes';
 import { FocusIcon } from '../../lib/focusIcon';
@@ -46,24 +54,42 @@ function todaysWorkoutFromPlan(plan: WorkoutPlanRecord | null, date: string): Da
   return plan.plan.weeklySchedule.find((d) => d.day === name) ?? null;
 }
 
-interface Props {
+interface SharedProps {
   date?: string;
-  goal: string | null;
-  className?: string;
+  goal?: string | null;
   refreshKey?: number;
   onMealLogged?: () => void;
+  className?: string;
 }
 
-export function TodayContainer({
+type TodayData = ReturnType<typeof useTodayData>;
+
+const TodayDataContext = createContext<TodayData | null>(null);
+
+function useTodayDataContext(): TodayData {
+  const ctx = useContext(TodayDataContext);
+  if (!ctx) throw new Error('TodayHero/TodayHighlights must be used within TodayDataProvider');
+  return ctx;
+}
+
+/** Wrap dashboard today sections so log summary is fetched once. */
+export function TodayDataProvider({
   date = todayISO(),
-  goal,
-  className = '',
   refreshKey = 0,
-  onMealLogged,
-}: Props) {
+  children,
+}: {
+  date?: string;
+  refreshKey?: number;
+  children: ReactNode;
+}) {
+  const data = useTodayData(date, refreshKey);
+  return <TodayDataContext.Provider value={data}>{children}</TodayDataContext.Provider>;
+}
+
+function useTodayData(date: string, refreshKey: number) {
   const [summary, setSummary] = useState<LogSummary | null>(null);
   const [plan, setPlan] = useState<WorkoutPlanRecord | null>(null);
-  const [initialLoading, setInitialLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   const reload = useCallback(async () => {
     const [logSummary, waterDay, activePlan] = await Promise.all([
@@ -84,14 +110,59 @@ export function TodayContainer({
   }, [date]);
 
   useEffect(() => {
-    setInitialLoading(true);
-    reload().finally(() => setInitialLoading(false));
+    setLoading(true);
+    reload().finally(() => setLoading(false));
   }, [reload]);
 
   useEffect(() => {
     if (refreshKey === 0) return;
     void reload();
   }, [refreshKey, reload]);
+
+  return { summary, plan, loading, reload, setSummary };
+}
+
+/** Health-style hero — large centered ring with macro legend beneath. */
+export function TodayHero({ date = todayISO(), className = '' }: Pick<SharedProps, 'date' | 'className'>) {
+  const ringSize = useRingSize();
+  const { summary, loading } = useTodayDataContext();
+  const strokeWidth = ringSize >= 340 ? 24 : ringSize >= 310 ? 22 : 20;
+
+  return (
+    <section className={`flex flex-col items-center px-2 py-4 sm:py-6 ${className}`} aria-label="Today's nutrition">
+      <p className="mb-8 text-sm text-ink-500">{formatHeaderDate(date)}</p>
+
+      {loading || !summary ? (
+        <div className="flex h-[340px] w-full items-center justify-center">
+          <Spinner label="Loading today…" />
+        </div>
+      ) : (
+        <>
+          <div className="flex flex-col items-center py-4 sm:py-6">
+            <MacroCalorieRing
+              totals={summary.totals}
+              target={summary.target}
+              size={ringSize}
+              strokeWidth={strokeWidth}
+            />
+          </div>
+          <div className="mt-10 w-full max-w-lg px-2">
+            <MacroRingLegend totals={summary.totals} target={summary.target} layout="horizontal" />
+          </div>
+        </>
+      )}
+    </section>
+  );
+}
+
+/** Compact highlight tiles — water, workout, best foods (Health “Highlights” row). */
+export function TodayHighlights({
+  date = todayISO(),
+  goal = null,
+  onMealLogged,
+  className = '',
+}: SharedProps) {
+  const { summary, plan, loading, reload, setSummary } = useTodayDataContext();
 
   const handleMealLogged = useCallback(async () => {
     await reload();
@@ -113,43 +184,61 @@ export function TodayContainer({
 
   const todaysWorkout = todaysWorkoutFromPlan(plan, date);
 
+  if (loading || !summary) {
+    return (
+      <div className={`flex h-32 items-center justify-center ${className}`}>
+        <Spinner label="Loading highlights…" />
+      </div>
+    );
+  }
+
   return (
-    <div
-      className={`summary-group flex min-h-[280px] flex-col p-4 lg:p-6 md:h-full ${className}`}
-    >
-        {initialLoading || !summary ? (
-          <div className="flex flex-1 items-center justify-center">
-            <Spinner label="Loading today…" />
-          </div>
-        ) : (
-          <>
-            <header className="flex flex-none items-center justify-between gap-3">
-              <p className="section-label">Today</p>
-              <p className="text-xs text-ink-600">{formatHeaderDate(date)}</p>
-            </header>
-
-            <div className="flex min-h-0 flex-1 items-center justify-center gap-4 py-2">
-              <MacroCalorieRing totals={summary.totals} target={summary.target} size={240} strokeWidth={18} />
-              <MacroRingLegend totals={summary.totals} target={summary.target} />
-            </div>
-
-            <div className="grid flex-none grid-cols-1 gap-3 sm:grid-cols-3">
-              <BestFoodsSubCard
-                date={date}
-                remaining={summary.remaining}
-                goal={goal}
-                onLogged={handleMealLogged}
-              />
-              <WorkoutSubCard
-                workout={todaysWorkout}
-                hasPlan={!!plan}
-                caloriesBurned={summary.caloriesBurned}
-              />
-              <WaterSubCard water={summary.water} onAdd={addWater} />
-            </div>
-          </>
-        )}
+    <div className={`grouped-section ${className}`}>
+      <h2 className="grouped-header">Highlights</h2>
+      <div className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-1 lg:mx-0 lg:grid lg:grid-cols-3 lg:overflow-visible lg:px-0">
+        <HighlightTile className="min-w-[200px] lg:min-w-0">
+          <BestFoodsSubCard
+            date={date}
+            remaining={summary.remaining}
+            goal={goal}
+            onLogged={handleMealLogged}
+            compact
+          />
+        </HighlightTile>
+        <HighlightTile className="min-w-[200px] lg:min-w-0">
+          <WorkoutSubCard
+            workout={todaysWorkout}
+            hasPlan={!!plan}
+            caloriesBurned={summary.caloriesBurned}
+          />
+        </HighlightTile>
+        <HighlightTile className="min-w-[200px] lg:min-w-0">
+          <WaterSubCard water={summary.water} onAdd={addWater} />
+        </HighlightTile>
+      </div>
     </div>
+  );
+}
+
+/** @deprecated Use TodayDataProvider + TodayHero + TodayHighlights on the dashboard. */
+export function TodayContainer(props: SharedProps) {
+  return (
+    <TodayDataProvider date={props.date} refreshKey={props.refreshKey}>
+      <TodayHero date={props.date} className={props.className} />
+      <TodayHighlights {...props} className="mt-8" />
+    </TodayDataProvider>
+  );
+}
+
+function HighlightTile({
+  children,
+  className = '',
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={`grouped-inset flex flex-col p-4 ${className}`}>{children}</div>
   );
 }
 
@@ -173,59 +262,59 @@ function WorkoutSubCard({
 
   if (!hasPlan) {
     return (
-      <SubCard title="Today's Workout">
-        <p className="text-xs text-ink-600">
+      <HighlightContent title="Workout">
+        <p className="text-sm text-ink-600">
           No plan yet —{' '}
           <Link to="/workouts" className="font-semibold text-accent-500 hover:underline">
-            Generate workout plan
+            set one up
           </Link>
         </p>
-      </SubCard>
+      </HighlightContent>
     );
   }
 
   if (!workout || isRestDay(workout)) {
     return (
-      <SubCard title="Today's Workout">
-        <p className="flex items-center gap-1.5 text-xs text-ink-600">
+      <HighlightContent title="Workout">
+        <p className="flex items-center gap-1.5 text-sm text-ink-600">
           <Moon size={14} aria-hidden />
-          Rest Day — recovery is part of the plan
+          Rest day
         </p>
-      </SubCard>
+      </HighlightContent>
     );
   }
 
   if (caloriesBurned > 0) {
     return (
-      <SubCard title="Today's Workout">
+      <HighlightContent title="Workout">
         <p className="flex items-center gap-1.5 text-sm font-semibold text-accent-500">
-          <Check size={14} className="text-accent-500" aria-hidden />
+          <Check size={14} aria-hidden />
           Complete
         </p>
-        <p className="mt-1 text-xs text-ink-600">{Math.round(caloriesBurned)} kcal burned</p>
-      </SubCard>
+        <p className="mt-1 text-xs text-ink-500">{Math.round(caloriesBurned)} kcal burned</p>
+      </HighlightContent>
     );
   }
 
   const style = focusStyle(workout.focus);
 
   return (
-    <SubCard title="Today's Workout">
-      <div className="flex items-start gap-2">
-        <span className={`flex h-8 w-8 flex-none items-center justify-center rounded-md ${style.color}`}>
+    <HighlightContent title="Workout">
+      <div className="flex items-center gap-2">
+        <span className={`flex h-9 w-9 flex-none items-center justify-center rounded-btn ${style.color}`}>
           <FocusIcon focus={workout.focus} size={16} />
         </span>
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-xs font-semibold text-ink-900">{workout.focus}</p>
-          <p className="text-[10px] text-ink-600">
+        <div className="min-w-0">
+          <p className="truncate text-sm font-semibold text-ink-900">{workout.focus}</p>
+          <p className="text-xs text-ink-500">
             {workout.exercises.length} exercises · ~{workout.estimatedDurationMin} min
           </p>
         </div>
       </div>
-      <button type="button" onClick={start} className="btn-primary mt-2 w-full text-xs">
+      <button type="button" onClick={start} className="btn-primary mt-3 w-full py-2.5 text-sm">
         Start
       </button>
-    </SubCard>
+    </HighlightContent>
   );
 }
 
@@ -250,17 +339,18 @@ function WaterSubCard({
   };
 
   return (
-    <SubCard title="Water">
-      <p className="text-sm tabular-nums text-ink-600">
-        {water.totalOz} / {water.goalOz} oz
+    <HighlightContent title="Water">
+      <p className="text-lg font-semibold tabular-nums text-ink-900">
+        {water.totalOz}
+        <span className="text-sm font-normal text-ink-500"> / {water.goalOz} oz</span>
       </p>
-      <div className="mt-2 h-2 overflow-hidden rounded-full bg-line-track">
+      <div className="mt-3 h-2 overflow-hidden rounded-full bg-line-track">
         <div
           className="h-full rounded-full bg-sky-400 transition-[width] duration-300"
           style={{ width: `${pct}%` }}
         />
       </div>
-      <div className="mt-2 flex flex-wrap gap-1.5">
+      <div className="mt-3 flex flex-wrap gap-2">
         {[8, 16, 32].map((oz) => (
           <button
             key={oz}
@@ -273,26 +363,15 @@ function WaterSubCard({
           </button>
         ))}
       </div>
-    </SubCard>
+    </HighlightContent>
   );
 }
 
-function SubCard({
-  title,
-  badge,
-  children,
-}: {
-  title: string;
-  badge?: ReactNode;
-  children: React.ReactNode;
-}) {
+function HighlightContent({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <div className="flex min-h-[140px] flex-col rounded-lg bg-surface2 p-3 ring-1 ring-ink-200/50">
-      <div className="mb-2 flex flex-wrap items-center gap-1.5">
-        <h3 className="card-header">{title}</h3>
-        {badge}
-      </div>
-      <div className="min-h-0 flex-1">{children}</div>
+    <div className="flex h-full min-h-[140px] flex-col">
+      <h3 className="card-header mb-3">{title}</h3>
+      <div className="flex flex-1 flex-col justify-center">{children}</div>
     </div>
   );
 }

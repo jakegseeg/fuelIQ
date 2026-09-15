@@ -1,13 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TodayContainer } from '../components/dashboard/TodayContainer';
+import {
+  TodayDataProvider,
+  TodayHero,
+  TodayHighlights,
+} from '../components/dashboard/TodayContainer';
 import { DailyTrackerCard } from '../components/dashboard/DailyTrackerCard';
 import { LoggingStreakCard } from '../components/dashboard/LoggingStreakCard';
 import { UpcomingStrip } from '../components/dashboard/UpcomingStrip';
 import { NextBestAction } from '../components/dashboard/NextBestAction';
 import { AppShell } from '../components/layout/AppShell';
 import { Spinner } from '../components/Spinner';
-import { api, ApiError, auth } from '../lib/api';
+import { api, ApiError } from '../lib/api';
 import type { DashboardResponse } from '../lib/progressTypes';
 
 function todayISO(): string {
@@ -65,40 +69,24 @@ export function DashboardPage() {
     setLoading(true);
     setError(null);
 
-    console.log('[Dashboard] starting load — authenticated:', auth.isAuthenticated, 'token:', !!auth.token);
-
     const timeoutId = window.setTimeout(() => {
-      console.warn('[Dashboard] load exceeded 5s — stopping spinner and showing available data');
       setLoading(false);
       setData((prev) => prev ?? emptyDashboard());
     }, 5000);
 
     try {
-      console.log('[Dashboard] fetching profile…');
       const profile = await api.getProfile();
-      console.log('[Dashboard] profile fetch complete:', profile ? 'found' : 'null/404');
-
       if (!profile) {
-        console.log('[Dashboard] no profile — redirecting to /onboarding');
         navigate('/onboarding', { replace: true });
         return;
       }
-
-      console.log('[Dashboard] fetching dashboard data…');
       const dashboard = await api.getDashboard();
-      console.log('[Dashboard] dashboard fetch complete:', {
-        date: dashboard.date,
-        hasProfile: dashboard.hasProfile,
-        firstName: dashboard.firstName,
-      });
       setData(dashboard);
     } catch (e) {
-      console.error('[Dashboard] load failed:', e);
       if (e instanceof ApiError && e.status >= 500) {
         setError(e.message || 'Something went wrong loading your dashboard.');
         return;
       }
-      console.warn('[Dashboard] non-fatal error — rendering with empty dashboard data');
       setData((prev) => prev ?? emptyDashboard());
     } finally {
       window.clearTimeout(timeoutId);
@@ -113,11 +101,7 @@ export function DashboardPage() {
   const title = data?.firstName ? `${greeting()}, ${data.firstName}` : greeting();
 
   return (
-    <AppShell
-      title="Dashboard"
-      mobileTitle={title}
-      subtitle="Your day at a glance"
-    >
+    <AppShell title="Dashboard" mobileTitle={title} maxWidth="max-w-2xl">
       {loading && !data ? (
         <div className="flex h-64 items-center justify-center">
           <Spinner label="Loading your dashboard…" />
@@ -131,34 +115,35 @@ export function DashboardPage() {
           </button>
         </div>
       ) : data ? (
-        <section className="flex flex-col gap-4 overflow-hidden">
-          <NextBestAction date={data.date} day={data.day} workout={data.todaysWorkout} />
+        <TodayDataProvider date={data.date} refreshKey={todayRefresh}>
+          <section className="flex flex-col gap-12 pb-4">
+            <TodayHero date={data.date} className="-mt-2 lg:mt-0" />
 
-          <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-2">
-            <TodayContainer
+            <NextBestAction date={data.date} day={data.day} workout={data.todaysWorkout} />
+
+            <TodayHighlights
               date={data.date}
               goal={data.day.goal}
-              className="md:h-full"
-              refreshKey={todayRefresh}
-              onMealLogged={() => setTrackerRefresh((k) => k + 1)}
+              onMealLogged={handleMealLogged}
             />
 
-            <div className="flex min-h-0 flex-col gap-4 md:h-full">
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                <DailyTrackerCard
-                  date={data.date}
-                  className="min-h-[180px] w-full md:aspect-square md:min-h-0"
-                  onUpdate={handleMealLogged}
-                />
-                <LoggingStreakCard
-                  refreshKey={trackerRefresh}
-                  className="min-h-[180px] w-full md:aspect-square md:min-h-0"
-                />
-              </div>
-              <UpcomingStrip className="min-h-[140px] flex-1" />
+          <div className="grouped-section">
+            <h2 className="grouped-header">Meals</h2>
+            <DailyTrackerCard
+              date={data.date}
+              onUpdate={handleMealLogged}
+            />
+          </div>
+
+          <div className="grouped-section">
+            <h2 className="grouped-header">Activity</h2>
+            <div className="space-y-4">
+              <LoggingStreakCard refreshKey={trackerRefresh} />
+              <UpcomingStrip />
             </div>
           </div>
-        </section>
+          </section>
+        </TodayDataProvider>
       ) : null}
     </AppShell>
   );
