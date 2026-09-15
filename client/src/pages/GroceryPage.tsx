@@ -161,8 +161,12 @@ function SetupForm({
     e.preventDefault();
     const b = Number(budget);
     if (!Number.isFinite(b) || b <= 0) return;
-    await api.savePantry(pantry);
-    void onGenerate({
+    try {
+      await api.savePantry(pantry);
+    } catch {
+      /* pantry save is best-effort; plan generation should still explain any blocking issue */
+    }
+    await onGenerate({
       budget: b,
       householdSize,
       location: location.trim() || 'United States',

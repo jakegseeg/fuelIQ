@@ -21,6 +21,12 @@ import type {
   WeightRange,
   WeightSeriesResponse,
 } from './progressTypes';
+import type {
+  GenerateGroceryInput,
+  GroceryPlanRecord,
+  MealSwapAlternative,
+  ScheduledMeal,
+} from './groceryTypes';
 import type { NutritionTargets, Profile, ProfileInput, ProgressPhoto } from './types';
 import type {
   DayPlan,
@@ -600,6 +606,197 @@ export function demoSupplements(): SupplementWithStreak[] {
     { id: 1, name: 'Creatine monohydrate', dose: '5 g', notes: 'Daily', createdAt: addDays(todayISO(), -20), streak: 12, loggedToday: true },
     { id: 2, name: 'Vitamin D3', dose: '2000 IU', notes: 'With breakfast', createdAt: addDays(todayISO(), -18), streak: 6, loggedToday: false },
   ];
+}
+
+function groceryMeal(
+  mealId: string,
+  name: string,
+  slot: ScheduledMeal['slot'],
+  costPerServing: number,
+  calories: number,
+  protein: number,
+  carbs: number,
+  fat: number,
+  isLeftover = false,
+): ScheduledMeal {
+  return {
+    mealId,
+    name,
+    slot,
+    costPerServing,
+    macros: { calories, protein, carbs, fat },
+    isLeftover,
+  };
+}
+
+function demoGroceryWeekStart(): string {
+  const today = new Date(`${todayISO()}T12:00:00`);
+  const day = today.getDay();
+  today.setDate(today.getDate() + (day === 0 ? -6 : 1 - day));
+  return today.toISOString().slice(0, 10);
+}
+
+export function demoGenerateGroceryPlan(input: GenerateGroceryInput): GroceryPlanRecord {
+  const weekStart = demoGroceryWeekStart();
+  const breakfastA = groceryMeal('greek-yogurt-parfait', 'Greek yogurt parfait', 'breakfast', 1.5, 260, 20, 32, 6);
+  const breakfastB = groceryMeal('egg-cheese-burrito', 'Egg and cheese burrito', 'breakfast', 1.4, 380, 22, 34, 16);
+  const lunchA = groceryMeal('chicken-rice-bowl', 'Chicken and rice bowl', 'lunch', 2.5, 420, 38, 42, 10);
+  const lunchB = groceryMeal('turkey-sandwich', 'Turkey sandwich', 'lunch', 2, 350, 28, 32, 12);
+  const lunchC = groceryMeal('tuna-wrap', 'Tuna salad wrap', 'lunch', 1.8, 340, 26, 30, 12);
+  const dinnerA = groceryMeal('baked-salmon-rice', 'Baked salmon and rice', 'dinner', 3.4, 520, 38, 48, 18);
+  const dinnerB = groceryMeal('beef-rice-stir-fry', 'Beef and rice stir fry', 'dinner', 2.6, 480, 30, 52, 16);
+  const dinnerC = groceryMeal('spaghetti-meat-sauce', 'Spaghetti and meat sauce', 'dinner', 2.8, 520, 32, 58, 18);
+  const schedule: [ScheduledMeal, ScheduledMeal, ScheduledMeal][] = [
+    [breakfastA, lunchA, dinnerA],
+    [{ ...breakfastA, isLeftover: true }, { ...lunchA, isLeftover: true }, dinnerB],
+    [breakfastB, lunchB, { ...dinnerB, isLeftover: true }],
+    [{ ...breakfastB, isLeftover: true }, lunchC, dinnerC],
+    [breakfastA, { ...lunchC, isLeftover: true }, { ...dinnerC, isLeftover: true }],
+    [breakfastB, lunchA, dinnerA],
+    [{ ...breakfastB, isLeftover: true }, lunchB, { ...dinnerA, isLeftover: true }],
+  ];
+  const mealPlan = schedule.map(([breakfast, lunch, dinner], index) => {
+    const date = addDays(weekStart, index);
+    return {
+      date,
+      day: weekday(date),
+      meals: { breakfast, lunch, dinner },
+    };
+  });
+  const avgDailyMacros = mealPlan.reduce(
+    (sum, day) => ({
+      calories: sum.calories + day.meals.breakfast.macros.calories + day.meals.lunch.macros.calories + day.meals.dinner.macros.calories,
+      protein: sum.protein + day.meals.breakfast.macros.protein + day.meals.lunch.macros.protein + day.meals.dinner.macros.protein,
+      carbs: sum.carbs + day.meals.breakfast.macros.carbs + day.meals.lunch.macros.carbs + day.meals.dinner.macros.carbs,
+      fat: sum.fat + day.meals.breakfast.macros.fat + day.meals.lunch.macros.fat + day.meals.dinner.macros.fat,
+    }),
+    { calories: 0, protein: 0, carbs: 0, fat: 0 },
+  );
+  avgDailyMacros.calories = Math.round(avgDailyMacros.calories / 7);
+  avgDailyMacros.protein = Math.round((avgDailyMacros.protein / 7) * 10) / 10;
+  avgDailyMacros.carbs = Math.round((avgDailyMacros.carbs / 7) * 10) / 10;
+  avgDailyMacros.fat = Math.round((avgDailyMacros.fat / 7) * 10) / 10;
+
+  const groceryList: GroceryPlanRecord['groceryList'] = [
+    {
+      category: 'protein',
+      label: 'Protein',
+      icon: 'protein',
+      items: [
+        { key: 'salmon', name: 'Salmon fillets', quantity: '1.5 lb', estimatedPrice: 15.5, category: 'protein' },
+        { key: 'ground beef', name: 'Ground beef', quantity: '1 lb', estimatedPrice: 5.2, category: 'protein' },
+        { key: 'tuna', name: 'Tuna', quantity: '2 cans', estimatedPrice: 2.3, category: 'protein' },
+        { key: 'turkey deli', name: 'Turkey deli meat', quantity: '0.5 lb', estimatedPrice: 4.8, category: 'protein' },
+      ],
+    },
+    {
+      category: 'produce',
+      label: 'Produce',
+      icon: 'produce',
+      items: [
+        { key: 'lettuce', name: 'Lettuce', quantity: '1 head', estimatedPrice: 1.9, category: 'produce' },
+        { key: 'onion', name: 'Onion', quantity: '3', estimatedPrice: 2.1, category: 'produce' },
+        { key: 'garlic', name: 'Garlic', quantity: '1 head', estimatedPrice: 0.6, category: 'produce' },
+        { key: 'lemon', name: 'Lemon', quantity: '2', estimatedPrice: 1.4, category: 'produce' },
+      ],
+    },
+    {
+      category: 'dairy',
+      label: 'Dairy',
+      icon: 'dairy',
+      items: [
+        { key: 'cheese', name: 'Cheese', quantity: '1 block', estimatedPrice: 3.5, category: 'dairy' },
+        { key: 'greek yogurt', name: 'Greek yogurt', quantity: '1 tub', estimatedPrice: 5.8, category: 'dairy' },
+      ],
+    },
+    {
+      category: 'grains',
+      label: 'Grains & Pantry',
+      icon: 'grains',
+      items: [
+        { key: 'bread', name: 'Bread loaf', quantity: '1', estimatedPrice: 2.6, category: 'grains' },
+        { key: 'tortilla', name: 'Tortillas', quantity: '1 pack', estimatedPrice: 2.9, category: 'grains' },
+        { key: 'pasta', name: 'Pasta', quantity: '1 lb', estimatedPrice: 1.5, category: 'grains' },
+        { key: 'tomato sauce', name: 'Tomato sauce', quantity: '1 jar', estimatedPrice: 2.2, category: 'grains' },
+      ],
+    },
+  ];
+  const totalCost = groceryList.reduce((sum, category) => sum + category.items.reduce((catSum, item) => catSum + item.estimatedPrice, 0), 0);
+  return {
+    id: 6101,
+    budget: input.budget,
+    householdSize: input.householdSize,
+    location: input.location,
+    weekStart,
+    mealPlan,
+    groceryList,
+    totalCost: Math.round(totalCost * 100) / 100,
+    avgDailyMacros,
+    targets: {
+      calories: demoProfile.targets.calorieTarget,
+      protein: demoProfile.targets.macros.proteinG,
+      carbs: demoProfile.targets.macros.carbsG,
+      fat: demoProfile.targets.macros.fatG,
+    },
+    alreadyHave: [
+      { key: 'berries', name: 'Berries (frozen)' },
+      { key: 'chicken breast', name: 'Chicken breast' },
+      { key: 'eggs', name: 'Eggs' },
+      { key: 'rice', name: 'Rice' },
+    ],
+    createdAt: new Date().toISOString(),
+    days: mealPlan.map((day) => ({
+      date: day.date,
+      meals: (['breakfast', 'lunch', 'dinner'] as const).map((slot) => ({
+        slot,
+        name: day.meals[slot].name,
+        scheduledTime: slot === 'breakfast' ? '07:00' : slot === 'lunch' ? '12:30' : '18:00',
+      })),
+    })),
+  };
+}
+
+export function demoGrocerySwapAlternatives(): MealSwapAlternative[] {
+  return [
+    {
+      mealId: 'black-bean-quesadilla',
+      name: 'Black bean quesadilla',
+      costPerServing: 1.7,
+      macros: { calories: 410, protein: 20, carbs: 44, fat: 16 },
+      description: 'A cheaper high-fiber swap with solid calories for a training day.',
+    },
+    {
+      mealId: 'ground-turkey-sweet-potato',
+      name: 'Ground turkey sweet potato',
+      costPerServing: 2.9,
+      macros: { calories: 470, protein: 36, carbs: 42, fat: 14 },
+      description: 'Lean protein with a simple carb base for recovery.',
+    },
+  ];
+}
+
+export function demoSwapGroceryMeal(
+  current: GroceryPlanRecord | null,
+  date: string,
+  slot: ScheduledMeal['slot'],
+  mealId: string,
+): GroceryPlanRecord {
+  const plan = clone(current ?? demoGenerateGroceryPlan({ budget: 75, householdSize: 1, location: 'Provo, UT' }));
+  const alt = demoGrocerySwapAlternatives().find((item) => item.mealId === mealId);
+  const day = plan.mealPlan.find((item) => item.date === date);
+  if (alt && day) {
+    day.meals[slot] = {
+      mealId: alt.mealId,
+      name: alt.name,
+      slot,
+      costPerServing: alt.costPerServing,
+      macros: alt.macros,
+      isLeftover: false,
+    };
+    const flatMeal = plan.days.find((item) => item.date === date)?.meals.find((item) => item.slot === slot);
+    if (flatMeal) flatMeal.name = alt.name;
+  }
+  return plan;
 }
 
 export function demoSearchFoods(query: string, limit = 20): ScoredFood[] {

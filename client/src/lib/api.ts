@@ -50,6 +50,8 @@ import {
   demoDashboard,
   demoDay,
   demoFinishWorkout,
+  demoGenerateGroceryPlan,
+  demoGrocerySwapAlternatives,
   demoLogSummary,
   demoLogWeight,
   demoLoggingStreak,
@@ -62,6 +64,7 @@ import {
   demoSearchFoods,
   demoSuggestions,
   demoSupplements,
+  demoSwapGroceryMeal,
   demoTemplates,
   demoWeightSeries,
   demoWorkoutLogs,
@@ -72,6 +75,7 @@ import {
 
 const TOKEN_KEY = 'fueliq.token';
 const GUEST_TOKEN = 'demo:max';
+const GUEST_GROCERY_PLAN_KEY = 'fueliq.demo.groceryPlan';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') ?? '';
 
 export function isStaticPagesBuildWithoutApi(): boolean {
@@ -116,6 +120,22 @@ function headers(
     if (token) base.Authorization = `Bearer ${token}`;
   }
   return base;
+}
+
+function getGuestGroceryPlan(): GroceryPlanRecord | null {
+  const raw = localStorage.getItem(GUEST_GROCERY_PLAN_KEY);
+  if (!raw) return null;
+  try {
+    return JSON.parse(raw) as GroceryPlanRecord;
+  } catch {
+    localStorage.removeItem(GUEST_GROCERY_PLAN_KEY);
+    return null;
+  }
+}
+
+function setGuestGroceryPlan(plan: GroceryPlanRecord | null): void {
+  if (plan) localStorage.setItem(GUEST_GROCERY_PLAN_KEY, JSON.stringify(plan));
+  else localStorage.removeItem(GUEST_GROCERY_PLAN_KEY);
 }
 
 export interface PublicUser {
@@ -735,7 +755,7 @@ export const api = {
   },
 
   async getGroceryPlan(): Promise<GroceryPlanRecord | null> {
-    if (auth.isGuest) return null;
+    if (auth.isGuest) return getGuestGroceryPlan();
     try {
       const res = await apiFetch('/api/grocery/plan', { headers: headers() });
       if (res.status === 404 || !res.ok) return null;
@@ -754,7 +774,11 @@ export const api = {
   },
 
   async generateGroceryPlan(input: GenerateGroceryInput): Promise<GroceryPlanRecord> {
-    if (auth.isGuest) throw new ApiError(501, 'Demo grocery generation is not connected.');
+    if (auth.isGuest) {
+      const plan = demoGenerateGroceryPlan(input);
+      setGuestGroceryPlan(plan);
+      return plan;
+    }
     const res = await apiFetch('/api/grocery/generate', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
@@ -764,7 +788,10 @@ export const api = {
   },
 
   async deleteGroceryPlan(): Promise<void> {
-    if (auth.isGuest) return;
+    if (auth.isGuest) {
+      setGuestGroceryPlan(null);
+      return;
+    }
     await handle(await apiFetch('/api/grocery/plan', { method: 'DELETE', headers: headers() }));
   },
 
@@ -772,7 +799,7 @@ export const api = {
     date: string,
     slot: 'breakfast' | 'lunch' | 'dinner',
   ): Promise<MealSwapAlternative[]> {
-    if (auth.isGuest) return [];
+    if (auth.isGuest) return demoGrocerySwapAlternatives();
     const qs = new URLSearchParams({ date, slot });
     const res = await apiFetch(`/api/grocery/alternatives?${qs}`, { headers: headers() });
     return (await handle<{ alternatives: MealSwapAlternative[] }>(res)).alternatives;
@@ -783,7 +810,11 @@ export const api = {
     slot: 'breakfast' | 'lunch' | 'dinner';
     mealId: string;
   }): Promise<GroceryPlanRecord> {
-    if (auth.isGuest) throw new ApiError(501, 'Demo grocery swaps are not connected.');
+    if (auth.isGuest) {
+      const plan = demoSwapGroceryMeal(getGuestGroceryPlan(), payload.date, payload.slot, payload.mealId);
+      setGuestGroceryPlan(plan);
+      return plan;
+    }
     const res = await apiFetch('/api/grocery/swap', {
       method: 'POST',
       headers: headers({ 'Content-Type': 'application/json' }),
