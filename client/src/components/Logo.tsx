@@ -13,7 +13,7 @@ export function Logo({ className = '', iconSize = 36, variant = 'light' }: LogoP
   return (
     <div className={`flex items-center gap-2 bg-transparent ${className}`}>
       <IsoInsiteLogo size={iconSize} />
-      <span className={`text-[17px] font-semibold tracking-tight ${textColor}`}>iso</span>
+      <span className={`font-display text-xl font-normal tracking-wide ${textColor}`}>iso</span>
     </div>
   );
 }

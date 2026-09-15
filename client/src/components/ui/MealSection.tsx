@@ -28,7 +28,7 @@ export function MealSection({ group, onAdd, onDelete, defaultOpen = true }: Prop
           >
             <path d="M7 5l6 5-6 5z" />
           </svg>
-          <h2 className="font-display font-bold">{MEAL_LABELS[group.meal]}</h2>
+          <h2 className="font-semibold">{MEAL_LABELS[group.meal]}</h2>
           <span className="text-xs text-ink-600">({group.entries.length})</span>
         </div>
         <span className="text-sm font-semibold text-ink-600 tabular-nums">

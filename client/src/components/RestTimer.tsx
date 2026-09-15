@@ -42,7 +42,7 @@ export function RestTimer({ triggerKey, seconds, onDone }: Props) {
 
   return (
     <div
-      className={`flex items-center justify-between rounded-[10px] px-4 py-3 transition ${
+      className={`flex items-center justify-between rounded-md px-4 py-3 transition ${
         idle ? 'bg-ink-100' : 'bg-accent-500 text-white'
       }`}
     >
@@ -50,7 +50,7 @@ export function RestTimer({ triggerKey, seconds, onDone }: Props) {
         <p className={`text-xs font-semibold uppercase ${idle ? 'text-ink-600' : 'text-white/80'}`}>
           Rest
         </p>
-        <p className="text-2xl font-extrabold tabular-nums">
+        <p className="text-2xl font-bold tabular-nums">
           {mm}:{ss}
         </p>
       </div>

@@ -113,14 +113,14 @@ export function DashboardPage() {
   const title = data?.firstName ? `${greeting()}, ${data.firstName}` : greeting();
 
   return (
-    <AppShell title="Dashboard" subtitle="Your day at a glance" maxWidth="max-w-none">
+    <AppShell title="Dashboard" subtitle="Your day at a glance">
       {loading && !data ? (
         <div className="flex h-64 items-center justify-center">
           <Spinner label="Loading your dashboard…" />
         </div>
       ) : error && !data ? (
         <div className="mx-auto max-w-xl py-16 text-center">
-          <h2 className="font-display text-xl font-extrabold text-ink-900">Could not load dashboard</h2>
+          <h2 className="section-header">Could not load dashboard</h2>
           <p className="mt-2 text-ink-600">{error}</p>
           <button type="button" onClick={() => void loadDashboard()} className="btn-primary mt-6">
             Try again
@@ -129,9 +129,7 @@ export function DashboardPage() {
       ) : data ? (
         <section className="flex flex-col gap-4 overflow-hidden">
           <header className="flex-none">
-            <h2 className="font-display text-2xl font-extrabold tracking-tight text-ink-900">
-              {title}
-            </h2>
+            <h2 className="page-title">{title}</h2>
           </header>
 
           <NextBestAction date={data.date} day={data.day} workout={data.todaysWorkout} />

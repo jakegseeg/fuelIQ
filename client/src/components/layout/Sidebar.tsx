@@ -41,7 +41,7 @@ export function Sidebar() {
       <div className="bg-transparent px-2">
         <Logo />
       </div>
-      <nav className="mt-8 flex flex-1 flex-col gap-1">
+      <nav className="mt-8 flex flex-1 flex-col gap-2">
         {NAV_LINKS.slice(0, 3).map((l) => (
           <NavLink
             key={l.to}
@@ -63,7 +63,7 @@ export function Sidebar() {
           <button
             type="button"
             onClick={toggleWorkouts}
-            className={`flex min-h-11 w-full items-center gap-3 rounded-[10px] px-3 text-[15px] font-medium transition ${
+            className={`flex min-h-11 w-full items-center gap-3 rounded-md px-3 text-[15px] font-medium transition ${
               workoutsParentActive
                 ? 'bg-accent-100/35 text-accent-500'
                 : 'text-ink-600 hover:bg-ink-100/40 hover:text-ink-900'

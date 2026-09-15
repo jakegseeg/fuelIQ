@@ -157,7 +157,7 @@ export function UpcomingStrip({ className = '' }: Props) {
   return (
     <>
       <div
-        className={`flex min-h-[140px] flex-col surface-card p-3 ${className}`}
+        className={`flex min-h-[140px] flex-col surface-card ${className}`}
       >
         <header className="mb-3 flex flex-none items-center justify-between gap-2">
           <p className="section-label">Upcoming</p>
@@ -242,7 +242,7 @@ function UpcomingCard({
       type="button"
       onClick={interactive ? handleClick : undefined}
       disabled={!interactive}
-      className={`flex w-[88px] flex-none flex-col items-center justify-center rounded-[10px] bg-surface px-2 py-3 ring-1 ring-ink-200/70 ${
+      className={`flex w-[88px] flex-none flex-col items-center justify-center rounded-md bg-surface px-2 py-3 ring-1 ring-ink-200/70 ${
         interactive
           ? 'cursor-pointer transition hover:bg-surface2 hover:ring-accent-400/40 active:scale-[0.98]'
           : 'cursor-default opacity-80'

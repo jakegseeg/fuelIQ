@@ -32,7 +32,6 @@ export function WorkoutHistoryPage() {
   return (
     <AppShell
       title="Workout History"
-      maxWidth="max-w-5xl"
       actions={
         <Link to="/workouts" className="text-sm font-semibold text-accent-300 hover:underline">
           Plan
@@ -60,7 +59,7 @@ export function WorkoutHistoryPage() {
             </div>
 
             <section className="card">
-              <h3 className="font-bold">Recent sessions</h3>
+              <h3 className="section-header">Recent sessions</h3>
               {logs.length === 0 ? (
                 <p className="py-8 text-center text-sm text-ink-600">
                   No workouts logged yet.{' '}
@@ -73,7 +72,7 @@ export function WorkoutHistoryPage() {
                     const badge = logSourceBadge(log);
                     return (
                       <li key={log.id} className="flex items-center gap-3 rounded-xl border border-ink-100 p-3">
-                        <span className={`flex h-10 w-10 flex-none items-center justify-center rounded-[10px] ${style.color}`}>
+                        <span className={`flex h-10 w-10 flex-none items-center justify-center rounded-md ${style.color}`}>
                           <FocusIcon focus={log.focus} size={16} />
                         </span>
                         <div className="min-w-0 flex-1">
@@ -120,7 +119,7 @@ export function WorkoutHistoryPage() {
 function StatCard({ label, value, unit, accent }: { label: string; value: string; unit?: string; accent?: boolean }) {
   return (
     <div className={`card ${accent ? 'bg-accent-500 text-white ring-0' : ''}`}>
-      <p className={`text-3xl font-extrabold ${accent ? 'text-white' : 'text-ink-900'}`}>
+      <p className={`text-2xl font-bold tabular-nums ${accent ? 'text-white' : 'text-ink-900'}`}>
         {value}
         {unit && <span className={`text-sm font-semibold ${accent ? 'text-white/70' : 'text-ink-600'}`}> {unit}</span>}
       </p>
@@ -133,7 +132,7 @@ function VolumeChart({ stats }: { stats: WorkoutStats }) {
   const max = Math.max(1, ...stats.volumeByMuscle.map((v) => v.volume));
   return (
     <section className="card">
-      <h3 className="font-bold">Volume by muscle group</h3>
+      <h3 className="section-header">Volume by muscle group</h3>
       <p className="text-xs text-ink-600">This week · weight × reps (kg)</p>
       {stats.volumeByMuscle.length === 0 ? (
         <p className="py-8 text-center text-sm text-ink-600">No sets logged this week yet.</p>
@@ -162,7 +161,7 @@ function VolumeChart({ stats }: { stats: WorkoutStats }) {
 function PersonalRecords({ stats }: { stats: WorkoutStats }) {
   return (
     <section className="card">
-      <h3 className="font-bold">Personal records</h3>
+      <h3 className="section-header">Personal records</h3>
       <p className="text-xs text-ink-600">Heaviest weight logged per exercise</p>
       {stats.personalRecords.length === 0 ? (
         <p className="py-8 text-center text-sm text-ink-600">

@@ -27,7 +27,7 @@ export function WaterWidget({ water, onAdd }: Props) {
   return (
     <div className="card">
       <div className="flex items-center justify-between">
-        <h3 className="font-display font-bold">Water</h3>
+        <h3 className="font-semibold">Water</h3>
         <span className="text-sm font-semibold text-ink-600 tabular-nums">
           {water.totalOz} / {water.goalOz} oz
         </span>
@@ -35,7 +35,7 @@ export function WaterWidget({ water, onAdd }: Props) {
 
       <div className="mt-4 flex items-center gap-4">
         {/* Wave fill cylinder */}
-        <div className="relative h-24 w-24 flex-none overflow-hidden rounded-2xl bg-surface2 ring-1 ring-ink-200">
+        <div className="relative h-24 w-24 flex-none overflow-hidden rounded-lg bg-surface2 ring-1 ring-ink-200">
           <div
             className="absolute inset-x-0 bottom-0 transition-[height] duration-500"
             style={{ height: `${pct}%` }}
@@ -52,7 +52,7 @@ export function WaterWidget({ water, onAdd }: Props) {
             <div className="h-full w-full bg-sky-400/80" />
           </div>
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="font-display text-lg font-extrabold text-ink-900 mix-blend-difference tabular-nums">
+            <span className="section-header">
               {pct}%
             </span>
           </div>

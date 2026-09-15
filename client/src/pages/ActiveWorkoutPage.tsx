@@ -229,7 +229,7 @@ function ActiveSession({ payload, onExit }: { payload: ActivePayload; onExit: ()
             <div className="min-w-0">
               <div className="flex items-center gap-2">
                 <TypeIcon size={16} className="flex-none text-accent-500" aria-hidden />
-                <h1 className="font-display text-3xl font-extrabold tracking-tight">{ex.name}</h1>
+                <h1 className="section-header">{ex.name}</h1>
               </div>
               {targetLabel && (
                 <p className="mt-1 text-sm text-ink-600">Targeting: {targetLabel}</p>
@@ -277,7 +277,7 @@ function ActiveSession({ payload, onExit }: { payload: ActivePayload; onExit: ()
             {sets.map((s, i) => (
               <div
                 key={i}
-                className={`flex items-center gap-3 rounded-[10px] p-2.5 ring-1 transition ${
+                className={`flex items-center gap-3 rounded-md p-2.5 ring-1 transition ${
                   s.done
                     ? 'bg-surface ring-accent-400/45'
                     : 'bg-surface ring-ink-200'
@@ -308,7 +308,7 @@ function ActiveSession({ payload, onExit }: { payload: ActivePayload; onExit: ()
                 />
                 <button
                   onClick={() => completeSet(i)}
-                  className={`flex h-11 w-11 flex-none items-center justify-center rounded-[10px] font-bold transition ${
+                  className={`flex h-11 w-11 flex-none items-center justify-center rounded-md font-bold transition ${
                     s.done
                       ? 'bg-accent-500 text-white'
                       : 'bg-ink-200 text-ink-600 hover:bg-ink-300 hover:text-ink-800'
@@ -399,8 +399,8 @@ function ActiveSession({ payload, onExit }: { payload: ActivePayload; onExit: ()
 
 function SummaryStat({ label, value, unit }: { label: string; value: string; unit?: string }) {
   return (
-    <div className="rounded-2xl bg-surface2 p-4 ring-1 ring-ink-200">
-      <p className="text-2xl font-extrabold text-ink-900">
+    <div className="rounded-lg bg-surface2 p-4 ring-1 ring-ink-200">
+      <p className="text-2xl font-bold tabular-nums text-ink-900">
         {value}
         {unit && <span className="text-sm font-semibold text-ink-600"> {unit}</span>}
       </p>

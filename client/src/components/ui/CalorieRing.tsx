@@ -38,7 +38,7 @@ export function CalorieRing({ consumed, target, burned = 0, size = 200, strokeWi
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span
-          className="font-display text-4xl font-extrabold leading-none tabular-nums text-ink-900"
+          className="display-num"
           style={{ color: over ? '#C85A3A' : undefined }}
         >
           {Math.round(animatedRemaining).toLocaleString()}

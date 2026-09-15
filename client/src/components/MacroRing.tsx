@@ -40,7 +40,7 @@ export function MacroRing({
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-sm font-extrabold text-ink-900">{Math.round(value)}</span>
+          <span className="text-sm font-bold tabular-nums text-ink-900">{Math.round(value)}</span>
           <span className="text-[10px] text-ink-600">/{Math.round(goal)}{unit}</span>
         </div>
       </div>

@@ -50,8 +50,8 @@ function MoreSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center lg:hidden" role="presentation">
       <button type="button" className="absolute inset-0 cursor-default bg-black/25" onClick={onClose} aria-label="Dismiss menu" />
-      <section role="dialog" aria-modal="true" aria-label="More" className="relative w-full rounded-t-[20px] bg-surface px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-2 shadow-2xl animate-page-in">
-        <div className="mx-auto mb-3 h-1 w-9 rounded-full bg-ink-300" /><h2 className="px-1 pb-2 text-[20px] font-bold text-ink-900">More</h2>
+      <section role="dialog" aria-modal="true" aria-label="More" className="relative w-full rounded-t-xl bg-surface px-4 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-2 shadow-high animate-page-in">
+        <div className="mx-auto mb-3 h-1 w-9 rounded-full bg-ink-300" /><h2 className="px-1 pb-2 section-header">More</h2>
         <div className="overflow-hidden rounded-xl bg-surface2">
           {destinations.map(({ to, label, Icon }, index) => <button key={to} type="button" onClick={() => { navigate(to); onClose(); }} className={`flex min-h-12 w-full items-center gap-3 px-4 text-left text-[17px] text-ink-900 ${index ? 'border-t border-ink-200' : ''}`}><Icon size={20} className="text-accent-500" aria-hidden />{label}</button>)}
         </div>

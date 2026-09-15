@@ -78,7 +78,7 @@ export function PlanGeneratorForm({ initial, profileDefaults, onGenerated }: Pro
             <button
               key={n}
               onClick={() => setDaysPerWeek(n)}
-              className={`h-10 w-10 rounded-[10px] text-sm font-bold transition ${
+              className={`h-10 w-10 rounded-md text-sm font-bold transition ${
                 daysPerWeek === n
                   ? 'bg-accent-500 text-white'
                   : 'bg-surface text-ink-600 ring-1 ring-inset ring-ink-200 hover:bg-ink-100'
@@ -112,7 +112,7 @@ export function PlanGeneratorForm({ initial, profileDefaults, onGenerated }: Pro
             <button
               key={d}
               onClick={() => setDurationMin(d)}
-              className={`rounded-[10px] px-4 py-2 text-sm font-semibold transition ${
+              className={`rounded-md px-4 py-2 text-sm font-semibold transition ${
                 durationMin === d
                   ? 'bg-accent-500 text-white'
                   : 'bg-surface text-ink-600 ring-1 ring-inset ring-ink-200 hover:bg-ink-100'

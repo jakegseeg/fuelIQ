@@ -96,7 +96,7 @@ export function BestFoodsSubCard({ date, remaining, goal, onLogged }: Props) {
         onKeyDown={(e) =>
           e.key === 'Enter' && !onTrack && suggestions.length > 0 && setDetailOpen(true)
         }
-        className={`flex min-h-[140px] flex-col rounded-[16px] bg-surface2 p-3 ring-1 ring-ink-200/50 ${
+        className={`flex min-h-[140px] flex-col rounded-lg bg-surface2 p-3 ring-1 ring-ink-200/50 ${
           !onTrack && suggestions.length > 0
             ? 'cursor-pointer transition hover:ring-ink-300/70'
             : ''
@@ -212,7 +212,7 @@ function BestFoodsDetailModal({
                   onClick={() => setExpanded(isOpen ? null : i)}
                   aria-expanded={isOpen}
                   aria-label={isOpen ? 'Collapse' : 'Expand'}
-                  className="flex-none rounded-[10px] p-1 text-ink-600 hover:bg-ink-200/50 hover:text-ink-700"
+                  className="flex-none rounded-md p-1 text-ink-600 hover:bg-ink-200/50 hover:text-ink-700"
                 >
                   <svg
                     viewBox="0 0 20 20"

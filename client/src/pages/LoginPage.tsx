@@ -122,7 +122,7 @@ function AuthShell({
           <IsoInsiteLogo size={64} />
         </div>
         <div className="card">
-          <h1 className="font-display text-2xl font-extrabold tracking-tight">{title}</h1>
+          <h1 className="page-title">{title}</h1>
           <p className="mt-1 text-sm text-ink-600">{subtitle}</p>
           <div className="mt-6">{children}</div>
         </div>

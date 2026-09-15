@@ -14,7 +14,7 @@ function isRestDay(workout: DayPlan | null) {
 }
 
 const bannerClass =
-  'overflow-hidden rounded-[16px] border border-line-card bg-surface shadow-card';
+  'overflow-hidden rounded-xl border border-line-card bg-surface shadow-mid';
 
 /** A single, contextual next step keeps Today from becoming a competing card grid. */
 export function NextBestAction({ date, day, workout }: Props) {
@@ -31,8 +31,8 @@ export function NextBestAction({ date, day, workout }: Props) {
           </span>
           <div className="min-w-0 flex-1">
             <p className="section-label">Your next step</p>
-            <h2 id="next-step-title" className="mt-0.5 text-[20px] font-bold tracking-tight text-ink-900">Log your first meal</h2>
-            <p className="mt-1 text-[15px] text-ink-600">Start today’s nutrition picture with what you’ve eaten.</p>
+            <h2 id="next-step-title" className="mt-0.5 section-header">Log your first meal</h2>
+            <p className="mt-1 text-sm text-ink-600">Start today’s nutrition picture with what you’ve eaten.</p>
           </div>
           <button type="button" onClick={() => navigate('/log')} className="btn-primary flex-none" aria-label="Log your first meal">
             <span className="hidden sm:inline">Log meal</span><ChevronRight size={20} aria-hidden />
@@ -56,8 +56,8 @@ export function NextBestAction({ date, day, workout }: Props) {
           </span>
           <div className="min-w-0 flex-1">
             <p className="section-label">Your next step</p>
-            <h2 id="next-step-title" className="mt-0.5 text-[20px] font-bold tracking-tight text-ink-900">Start {workout.focus}</h2>
-            <p className="mt-1 text-[15px] text-ink-600">{workout.exercises.length} exercises · about {workout.estimatedDurationMin} minutes.</p>
+            <h2 id="next-step-title" className="mt-0.5 section-header">Start {workout.focus}</h2>
+            <p className="mt-1 text-sm text-ink-600">{workout.exercises.length} exercises · about {workout.estimatedDurationMin} minutes.</p>
           </div>
           <button type="button" onClick={start} className="btn-primary flex-none" aria-label={`Start ${workout.focus}`}>
             <span className="hidden sm:inline">Start</span><ChevronRight size={20} aria-hidden />
@@ -73,8 +73,8 @@ export function NextBestAction({ date, day, workout }: Props) {
         <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-accent-100 text-accent-500"><Sparkles size={21} aria-hidden /></span>
         <div className="min-w-0 flex-1">
           <p className="section-label">Your next step</p>
-          <h2 id="next-step-title" className="mt-0.5 text-[20px] font-bold tracking-tight text-ink-900">Keep your day in balance</h2>
-          <p className="mt-1 text-[15px] text-ink-600">{proteinRemaining > 0 ? `${proteinRemaining}g of protein remain for today.` : 'You’re on track—add your next meal when you’re ready.'}</p>
+          <h2 id="next-step-title" className="mt-0.5 section-header">Keep your day in balance</h2>
+          <p className="mt-1 text-sm text-ink-600">{proteinRemaining > 0 ? `${proteinRemaining}g of protein remain for today.` : 'You’re on track—add your next meal when you’re ready.'}</p>
         </div>
         <button type="button" onClick={() => navigate('/log')} className="btn-ghost flex-none" aria-label="Open food log"><span className="hidden sm:inline">View log</span><ChevronRight size={20} aria-hidden /></button>
       </div>

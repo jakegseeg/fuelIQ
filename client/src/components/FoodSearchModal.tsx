@@ -253,7 +253,7 @@ function Browse({
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className={`flex-1 whitespace-nowrap rounded-[10px] px-3 py-1.5 text-sm font-semibold transition ${
+              className={`flex-1 whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-semibold transition ${
                 tab === t.id ? 'bg-accent-500 text-white shadow-sm' : 'text-ink-600'
               }`}
             >
@@ -485,7 +485,7 @@ function FoodRow({ food, onClick }: { food: ScoredFood; onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full items-center gap-3 rounded-[10px] border border-ink-200 bg-surface2 p-3 text-left transition hover:border-accent-400/40 hover:shadow-glow"
+      className="card-item flex w-full items-center gap-3 border border-line-card bg-surface2 p-3 text-left transition hover:border-accent-400/40"
     >
       <div className="min-w-0 flex-1">
         <p className="truncate font-semibold text-ink-900">{food.name}</p>
@@ -760,7 +760,7 @@ function ServingConfig({
 
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
-          <h3 className="text-lg font-bold leading-tight">{food.name}</h3>
+          <h3 className="section-header leading-tight">{food.name}</h3>
           {food.brand && <p className="text-sm text-ink-600">{food.brand}</p>}
         </div>
         {fuelScore && <FuelScoreBadge score={fuelScore} size="md" />}
@@ -827,7 +827,7 @@ function ServingConfig({
         </button>
       </div>
 
-      <div className="mt-5 grid grid-cols-4 gap-2 rounded-2xl bg-ink-50 p-4 text-center">
+      <div className="mt-5 grid grid-cols-4 gap-2 rounded-lg bg-ink-50 p-4 text-center">
         <Macro label="Calories" value={totals.calories} unit="" />
         <Macro label="Protein" value={totals.protein} unit="g" />
         <Macro label="Carbs" value={totals.carbs} unit="g" />
@@ -846,7 +846,7 @@ function ServingConfig({
 function Macro({ label, value, unit }: { label: string; value: number; unit: string }) {
   return (
     <div>
-      <p className="text-base font-extrabold text-ink-900">
+      <p className="text-sm font-semibold text-ink-900">
         {Math.round(value)}
         <span className="text-xs font-semibold text-ink-600">{unit}</span>
       </p>

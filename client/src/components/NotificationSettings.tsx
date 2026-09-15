@@ -29,7 +29,7 @@ export function NotificationSettingsPanel() {
 
   return (
     <section className="card">
-      <h2 className="font-display text-lg font-bold">Smart notifications</h2>
+      <h2 className="section-header">Smart notifications</h2>
       <p className="mt-1 text-sm text-ink-600">
         Browser reminders for logging, lunch nudges, weekly reviews, and workout PRs (spec 7.2).
       </p>

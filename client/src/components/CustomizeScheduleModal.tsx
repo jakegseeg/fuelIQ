@@ -71,7 +71,7 @@ export function CustomizeScheduleModal({ open, onClose, initial, onSaved }: Prop
           return (
             <div
               key={dayName}
-              className={`flex flex-wrap items-center gap-3 rounded-[10px] border p-3 transition ${
+              className={`flex flex-wrap items-center gap-3 rounded-md border p-3 transition ${
                 row.available
                   ? 'border-ink-200 bg-surface'
                   : 'border-ink-200/60 bg-ink-50 opacity-80'

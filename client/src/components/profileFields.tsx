@@ -170,7 +170,7 @@ export function BasicInfoFields({ draft, update, errors }: GroupProps) {
               key={opt.value}
               type="button"
               onClick={() => update({ biologicalSex: opt.value })}
-              className={`rounded-[10px] border px-3 py-2.5 text-sm font-semibold transition ${
+              className={`rounded-md border px-3 py-2.5 text-sm font-semibold transition ${
                 draft.biologicalSex === opt.value
                   ? 'state-accent state-accent-text'
                   : 'border-ink-200 bg-surface text-ink-600 hover:bg-ink-100'

@@ -15,7 +15,7 @@ export function WorkoutLogSummary({ log, exerciseNames, onDone }: Props) {
     <div className="card mx-auto max-w-lg space-y-5 text-center">
       <div>
         <p className="text-sm font-semibold uppercase tracking-wide text-accent-600">Workout logged</p>
-        <h2 className="mt-1 text-2xl font-extrabold tracking-tight">{log.focus}</h2>
+        <h2 className="mt-1 section-header">{log.focus}</h2>
       </div>
 
       <div className="grid grid-cols-3 gap-3">
@@ -63,7 +63,7 @@ function SummaryStat({
 }) {
   return (
     <div className="rounded-xl bg-surface2 px-2 py-3">
-      <p className="text-xl font-extrabold text-ink-900">{value}</p>
+      <p className="text-xl font-bold tabular-nums text-ink-900">{value}</p>
       <p className="text-[10px] font-semibold uppercase tracking-wide text-ink-500">{unit}</p>
       <p className="mt-0.5 text-xs text-ink-600">{label}</p>
     </div>

@@ -109,7 +109,6 @@ export function GroceryPage() {
     <AppShell
       title="Grocery Plan"
       subtitle="What to buy this week"
-      maxWidth="max-w-6xl"
       actions={actions}
     >
       {loading ? (
@@ -203,17 +202,17 @@ function SetupForm({
             <button
               type="button"
               onClick={() => setHouseholdSize((n) => Math.max(1, n - 1))}
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface2 text-lg font-bold text-ink-700 ring-1 ring-ink-200"
+              className="flex h-10 w-10 items-center justify-center rounded-md bg-surface2 text-lg font-semibold text-ink-700 ring-1 ring-ink-200"
             >
               −
             </button>
-            <span className="min-w-[2rem] text-center font-display text-2xl font-bold tabular-nums text-ink-900">
+            <span className="min-w-[2rem] text-center text-2xl font-semibold tabular-nums text-ink-900">
               {householdSize}
             </span>
             <button
               type="button"
               onClick={() => setHouseholdSize((n) => Math.min(10, n + 1))}
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface2 text-lg font-bold text-ink-700 ring-1 ring-ink-200"
+              className="flex h-10 w-10 items-center justify-center rounded-md bg-surface2 text-lg font-semibold text-ink-700 ring-1 ring-ink-200"
             >
               +
             </button>
@@ -399,7 +398,7 @@ function TabButton({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-[10px] px-4 py-2 text-sm font-semibold transition ${
+      className={`rounded-md px-4 py-2 text-sm font-semibold transition ${
         active
           ? 'bg-accent-400/12 text-accent-300 ring-1 ring-accent-400/30'
           : 'text-ink-600 hover:bg-surface2 hover:text-ink-800'
@@ -831,7 +830,7 @@ function GroceryListTab({ plan }: { plan: GroceryPlanRecord }) {
       {alreadyHave.length > 0 && <AlreadyHaveSection items={alreadyHave} />}
 
       <div
-        className={`rounded-[10px] p-4 ring-1 ${
+        className={`rounded-md p-4 ring-1 ${
           underBudget
             ? 'bg-accent-400/10 ring-accent-400/30'
             : 'bg-coral-400/10 ring-coral-400/30'
@@ -839,7 +838,7 @@ function GroceryListTab({ plan }: { plan: GroceryPlanRecord }) {
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="font-semibold text-ink-900">Estimated total</p>
-          <p className={`font-display text-xl font-bold tabular-nums ${underBudget ? 'text-accent-300' : 'text-coral-300'}`}>
+          <p className={`text-xl font-semibold tabular-nums text-ink-900'text-accent-300' : 'text-coral-300'}`}>
             ${plan.totalCost.toFixed(2)}
             <span className="text-sm font-semibold text-ink-600"> / ${plan.budget.toFixed(0)} budget</span>
           </p>
@@ -855,7 +854,7 @@ function GroceryListTab({ plan }: { plan: GroceryPlanRecord }) {
 function AlreadyHaveSection({ items }: { items: PantryExcludedItem[] }) {
   return (
     <section className="rounded-xl bg-surface2 p-4 ring-1 ring-ink-200/60">
-      <h3 className="text-sm font-bold text-ink-800">Already have</h3>
+      <h3 className="text-sm font-semibold text-ink-900">Already have</h3>
       <p className="mt-0.5 text-xs text-ink-600">
         Excluded from your grocery list and cost estimate
       </p>

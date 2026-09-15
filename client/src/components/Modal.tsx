@@ -49,7 +49,7 @@ export function Modal({ open, onClose, title, children, maxWidth = 'max-w-lg', f
         role="dialog"
         aria-modal="true"
         aria-label={typeof title === 'string' ? title : 'Dialog'}
-        className={`relative flex max-h-[92vh] w-full ${maxWidth} flex-col overflow-hidden rounded-t-[20px] bg-surface shadow-2xl ring-1 ring-ink-200 animate-page-in sm:rounded-2xl`}
+        className={`relative flex max-h-[92vh] w-full ${maxWidth} flex-col overflow-hidden rounded-t-xl bg-surface shadow-high ring-1 ring-ink-200 animate-page-in sm:rounded-xl`}
       >
         <div className="mx-auto mt-2 h-1 w-9 rounded-full bg-ink-300 sm:hidden" aria-hidden />
         {title && (

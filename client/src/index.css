@@ -42,64 +42,132 @@
   }
 }
 
-html, body, #root { min-height: 100%; }
-body { @apply bg-bg font-sans text-[17px] text-ink-900 antialiased; font-feature-settings: 'tnum' 1, 'ss01' 1; }
-button, input, textarea, select { font: inherit; }
-button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+html,
+body,
+#root {
+  min-height: 100%;
+}
+body {
+  @apply bg-bg font-sans text-sm font-normal text-ink-900 antialiased;
+  font-feature-settings: 'tnum' 1, 'ss01' 1;
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+button,
+a,
+input,
+textarea,
+select {
+  -webkit-tap-highlight-color: transparent;
+}
 
 @layer components {
+  .page-title {
+    @apply text-2xl font-semibold text-ink-900;
+  }
+  .page-subtitle {
+    @apply text-sm font-normal text-ink-500;
+  }
+  .section-header {
+    @apply text-lg font-semibold text-ink-900;
+  }
+  .section-label,
+  .card-header {
+    @apply text-xs font-semibold uppercase tracking-wider text-ink-500;
+  }
+  .display-num {
+    @apply font-display text-4xl font-bold tabular-nums text-ink-900;
+  }
+  .text-muted {
+    @apply text-xs font-normal text-ink-500;
+  }
+
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-[10px] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-md text-sm font-semibold transition focus:outline-none focus-visible:shadow-glow disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-primary {
-    @apply btn px-5 py-3 text-sm font-semibold bg-accent-500 text-white hover:bg-accent-600 active:scale-[0.98];
+    @apply btn bg-accent-500 px-5 py-3 text-white shadow-low hover:bg-accent-600 active:scale-[0.98];
   }
   .btn-secondary {
-    @apply btn border-[1.5px] border-accent-500 bg-surface px-5 py-3 text-sm font-semibold text-accent-500 hover:bg-accent-50 active:scale-[0.98];
+    @apply btn border-[1.5px] border-accent-500 bg-surface px-5 py-3 text-accent-500 hover:bg-accent-50 active:scale-[0.98];
   }
   .btn-ghost {
-    @apply btn border-[1.5px] border-line-card bg-transparent px-4 py-2.5 text-sm font-normal text-[#4A3028] hover:bg-[#FAF5EE] active:scale-[0.98];
+    @apply btn border-[1.5px] border-line-card bg-transparent px-4 py-2.5 font-normal text-ink-700 hover:bg-ink-50 active:scale-[0.98];
   }
   .btn-add {
-    @apply inline-flex items-center justify-center rounded-[10px] border-[1.5px] border-line-card bg-transparent px-3 py-1.5 text-xs font-medium text-ink-700 transition hover:bg-ink-50 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center rounded-md border-[1.5px] border-line-card bg-transparent px-3 py-1.5 text-xs font-medium text-ink-700 transition hover:bg-ink-50 disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-pill {
-    @apply inline-flex items-center justify-center rounded-full bg-[#F2EBE0] px-3 py-1.5 text-xs font-medium text-[#4A3028] transition hover:bg-[#FAF5EE] disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center rounded-full bg-bg px-3 py-1.5 text-xs font-medium text-ink-700 transition hover:bg-ink-50 disabled:cursor-not-allowed disabled:opacity-50;
   }
-  /* Legacy alias — duplicate styles to avoid @apply circular refs. */
   .btn-accent {
-    @apply btn px-5 py-3 text-sm font-semibold bg-accent-500 text-white hover:bg-accent-600 active:scale-[0.98];
+    @apply btn bg-accent-500 px-5 py-3 text-white shadow-low hover:bg-accent-600 active:scale-[0.98];
   }
-  .field-label { @apply mb-1.5 block text-[15px] font-normal text-ink-600; }
-  .field-input { @apply min-h-11 w-full rounded-[10px] border-0 bg-surface2 px-3.5 py-2 text-[17px] text-ink-900 outline-none ring-1 ring-inset ring-ink-200 transition placeholder:text-ink-400 focus:ring-2 focus:ring-inset focus:ring-accent-500; }
-  .surface-card { @apply overflow-hidden rounded-[16px] border border-line-card bg-surface shadow-card; }
-  .section-label { @apply text-[13px] font-normal normal-case tracking-normal text-ink-600; }
-  .card { @apply overflow-hidden rounded-[16px] border border-line-card bg-surface p-4 shadow-card sm:p-5; }
-  .card-item { @apply rounded-[12px]; }
-  .card-hover { @apply hover:ring-accent-400/40; }
-  .state-accent { @apply border border-accent-500 bg-accent-100/30 ring-0; }
-  .state-accent-text, .state-accent-text-muted { @apply text-accent-500; }
-  .state-accent-check { @apply border border-accent-500 bg-accent-500 text-white; }
-  .panel-mint { @apply rounded-card bg-accent-100/20 p-4 ring-1 ring-inset ring-accent-400/25; }
+
+  .field-label {
+    @apply mb-1.5 block text-sm font-normal text-ink-600;
+  }
+  .field-input {
+    @apply w-full rounded-md border-[1.5px] border-line-card bg-surface px-3.5 py-2.5 text-sm text-ink-900 outline-none transition placeholder:text-ink-400 focus:border-accent-500 focus:shadow-glow;
+  }
+
+  .surface-card {
+    @apply overflow-hidden rounded-xl border border-line-card bg-surface p-4 shadow-mid;
+  }
+  .card {
+    @apply overflow-hidden rounded-xl border border-line-card bg-surface p-4 shadow-mid;
+  }
+  .card-item {
+    @apply rounded-lg shadow-low transition-shadow hover:shadow-mid;
+  }
+  .card-hover {
+    @apply hover:shadow-mid;
+  }
+
+  .state-accent {
+    @apply border border-accent-500 bg-accent-100/30 shadow-glow;
+  }
+  .state-accent-text,
+  .state-accent-text-muted {
+    @apply text-accent-500;
+  }
+  .state-accent-check {
+    @apply border border-accent-500 bg-accent-500 text-white;
+  }
+  .panel-mint {
+    @apply rounded-lg bg-accent-100/20 p-4 ring-1 ring-inset ring-accent-400/25;
+  }
   .chip-status {
     @apply inline-flex items-center rounded-full bg-accent-500 px-2.5 py-0.5 text-xs font-semibold text-white;
   }
   .chip-neutral {
     @apply inline-flex items-center rounded-full bg-ink-100 px-2.5 py-0.5 text-xs font-semibold text-ink-600;
   }
-  .chip-mint { @apply chip-status; }
+  .chip-mint {
+    @apply chip-status;
+  }
 }
 
 @layer utilities {
-  .page-enter { @apply animate-page-in; }
-  .glass { background: rgb(var(--ios-background) / 0.84); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
-  /* Enforce 10px radius on all buttons except pill shortcuts. */
-  button:not(.btn-pill):not(.rounded-full),
-  a.btn-primary, a.btn-secondary, a.btn-ghost, a.btn-accent {
-    border-radius: 10px;
+  .page-enter {
+    @apply animate-page-in;
   }
-  button.rounded-lg, button.rounded-xl, button.rounded-2xl, button.rounded-md {
-    border-radius: 10px;
+  .glass {
+    background: rgb(var(--ios-background) / 0.84);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
   }
-  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; } }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }

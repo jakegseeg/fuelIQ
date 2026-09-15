@@ -129,7 +129,7 @@ export function RecipeBuilder({ open, onClose, onSaved }: Props) {
           </ul>
         )}
 
-        <div className="grid grid-cols-4 gap-2 rounded-2xl bg-ink-50 p-4 text-center">
+        <div className="grid grid-cols-4 gap-2 rounded-lg bg-ink-50 p-4 text-center">
           <PerServ label="Calories" value={perServing.calories} />
           <PerServ label="Protein" value={perServing.protein} unit="g" />
           <PerServ label="Carbs" value={perServing.carbs} unit="g" />
@@ -214,7 +214,7 @@ function IngredientSearch({ onAdd }: { onAdd: (food: ScoredFood) => void }) {
 function PerServ({ label, value, unit = '' }: { label: string; value: number; unit?: string }) {
   return (
     <div>
-      <p className="text-base font-extrabold text-ink-900">
+      <p className="text-sm font-semibold text-ink-900">
         {value}
         <span className="text-xs font-semibold text-ink-600">{unit}</span>
       </p>

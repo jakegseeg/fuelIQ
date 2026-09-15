@@ -34,7 +34,7 @@ export function LoggingStreakCard({ className = '', refreshKey = 0 }: Props) {
 
   return (
     <div
-      className={`flex flex-col surface-card p-3 ${className}`}
+      className={`flex flex-col surface-card ${className}`}
     >
       {loading ? (
         <div className="flex flex-1 items-center justify-center">
@@ -45,7 +45,7 @@ export function LoggingStreakCard({ className = '', refreshKey = 0 }: Props) {
           <p className="section-label">Logging Streak</p>
 
           <div className="flex flex-1 flex-col items-center justify-center py-2">
-            <p className="font-display text-5xl font-extrabold leading-none tabular-nums text-ink-900">
+            <p className="display-num">
               {streak}
             </p>
             <p className="mt-1 text-xs text-ink-600">days</p>

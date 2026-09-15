@@ -21,7 +21,7 @@ export function WorkoutsCustomPage() {
   }, []);
 
   return (
-    <AppShell title={pageMeta.label} maxWidth="max-w-5xl">
+    <AppShell title={pageMeta.label}>
       <WorkoutPageHeader title={pageMeta.label} subtitle={pageMeta.subtitle} />
       {loading ? (
         <div className="flex h-64 items-center justify-center">

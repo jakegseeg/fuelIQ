@@ -115,7 +115,7 @@ export function TodayContainer({
 
   return (
     <div
-      className={`flex min-h-[280px] flex-col surface-card p-4 md:h-full ${className}`}
+      className={`flex min-h-[280px] flex-col rounded-xl border border-line-card bg-surface p-6 shadow-mid md:h-full ${className}`}
     >
         {initialLoading || !summary ? (
           <div className="flex flex-1 items-center justify-center">
@@ -212,7 +212,7 @@ function WorkoutSubCard({
   return (
     <SubCard title="Today's Workout">
       <div className="flex items-start gap-2">
-        <span className={`flex h-8 w-8 flex-none items-center justify-center rounded-[10px] ${style.color}`}>
+        <span className={`flex h-8 w-8 flex-none items-center justify-center rounded-md ${style.color}`}>
           <FocusIcon focus={workout.focus} size={16} />
         </span>
         <div className="min-w-0 flex-1">
@@ -287,9 +287,9 @@ function SubCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-[140px] flex-col rounded-[16px] bg-surface2 p-3 ring-1 ring-ink-200/50">
+    <div className="flex min-h-[140px] flex-col rounded-lg bg-surface2 p-3 ring-1 ring-ink-200/50">
       <div className="mb-2 flex flex-wrap items-center gap-1.5">
-        <h3 className="text-xs font-bold uppercase tracking-wide text-ink-700">{title}</h3>
+        <h3 className="card-header">{title}</h3>
         {badge}
       </div>
       <div className="min-h-0 flex-1">{children}</div>

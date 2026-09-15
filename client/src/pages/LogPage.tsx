@@ -54,7 +54,7 @@ export function LogPage() {
 
   const actions = (
     <div className="flex items-center gap-1">
-      <button onClick={() => shiftDay(-1)} className="rounded-[10px] p-2 hover:bg-surface2" aria-label="Previous day">
+      <button onClick={() => shiftDay(-1)} className="rounded-md p-2 hover:bg-surface2" aria-label="Previous day">
         ‹
       </button>
       <input
@@ -64,7 +64,7 @@ export function LogPage() {
         onChange={(e) => setDate(e.target.value)}
         className="rounded-lg border border-ink-200 bg-surface px-2 py-1 text-sm font-medium text-ink-800"
       />
-      <button onClick={() => shiftDay(1)} className="rounded-[10px] p-2 hover:bg-surface2" aria-label="Next day">
+      <button onClick={() => shiftDay(1)} className="rounded-md p-2 hover:bg-surface2" aria-label="Next day">
         ›
       </button>
       <button
@@ -135,10 +135,10 @@ function DailySummaryCard({ day }: { day: DaySummary }) {
 
   return (
     <div className="card">
-      <h3 className="font-display font-bold">Daily summary</h3>
+      <h3 className="font-semibold">Daily summary</h3>
       <div className="mt-2 flex items-end justify-between">
         <div>
-          <p className="font-display text-3xl font-extrabold leading-none text-ink-900">
+          <p className="display-num">
             {target ? remainingCal.toLocaleString() : totals.calories.toLocaleString()}
           </p>
           <p className="mt-1 text-sm text-ink-600">{target ? 'calories remaining' : 'calories consumed'}</p>

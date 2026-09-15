@@ -60,14 +60,14 @@ export function Segmented<T extends string>({
   size = 'md',
 }: SegmentedProps<T>) {
   return (
-    <div className="inline-flex min-h-11 rounded-[10px] bg-ink-100/45 p-1 ring-1 ring-inset ring-ink-200" role="group">
+    <div className="inline-flex min-h-11 rounded-md bg-ink-100/45 p-1 ring-1 ring-inset ring-ink-200" role="group">
       {options.map((opt) => (
         <button
           key={opt.value}
           type="button"
           onClick={() => onChange(opt.value)}
           aria-pressed={value === opt.value}
-          className={`min-h-9 rounded-[10px] font-medium transition ${
+          className={`min-h-9 rounded-md font-medium transition ${
             size === 'sm' ? 'px-3 py-1 text-[13px]' : 'px-4 py-1 text-[15px]'
           } ${
             value === opt.value
@@ -104,7 +104,7 @@ export function SelectCard({
       type="button"
       onClick={onClick}
       aria-pressed={selected}
-      className={`flex min-h-16 w-full items-center gap-4 rounded-[10px] border p-4 text-left transition ${
+      className={`flex min-h-16 w-full items-center gap-4 rounded-md border p-4 text-left transition ${
         selected
           ? 'state-accent'
           : 'border-ink-200 bg-surface hover:border-ink-300 hover:bg-ink-100'
@@ -127,7 +127,7 @@ export function SelectCard({
       </span>
       <span
         className={`flex h-5 w-5 flex-none items-center justify-center border-2 ${
-          multi ? 'rounded-[10px]' : 'rounded-full'
+          multi ? 'rounded-md' : 'rounded-full'
         } ${selected ? 'state-accent-check' : 'border-ink-300'}`}
       >
         {selected && (

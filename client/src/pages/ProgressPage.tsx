@@ -155,7 +155,7 @@ function WeightSection({
     <section className="card">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="font-display text-lg font-bold">Weight</h2>
+          <h2 className="section-header">Weight</h2>
           {delta != null && (
             <p className="text-sm text-ink-600">
               {delta >= 0 ? '+' : ''}
@@ -168,7 +168,7 @@ function WeightSection({
             <button
               key={r.value}
               onClick={() => onRange(r.value)}
-              className={`rounded-[10px] px-3 py-1 text-sm font-semibold transition ${
+              className={`rounded-md px-3 py-1 text-sm font-semibold transition ${
                 range === r.value ? 'bg-ink-200 text-ink-900' : 'text-ink-600'
               }`}
             >
@@ -223,7 +223,7 @@ function CalorieAdherenceSection({ summary }: { summary: ProgressSummary }) {
 
   return (
     <section className="card">
-      <h2 className="font-display text-lg font-bold">Calorie adherence</h2>
+      <h2 className="section-header">Calorie adherence</h2>
       <p className="text-sm text-ink-600">
         Last 14 days vs your target. Green = within 10%, yellow = 10–20% off, red = &gt;20% off.
       </p>
@@ -263,7 +263,7 @@ function MacroConsistencySection({ summary }: { summary: ProgressSummary }) {
 
   return (
     <section className="card">
-      <h2 className="font-display text-lg font-bold">Macro consistency</h2>
+      <h2 className="section-header">Macro consistency</h2>
       <p className="text-sm text-ink-600">Grams per day (last 7 days) and your average split vs target.</p>
       <div className="mt-4 grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="h-60 lg:col-span-2">
@@ -318,7 +318,7 @@ function FuelScoreSection({ summary }: { summary: ProgressSummary }) {
 
   return (
     <section className="card">
-      <h2 className="font-display text-lg font-bold">FuelScore trend</h2>
+      <h2 className="section-header">FuelScore trend</h2>
       {imp != null && imp !== 0 ? (
         <p className={`text-sm font-semibold ${imp > 0 ? 'text-accent-300' : 'text-coral-300'}`}>
           Your food quality has {imp > 0 ? 'improved' : 'dropped'} {Math.abs(imp)}% over this period.
@@ -353,7 +353,7 @@ function WorkoutVolumeSection({ summary }: { summary: ProgressSummary }) {
 
   return (
     <section className="card">
-      <h2 className="font-display text-lg font-bold">Workout volume</h2>
+      <h2 className="section-header">Workout volume</h2>
       <div className="mt-4 grid grid-cols-1 gap-6 lg:grid-cols-2">
         <div>
           <p className="mb-2 text-sm font-semibold text-ink-600">This week's volume by muscle (kg×reps)</p>

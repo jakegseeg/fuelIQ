@@ -73,7 +73,7 @@ export function MySplitSetup({ initial, onGenerated }: Props) {
   return (
     <div className="card space-y-6">
       <div>
-        <h2 className="text-xl font-extrabold tracking-tight">Build your split</h2>
+        <h2 className="section-header">Build your split</h2>
         <p className="mt-1 text-sm text-ink-600">
           Choose which muscle groups to train each day. We&apos;ll fill in goal-appropriate exercises.
         </p>
@@ -107,7 +107,7 @@ export function MySplitSetup({ initial, onGenerated }: Props) {
               key={day.day}
               type="button"
               onClick={() => openDay(i)}
-              className="rounded-2xl border border-ink-200 bg-surface p-3 text-left transition hover:border-accent-300"
+              className="card-item rounded-lg border border-ink-200 bg-surface p-3 text-left transition hover:border-accent-300"
             >
               <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-600">
                 {day.day.slice(0, 3)}
@@ -199,7 +199,7 @@ function DayMuscleSelector({
               setRest(true);
               setMuscleGroups([]);
             }}
-            className={`flex-1 rounded-[10px] px-3 py-2 text-sm font-semibold ${
+            className={`flex-1 rounded-md px-3 py-2 text-sm font-semibold ${
               rest ? 'bg-accent-500 text-white' : 'border border-ink-200 text-ink-700'
             }`}
           >
@@ -208,7 +208,7 @@ function DayMuscleSelector({
           <button
             type="button"
             onClick={() => setRest(false)}
-            className={`flex-1 rounded-[10px] px-3 py-2 text-sm font-semibold ${
+            className={`flex-1 rounded-md px-3 py-2 text-sm font-semibold ${
               !rest ? 'bg-accent-500 text-white' : 'border border-ink-200 text-ink-700'
             }`}
           >

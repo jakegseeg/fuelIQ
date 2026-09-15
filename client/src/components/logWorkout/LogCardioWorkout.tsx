@@ -168,7 +168,7 @@ export function LogCardioWorkout({ onBack }: Props) {
       </button>
 
       <div>
-        <h2 className="text-xl font-extrabold tracking-tight">Log cardio</h2>
+        <h2 className="section-header">Log cardio</h2>
         <p className="mt-1 text-sm text-ink-600">Track duration and intensity — calories update as you type.</p>
       </div>
 
@@ -205,7 +205,7 @@ export function LogCardioWorkout({ onBack }: Props) {
 
         {timerEnabled && (
           <div className="rounded-xl bg-ink-50 px-4 py-4 text-center">
-            <p className="font-display text-4xl font-extrabold tabular-nums tracking-tight text-ink-900">
+            <p className="text-4xl font-bold tabular-nums text-ink-900">
               {formatTimer(elapsedSec)}
             </p>
             {timerRunning && (

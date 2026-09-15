@@ -14,7 +14,7 @@ export function WorkoutsNavSubmenu({ onNavigate }: Props) {
   const location = useLocation();
 
   return (
-    <div className="mb-1 mt-1 flex flex-col gap-0.5 pl-5">
+    <div className="mb-1 mt-1 flex flex-col gap-1 pl-5">
       {WORKOUT_SUB_LINKS.map((item) => {
         const active = isWorkoutSubLinkActive(location.pathname, item.to);
         return (
@@ -53,14 +53,14 @@ export function WorkoutsNavSheet({ open, onClose }: SheetProps) {
         role="dialog"
         aria-modal="true"
         aria-label="Workouts"
-        className="relative w-full max-w-lg rounded-t-3xl bg-surface px-4 pb-6 pt-4 shadow-2xl ring-1 ring-ink-200 animate-page-in"
+        className="relative w-full max-w-lg rounded-t-xl bg-surface px-4 pb-6 pt-4 shadow-high ring-1 ring-ink-200 animate-page-in"
       >
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold text-ink-900">Workouts</h2>
+          <h2 className="section-header">Workouts</h2>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-[10px] px-2 py-1 text-sm font-semibold text-ink-600 hover:bg-ink-50"
+            className="rounded-md px-2 py-1 text-sm font-semibold text-ink-600 hover:bg-ink-50"
           >
             Close
           </button>

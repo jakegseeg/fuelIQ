@@ -45,13 +45,13 @@ export function NutritionLabel({ per100, servingG, servingLabel }: Props) {
   const cals = Math.round(per100.calories * (servingG / 100));
   return (
     <div className="rounded-xl border-2 border-ink-300 bg-surface p-4 text-sm">
-      <h4 className="font-display text-xl font-extrabold tracking-tight">Nutrition Facts</h4>
+      <h4 className="section-header">Nutrition Facts</h4>
       <div className="border-b-8 border-ink-300 pb-1 text-xs text-ink-600">
         Serving size {servingLabel ?? `${Math.round(servingG)} g`}
       </div>
       <div className="flex items-end justify-between border-b-4 border-ink-300 py-1">
         <span className="font-bold">Calories</span>
-        <span className="font-display text-2xl font-extrabold tabular-nums">{cals}</span>
+        <span className="text-2xl font-bold tabular-nums text-ink-900">{cals}</span>
       </div>
       <Row label="Total Fat" value={scale(per100.fat, servingG)} bold />
       <Row label="Saturated Fat" value={scale(per100.satFat, servingG)} indent />

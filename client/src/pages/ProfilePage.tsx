@@ -106,7 +106,6 @@ export function ProfilePage() {
   return (
     <AppShell
       title="Profile"
-      maxWidth="max-w-5xl"
       actions={
         <div className="flex items-center gap-3">
           <span className="hidden text-sm font-medium text-ink-600 sm:inline">
@@ -131,7 +130,7 @@ export function ProfilePage() {
         <section className="card">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-lg font-bold">Edit your profile</h2>
+              <h2 className="section-header">Edit your profile</h2>
               <p className="text-sm text-ink-600">
                 Changing any value recalculates your targets on save.
               </p>
@@ -194,7 +193,7 @@ function MfpImportSection() {
   return (
     <>
       <section className="card">
-        <h2 className="font-display text-lg font-bold">Import from MyFitnessPal</h2>
+        <h2 className="section-header">Import from MyFitnessPal</h2>
         <p className="mt-1 text-sm text-ink-600">
           Upload a CSV export to backfill your food log with retroactive FuelScores.
         </p>
@@ -227,7 +226,7 @@ function StatsSummary({ profile, className = '' }: { profile: Profile; className
 
   return (
     <section className={`card ${className}`}>
-      <h2 className="text-lg font-bold">Current stats</h2>
+      <h2 className="section-header">Current stats</h2>
       <dl className="mt-4 space-y-3 text-sm">
         <Row label="Age" value={`${targets.age} yrs`} />
         <Row label="Weight" value={formatWeight(profile.weightKg, units.weight)} />
@@ -277,7 +276,7 @@ function TargetsCard({
   return (
     <section className={`card ${className}`}>
       <div className="flex items-baseline justify-between">
-        <h2 className="text-lg font-bold">Daily target</h2>
+        <h2 className="section-header">Daily target</h2>
         <span className="text-sm text-ink-600">
           BMR {Math.round(targets.bmr)} · TDEE {Math.round(targets.tdee)} kcal
         </span>
@@ -346,7 +345,7 @@ function ProgressPhotos() {
     <section className="card">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h2 className="text-lg font-bold">Progress photos</h2>
+          <h2 className="section-header">Progress photos</h2>
           <p className="text-sm text-ink-600">Optional. Stored locally on your machine.</p>
         </div>
         <label className="btn-ghost cursor-pointer">
@@ -365,7 +364,7 @@ function ProgressPhotos() {
       {err && <p className="mt-3 text-sm font-medium text-red-600">{err}</p>}
 
       {photos.length === 0 ? (
-        <div className="mt-5 rounded-2xl border-2 border-dashed border-ink-200 py-10 text-center text-sm text-ink-600">
+        <div className="mt-5 rounded-lg border-2 border-dashed border-ink-200 py-10 text-center text-sm text-ink-600">
           No photos yet — upload one to track visual progress over time.
         </div>
       ) : (

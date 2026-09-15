@@ -72,7 +72,7 @@ export function MacroCalorieRing({ totals, target, size = 240, strokeWidth = 18 
   const animatedConsumed = useAnimatedNumber(Math.round(totals.calories));
 
   return (
-    <div className="relative flex-none" style={{ width: size, height: size }}>
+    <div className="relative flex-none rounded-xl" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90">
         <circle
           cx={size / 2}
@@ -112,7 +112,7 @@ export function MacroCalorieRing({ totals, target, size = 240, strokeWidth = 18 
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-        <span className="font-display text-5xl font-extrabold leading-none tabular-nums text-ink-900">
+        <span className="display-num">
           {Math.round(animatedConsumed).toLocaleString()}
         </span>
         {targetCal > 0 && (

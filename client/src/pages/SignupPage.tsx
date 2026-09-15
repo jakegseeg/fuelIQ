@@ -44,7 +44,7 @@ export function SignupPage() {
           <IsoInsiteLogo size={64} />
         </div>
         <div className="card">
-          <h1 className="font-display text-2xl font-extrabold tracking-tight">Create your account</h1>
+          <h1 className="page-title">Create your account</h1>
           <p className="mt-1 text-sm text-ink-600">
             Start with a free account — we&apos;ll personalize your targets in onboarding.
           </p>

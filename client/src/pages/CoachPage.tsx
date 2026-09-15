@@ -111,7 +111,6 @@ export function CoachPage() {
     <AppShell
       title="Coach"
       subtitle="Elite trainer. Zero chill. Maximum care."
-      maxWidth="max-w-3xl"
       actions={
         messages.length > 0 ? (
           <button
@@ -187,7 +186,7 @@ function CoachAvatar({ size = 'lg' }: { size?: 'sm' | 'lg' }) {
   const dim = size === 'lg' ? 'h-16 w-16' : 'h-8 w-8';
   return (
     <div
-      className={`flex ${dim} flex-none items-center justify-center rounded-[10px] bg-accent-400/15 ring-2 ring-accent-400/30`}
+      className={`flex ${dim} flex-none items-center justify-center rounded-md bg-accent-400/15 ring-2 ring-accent-400/30`}
       aria-hidden
     />
   );
@@ -206,15 +205,15 @@ function EmptyState({
     <div className="flex h-full flex-col">
       <div className="flex flex-col items-center text-center">
         <CoachAvatar />
-        <h2 className="mt-4 font-display text-xl font-extrabold">Coach</h2>
+        <h2 className="mt-4 section-header">Coach</h2>
         <p className="mt-1 max-w-sm text-sm text-ink-600">
           Former high-level athlete. Drill sergeant exterior. Coach yells because Coach cares — and
           Coach reads your real logs.
         </p>
       </div>
 
-      <div className="mt-6 rounded-2xl bg-surface2 p-4 ring-1 ring-ink-200">
-        <h3 className="text-sm font-bold text-ink-800">Coach&apos;s take this week</h3>
+      <div className="mt-6 rounded-lg bg-surface2 p-4 ring-1 ring-ink-200">
+        <h3 className="text-sm font-semibold text-ink-900">Coach&apos;s take this week</h3>
         {loading ? (
           <div className="py-4">
             <Spinner label="Coach is reviewing your logs…" />
@@ -262,7 +261,7 @@ function Bubble({ message, isStreaming }: { message: ChatMessage; isStreaming?: 
           </p>
         )}
         <div
-          className={`rounded-[10px] px-4 py-2.5 text-sm leading-relaxed ${
+          className={`rounded-md px-4 py-2.5 text-sm leading-relaxed ${
             isUser
               ? 'bg-accent-500 font-medium text-white'
               : 'bg-surface text-ink-800 ring-1 ring-ink-200'

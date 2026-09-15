@@ -75,7 +75,7 @@ export function MacroDonut({
           x="50%"
           y="46%"
           textAnchor="middle"
-          className="fill-ink-900 font-extrabold"
+          className="fill-ink-900 font-bold"
           style={{ fontSize: size * 0.16 }}
         >
           {centerValue}

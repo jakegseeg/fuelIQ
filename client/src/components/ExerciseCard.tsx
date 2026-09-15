@@ -46,8 +46,8 @@ export function ExerciseCard({ exercise, onSwap }: Props) {
     iconKind === 'cardio' ? Activity : iconKind === 'core' ? CircleDot : Dumbbell;
 
   return (
-    <div className="card-item flex gap-3 border border-ink-200 bg-surface p-3">
-      <div className="flex h-16 w-16 flex-none items-center justify-center overflow-hidden rounded-xl bg-surface2">
+    <div className="card-item flex gap-3 border border-line-card bg-surface p-3">
+      <div className="flex h-16 w-16 flex-none items-center justify-center overflow-hidden rounded-lg bg-surface2">
         {demo ? (
           <img src={demo} alt={exercise.name} className="h-full w-full object-cover" />
         ) : (
@@ -61,7 +61,7 @@ export function ExerciseCard({ exercise, onSwap }: Props) {
               <TypeIcon size={16} className="flex-none text-accent-500" aria-hidden />
               <p className="font-semibold text-ink-900">{exercise.name}</p>
               {exercise.isNewRotation && (
-                <span className="inline-flex items-center gap-1 rounded-md bg-accent-100 px-1.5 py-0.5 text-[10px] font-bold text-accent-600">
+                <span className="inline-flex items-center gap-1 rounded-full bg-accent-100 px-1.5 py-0.5 text-[10px] font-bold text-accent-600">
                   <RefreshCw size={12} aria-hidden />
                   New this rotation
                 </span>

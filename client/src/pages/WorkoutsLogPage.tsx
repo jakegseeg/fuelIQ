@@ -7,7 +7,7 @@ const pageMeta = WORKOUT_SUB_LINKS.find((l) => l.to === '/workouts/log')!;
 
 export function WorkoutsLogPage() {
   return (
-    <AppShell title={pageMeta.label} maxWidth="max-w-5xl">
+    <AppShell title={pageMeta.label}>
       <WorkoutPageHeader title={pageMeta.label} subtitle={pageMeta.subtitle} />
       <LogWorkoutPanel />
     </AppShell>

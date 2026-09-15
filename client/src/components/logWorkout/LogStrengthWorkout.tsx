@@ -152,7 +152,7 @@ export function LogStrengthWorkout({ onBack }: Props) {
       </button>
 
       <div>
-        <h2 className="text-xl font-extrabold tracking-tight">Strength / Exercises</h2>
+        <h2 className="section-header">Strength / Exercises</h2>
         <p className="mt-1 text-sm text-ink-600">Log sets as you go, then finish when done.</p>
       </div>
 
@@ -220,7 +220,7 @@ export function LogStrengthWorkout({ onBack }: Props) {
                   <button
                     type="button"
                     onClick={() => updateSet(ex.id, s.id, { done: !s.done })}
-                    className={`flex h-9 w-9 flex-none items-center justify-center rounded-[10px] border transition ${
+                    className={`flex h-9 w-9 flex-none items-center justify-center rounded-md border transition ${
                       s.done
                         ? 'border-accent-400 bg-accent-500 text-white'
                         : 'border-ink-200 text-ink-400 hover:border-accent-300'
@@ -252,7 +252,7 @@ export function LogStrengthWorkout({ onBack }: Props) {
       {error && <p className="text-sm font-medium text-red-600">{error}</p>}
 
       <div className="fixed bottom-0 left-0 right-0 border-t border-ink-100 bg-bg/95 p-4 backdrop-blur">
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-7xl">
           <button
             type="button"
             className="btn-primary w-full"

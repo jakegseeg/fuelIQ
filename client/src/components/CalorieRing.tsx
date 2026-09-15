@@ -32,7 +32,7 @@ export function CalorieRing({ consumed, target, burned = 0, size = 200, strokeWi
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className={`text-4xl font-extrabold leading-none text-ink-900 ${over ? 'text-coral-400' : ''}`}>
+        <span className={`display-num ${over ? 'text-coral-400' : ''}`}>
           {Math.abs(remaining).toLocaleString()}
         </span>
         <span className="mt-1 text-sm font-medium text-ink-600">

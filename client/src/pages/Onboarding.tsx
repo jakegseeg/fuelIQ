@@ -111,7 +111,7 @@ export function Onboarding() {
         />
 
         <div className="card mt-6 flex-1">
-          <h1 className="text-2xl font-extrabold tracking-tight">{step.title}</h1>
+          <h1 className="page-title">{step.title}</h1>
           <p className="mt-1 text-ink-600">{step.subtitle}</p>
 
           <div className="mt-6">

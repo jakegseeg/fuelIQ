@@ -84,7 +84,6 @@ export function WorkoutsPage() {
   return (
     <AppShell
       title={pageMeta.label}
-      maxWidth="max-w-5xl"
       actions={
         <Link to="/workouts/history" className="text-sm font-semibold text-accent-300 hover:underline">
           History
@@ -149,7 +148,7 @@ function EmptyState({
   return (
     <div className="mx-auto max-w-lg">
       <div className="card">
-        <h1 className="text-2xl font-extrabold tracking-tight">Your AI workout plan</h1>
+        <h1 className="section-header">Your AI workout plan</h1>
         <p className="mt-1 text-ink-600">
           Tell us a few preferences and we’ll build a personalized weekly plan around your goal,
           calories, and equipment.
@@ -247,7 +246,7 @@ function PlanView({
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <h2 className="text-2xl font-extrabold tracking-tight">{plan.planName}</h2>
+            <h2 className="section-header">{plan.planName}</h2>
             <span className="rounded-full chip-mint px-2 py-0.5 text-[11px] font-semibold">
               {record.source === 'claude' ? 'AI generated' : 'Smart plan'}
             </span>
@@ -275,7 +274,7 @@ function PlanView({
             <button
               key={d.day}
               onClick={() => onSelectDay(i)}
-              className={`rounded-[10px] border p-3 text-left transition ${
+              className={`rounded-lg border p-3 text-left transition ${
                 isSelected
                   ? 'state-accent'
                   : `border-ink-100 ${isRest ? 'bg-ink-50' : 'bg-surface hover:border-brand-200'}`
@@ -289,7 +288,7 @@ function PlanView({
                 {d.day.slice(0, 3)}
               </p>
               <span
-                className={`mt-1 inline-flex items-center gap-1 rounded-[10px] px-1.5 py-0.5 text-xs font-bold ${
+                className={`mt-1 inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs font-bold ${
                   isSelected ? 'bg-accent-400/10 text-accent-500' : style.color
                 }`}
               >
@@ -318,7 +317,7 @@ function PlanView({
           )}
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="text-lg font-bold">
+              <h2 className="section-header">
                 {day.day} — {day.focus}
               </h2>
               {day.exercises.length > 0 && (
@@ -361,7 +360,7 @@ function PlanView({
               {day.cardioFinisher && (
                 <p className="mb-3 text-sm text-emerald-700">{day.cardioFinisher}</p>
               )}
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {displayExercises.map((ex, i) => (
                   <ExerciseCard
                     key={`${ex.name}-${i}`}
@@ -386,11 +385,11 @@ function PlanView({
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="card">
-          <h3 className="font-bold">Nutrition notes</h3>
+          <h3 className="section-header">Nutrition notes</h3>
           <p className="mt-2 text-sm text-ink-600">{plan.nutritionNotes}</p>
         </div>
         <div className="card">
-          <h3 className="font-bold">Progression tips</h3>
+          <h3 className="section-header">Progression tips</h3>
           <p className="mt-2 text-sm text-ink-600">{plan.progressionTips}</p>
         </div>
       </div>

@@ -16,7 +16,7 @@ export function AIInsightCard({ content, source, title = "Today's insight" }: Pr
       />
       <div className="flex items-center gap-2">
         <Lightbulb size={20} aria-hidden />
-        <h3 className="font-display font-bold">{title}</h3>
+        <h3 className="font-semibold">{title}</h3>
         {source === 'claude' && (
           <span className="rounded-full chip-mint px-2 py-0.5 text-[10px] font-semibold">
             AI

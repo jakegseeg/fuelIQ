@@ -52,7 +52,7 @@ export function SupplementTracker() {
 
   return (
     <section className="card">
-      <h2 className="font-display text-lg font-bold">Supplements</h2>
+      <h2 className="section-header">Supplements</h2>
       <p className="mt-1 text-sm text-ink-600">Track daily vitamins, creatine, protein powder, and more (spec 7.5).</p>
 
       <div className="mt-4 space-y-2">
@@ -68,7 +68,7 @@ export function SupplementTracker() {
                 type="button"
                 disabled={busy}
                 onClick={() => toggle(s.id, s.loggedToday)}
-                className={`flex h-9 w-9 flex-none items-center justify-center rounded-[10px] text-lg transition ${
+                className={`flex h-9 w-9 flex-none items-center justify-center rounded-md text-lg transition ${
                   s.loggedToday
                     ? 'bg-accent-500 text-white'
                     : 'bg-ink-200 text-ink-600 hover:bg-accent-400/10'

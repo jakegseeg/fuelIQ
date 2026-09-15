@@ -18,9 +18,14 @@ export function AppShell({ title, subtitle, actions, children, maxWidth = 'max-w
     <div className="min-h-screen bg-bg lg:pl-64">
       <Sidebar />
       <TopBar title={title} subtitle={subtitle} actions={actions} />
-      <main className={`mx-auto ${maxWidth} animate-page-in px-4 pb-28 pt-4 lg:px-8 lg:pb-12 lg:pt-6`}>
-        {title && <h1 className="mb-5 text-[34px] font-bold leading-tight tracking-tight text-ink-900 lg:hidden">{title}</h1>}
-        {children}
+      <main className={`mx-auto ${maxWidth} animate-page-in px-6 py-6 pb-28 lg:pb-12`}>
+        {title && (
+          <header className="lg:hidden">
+            <h1 className="page-title">{title}</h1>
+            {subtitle && <p className="page-subtitle mt-1">{subtitle}</p>}
+          </header>
+        )}
+        <div className={title ? 'mt-6 space-y-6' : 'space-y-6'}>{children}</div>
       </main>
       <BottomNav />
     </div>
