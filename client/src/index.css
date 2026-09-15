@@ -63,8 +63,10 @@ button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
   .btn-pill {
     @apply inline-flex items-center justify-center rounded-full bg-[#F2EBE0] px-3 py-1.5 text-xs font-medium text-[#4A3028] transition hover:bg-[#FAF5EE] disabled:cursor-not-allowed disabled:opacity-50;
   }
-  /* Legacy alias — use btn-primary in new code. */
-  .btn-primary { @apply btn-primary; }
+  /* Legacy alias — duplicate styles to avoid @apply circular refs. */
+  .btn-accent {
+    @apply btn rounded-[10px] px-5 py-3 text-sm font-semibold bg-accent-500 text-white hover:bg-accent-600 active:scale-[0.98];
+  }
   .field-label { @apply mb-1.5 block text-[15px] font-normal text-ink-600; }
   .field-input { @apply min-h-11 w-full rounded-xl border-0 bg-surface2 px-3.5 py-2 text-[17px] text-ink-900 outline-none ring-1 ring-inset ring-ink-200 transition placeholder:text-ink-400 focus:ring-2 focus:ring-inset focus:ring-accent-500; }
   .surface-card { @apply overflow-hidden rounded-card border border-line-card bg-surface shadow-card; }
