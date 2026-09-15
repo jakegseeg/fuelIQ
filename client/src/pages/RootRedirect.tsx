@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { api, auth } from '../lib/api';
 import { Spinner } from '../components/Spinner';
 
-/** Authenticated home: dashboard if onboarded, otherwise onboarding wizard. */
+/** Public home: login for visitors, dashboard for returning users with a saved profile. */
 export function RootRedirect() {
   const [target, setTarget] = useState<string | null>(null);
 
@@ -12,10 +12,24 @@ export function RootRedirect() {
       setTarget('/login');
       return;
     }
+    if (auth.isGuest) {
+      setTarget('/dashboard');
+      return;
+    }
     api
       .getProfile()
-      .then((p) => setTarget(p ? '/dashboard' : '/onboarding'))
-      .catch(() => setTarget('/onboarding'));
+      .then((p) => {
+        if (p) {
+          setTarget('/dashboard');
+          return;
+        }
+        auth.set(null);
+        setTarget('/login');
+      })
+      .catch(() => {
+        auth.set(null);
+        setTarget('/login');
+      });
   }, []);
 
   if (!target) {

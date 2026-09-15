@@ -25,11 +25,7 @@ const router = createBrowserRouter([
   { path: '/', element: <RootRedirect /> },
   {
     path: '/login',
-    element: (
-      <GuestOnly>
-        <LoginPage />
-      </GuestOnly>
-    ),
+    element: <LoginPage />,
   },
   {
     path: '/signup',
