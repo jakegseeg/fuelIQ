@@ -176,7 +176,7 @@ function WorkoutSubCard({
       <SubCard title="Today's Workout">
         <p className="text-xs text-ink-600">
           No plan yet —{' '}
-          <Link to="/workouts" className="font-semibold text-accent-300 hover:underline">
+          <Link to="/workouts" className="font-semibold text-accent-500 hover:underline">
             Generate workout plan
           </Link>
         </p>

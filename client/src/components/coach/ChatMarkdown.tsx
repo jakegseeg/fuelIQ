@@ -50,7 +50,7 @@ function Inline({ text }: { text: string }) {
         }
         if (b.startsWith('`') && b.endsWith('`')) {
           return (
-            <code key={i} className="rounded bg-surface2 px-1 py-0.5 font-mono text-[0.9em] text-accent-300">
+            <code key={i} className="rounded bg-surface2 px-1 py-0.5 font-mono text-[0.9em] text-accent-500">
               {b.slice(1, -1)}
             </code>
           );

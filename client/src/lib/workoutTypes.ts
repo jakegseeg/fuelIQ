@@ -178,14 +178,14 @@ export const FOCUS_STYLES: { test: RegExp; color: string }[] = [
   { test: /pull/i, color: 'bg-blue-100 text-blue-700' },
   { test: /leg|lower/i, color: 'bg-amber-100 text-amber-700' },
   { test: /upper/i, color: 'bg-violet-100 text-violet-700' },
-  { test: /cardio|run|hiit/i, color: 'bg-emerald-100 text-emerald-700' },
+  { test: /cardio|run|hiit/i, color: 'bg-accent-50 text-accent-600' },
   { test: /core|mobility|yoga/i, color: 'bg-teal-100 text-teal-700' },
 ];
 
 export function focusStyle(focus: string): { color: string } {
   return (
     FOCUS_STYLES.find((s) => s.test.test(focus)) ?? {
-      color: 'bg-accent-100 text-accent-600',
+      color: 'bg-accent-50 text-accent-600',
     }
   );
 }

@@ -2,31 +2,11 @@ import { useState } from 'react';
 import { Modal } from '../Modal';
 import type { FuelRating, FuelScore } from '../../lib/foodTypes';
 
-const STYLES: Record<FuelRating, { label: string; text: string; bg: string; dot: string }> = {
-  excellent: {
-    label: 'Excellent',
-    text: 'text-accent-600',
-    bg: 'bg-accent-100 ring-accent-400/30',
-    dot: 'bg-accent-400',
-  },
-  good: {
-    label: 'Good',
-    text: 'text-accent-500',
-    bg: 'bg-accent-50 ring-accent-200/40',
-    dot: 'bg-accent-200',
-  },
-  fair: {
-    label: 'Fair',
-    text: 'text-amber-600',
-    bg: 'bg-amber-100 ring-amber-400/30',
-    dot: 'bg-amber-400',
-  },
-  poor: {
-    label: 'Poor',
-    text: 'text-coral-500',
-    bg: 'bg-coral-100 ring-coral-400/30',
-    dot: 'bg-coral-400',
-  },
+const STYLES: Record<FuelRating, { label: string; bg: string }> = {
+  excellent: { label: 'Excellent', bg: 'bg-accent-400 text-white' },
+  good: { label: 'Good', bg: 'bg-warning text-white' },
+  fair: { label: 'Fair', bg: 'bg-warning text-white' },
+  poor: { label: 'Poor', bg: 'bg-error text-white' },
 };
 
 interface Props {
@@ -43,12 +23,11 @@ export function FuelScoreBadge({ score, size = 'sm', interactive = true }: Props
 
   const badge = (
     <span
-      className={`inline-flex items-center gap-1 rounded-full ring-1 ${pad} ${s.bg} ${s.text}`}
+      className={`inline-flex items-center gap-1 rounded-full ${pad} ${s.bg}`}
       title={`FuelScore ${score.score}/10 — ${s.label}`}
     >
-      <span className={`inline-block h-1.5 w-1.5 rounded-full ${s.dot}`} />
       {score.score.toFixed(1)}
-      <span className="font-semibold opacity-80">{s.label}</span>
+      <span className="font-semibold opacity-90">{s.label}</span>
     </span>
   );
 
@@ -60,7 +39,9 @@ export function FuelScoreBadge({ score, size = 'sm', interactive = true }: Props
         {badge}
       </button>
       <Modal open={open} onClose={() => setOpen(false)} title={`FuelScore ${score.score.toFixed(1)} / 10`}>
-        <p className={`mb-3 text-sm font-semibold ${s.text}`}>{s.label} quality</p>
+        <p className={`mb-3 inline-flex rounded-full px-2.5 py-0.5 text-sm font-semibold ${s.bg}`}>
+          {s.label} quality
+        </p>
         <ul className="space-y-2">
           {score.components.map((c) => (
             <li key={c.key} className="flex items-center justify-between gap-3 text-sm">

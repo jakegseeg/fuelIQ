@@ -2,7 +2,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { isWorkoutSubLinkActive, WORKOUT_SUB_LINKS } from './navLinks';
 
 const SUB_ACTIVE =
-  'border-l-[3px] border-[#1A6B38] py-1.5 pl-2 pr-3 text-sm font-medium text-ink-900';
+  'border-l-[3px] border-accent-400 py-1.5 pl-2 pr-3 text-sm font-medium text-ink-900';
 const SUB_INACTIVE =
   'border-l-[3px] border-transparent py-1.5 pl-2 pr-3 text-sm font-normal text-ink-600 hover:bg-ink-50 hover:text-ink-900';
 

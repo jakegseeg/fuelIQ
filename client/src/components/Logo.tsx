@@ -8,7 +8,7 @@ interface LogoProps {
 }
 
 export function Logo({ className = '', iconSize = 36, variant = 'light' }: LogoProps) {
-  const textColor = variant === 'dark' ? 'text-white' : 'text-accent-500';
+  const textColor = variant === 'dark' ? 'text-white' : 'text-ink-900';
 
   return (
     <div className={`flex items-center gap-2 bg-transparent ${className}`}>

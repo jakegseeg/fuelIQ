@@ -104,7 +104,7 @@ export function CustomizeScheduleModal({ open, onClose, initial, onSaved }: Prop
       </div>
 
       {error && (
-        <p className="mt-3 text-sm font-medium text-coral-300">{error}</p>
+        <p className="mt-3 text-sm font-medium text-error">{error}</p>
       )}
 
       <div className="mt-5 flex gap-3">

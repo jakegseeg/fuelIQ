@@ -252,7 +252,7 @@ export function LogCardioWorkout({ onBack }: Props) {
               className={`flex-none rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                 activity === a
                   ? 'bg-accent-500 text-white'
-                  : 'border border-ink-200 bg-surface text-ink-700 hover:border-accent-300'
+                  : 'border border-ink-200 bg-surface text-ink-700 hover:border-accent-400'
               }`}
             >
               {a}

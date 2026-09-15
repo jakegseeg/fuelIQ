@@ -29,7 +29,7 @@ export function LogWorkoutPanel() {
         <button
           type="button"
           onClick={() => setMode('strength')}
-          className="card-item flex min-h-[140px] flex-col items-start gap-3 border border-line-card bg-surface p-4 text-left transition hover:border-accent-300 hover:shadow-mid"
+          className="card-item flex min-h-[140px] flex-col items-start gap-3 border border-line-card bg-surface p-4 text-left transition hover:border-accent-400 hover:shadow-mid"
         >
           <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-accent-100 text-accent-600">
             <Dumbbell size={24} aria-hidden />
@@ -45,9 +45,9 @@ export function LogWorkoutPanel() {
         <button
           type="button"
           onClick={() => setMode('cardio')}
-          className="card-item flex min-h-[140px] flex-col items-start gap-3 border border-line-card bg-surface p-4 text-left transition hover:border-accent-300 hover:shadow-mid"
+          className="card-item flex min-h-[140px] flex-col items-start gap-3 border border-line-card bg-surface p-4 text-left transition hover:border-accent-400 hover:shadow-mid"
         >
-          <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-100 text-emerald-700">
+          <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-sky-400/15 text-sky-500">
             <HeartPulse size={24} aria-hidden />
           </span>
           <div>

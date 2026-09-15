@@ -57,8 +57,8 @@ export function LoggingStreakCard({ className = '', refreshKey = 0 }: Props) {
                 <span
                   title={`${d.day}${d.logged ? ' — logged' : ''}`}
                   className={`block h-2.5 w-2.5 rounded-full ${
-                    d.logged ? 'bg-accent-500' : 'bg-line-card'
-                  } ${d.isToday ? 'ring-2 ring-accent-500 ring-offset-2 ring-offset-surface' : ''}`}
+                    d.logged ? 'bg-accent-400' : 'bg-line-streak'
+                  } ${d.isToday ? 'ring-2 ring-accent-400 ring-offset-2 ring-offset-surface' : ''}`}
                 />
               </div>
             ))}

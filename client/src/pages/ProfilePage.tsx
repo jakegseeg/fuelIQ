@@ -114,7 +114,7 @@ export function ProfilePage() {
           <button
             type="button"
             onClick={() => void logout()}
-            className="text-sm font-semibold text-ink-600 hover:text-coral-300 lg:hidden"
+            className="text-sm font-semibold text-ink-600 hover:text-error lg:hidden"
           >
             Log out
           </button>

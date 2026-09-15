@@ -90,7 +90,7 @@ export function MySplitSetup({ initial, onGenerated }: Props) {
               className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                 preset === p.id
                   ? 'bg-accent-500 text-white'
-                  : 'border border-ink-200 bg-surface text-ink-700 hover:border-accent-300'
+                  : 'border border-ink-200 bg-surface text-ink-700 hover:border-accent-400'
               }`}
             >
               {p.label}
@@ -107,7 +107,7 @@ export function MySplitSetup({ initial, onGenerated }: Props) {
               key={day.day}
               type="button"
               onClick={() => openDay(i)}
-              className="card-item rounded-lg border border-ink-200 bg-surface p-3 text-left transition hover:border-accent-300"
+              className="card-item rounded-lg border border-ink-200 bg-surface p-3 text-left transition hover:border-accent-400"
             >
               <p className="text-[11px] font-semibold uppercase tracking-wide text-ink-600">
                 {day.day.slice(0, 3)}
@@ -231,7 +231,7 @@ function DayMuscleSelector({
                       className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                         selected
                           ? 'bg-accent-500 text-white'
-                          : 'border border-ink-200 bg-surface text-ink-700 hover:border-accent-300'
+                          : 'border border-ink-200 bg-surface text-ink-700 hover:border-accent-400'
                       }`}
                     >
                       {group}

@@ -145,7 +145,7 @@ export function CoachPage() {
               type="button"
               disabled={streaming}
               onClick={() => send(p)}
-              className="flex-none rounded-full border border-ink-200 bg-surface2 px-3 py-1 text-xs font-semibold text-ink-600 transition hover:border-accent-400/40 hover:text-accent-300 disabled:opacity-50"
+              className="flex-none rounded-full border border-ink-200 bg-surface2 px-3 py-1 text-xs font-semibold text-ink-600 transition hover:border-accent-400/40 hover:text-accent-500 disabled:opacity-50"
             >
               {p}
             </button>
@@ -256,7 +256,7 @@ function Bubble({ message, isStreaming }: { message: ChatMessage; isStreaming?: 
       {!isUser && <CoachAvatar size="sm" />}
       <div className={`max-w-[85%] ${isUser ? '' : 'min-w-0'}`}>
         {!isUser && (
-          <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-accent-300">
+          <p className="mb-1 text-[11px] font-bold uppercase tracking-wide text-accent-500">
             Coach
           </p>
         )}

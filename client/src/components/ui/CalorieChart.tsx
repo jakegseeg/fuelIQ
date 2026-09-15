@@ -17,17 +17,17 @@ export interface CalorieChartDay {
 }
 
 const FILL: Record<CalorieChartDay['status'], string> = {
-  green: '#1E7A40',
-  yellow: '#D4882A',
-  red: '#C85A3A',
-  empty: '#D4C4B0',
+  green: '#30D158',
+  yellow: '#FF9F0A',
+  red: '#FF453A',
+  empty: '#E5E5EA',
 };
 
 const TOOLTIP_STYLE = {
-  background: '#FAF5EE',
-  border: '1px solid #D4C4B0',
+  background: '#FFFFFF',
+  border: '1px solid #E5E5EA',
   borderRadius: 12,
-  color: '#2C1810',
+  color: '#1C1C1E',
   fontSize: 12,
   boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
 };
@@ -42,16 +42,16 @@ export function CalorieChart({ data, target }: Props) {
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -16 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="#D4C4B0" vertical={false} />
-        <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#7A5C4A' }} stroke="#D4C4B0" />
-        <YAxis tick={{ fontSize: 11, fill: '#7A5C4A' }} stroke="#D4C4B0" />
-        <Tooltip contentStyle={TOOLTIP_STYLE} cursor={{ fill: '#F2EBE0' }} />
+        <CartesianGrid strokeDasharray="3 3" stroke="#E5E5EA" vertical={false} />
+        <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#8E8E93' }} stroke="#E5E5EA" />
+        <YAxis tick={{ fontSize: 11, fill: '#8E8E93' }} stroke="#E5E5EA" />
+        <Tooltip contentStyle={TOOLTIP_STYLE} cursor={{ fill: '#F2F2F7' }} />
         {target > 0 && (
           <ReferenceLine
             y={target}
-            stroke="#7A5C4A"
+            stroke="#8E8E93"
             strokeDasharray="6 4"
-            label={{ value: 'Target', position: 'right', fontSize: 11, fill: '#7A5C4A' }}
+            label={{ value: 'Target', position: 'right', fontSize: 11, fill: '#8E8E93' }}
           />
         )}
         <Bar dataKey="calories" radius={[4, 4, 0, 0]}>

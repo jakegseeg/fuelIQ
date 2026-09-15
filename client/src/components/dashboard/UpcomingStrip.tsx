@@ -301,7 +301,7 @@ function MealDetailModal({
   return (
     <Modal open={open} onClose={onClose} title={detail.name} maxWidth="max-w-sm">
       <div className="space-y-4">
-        <p className="text-sm font-semibold text-accent-300">{slotLabel}</p>
+        <p className="text-sm font-semibold text-accent-500">{slotLabel}</p>
 
         <div>
           <p className="text-xs font-bold uppercase tracking-wide text-ink-600">Per serving</p>
@@ -332,7 +332,7 @@ function MealDetailModal({
           )}
         </div>
 
-        {error && <p className="text-sm text-coral-300">{error}</p>}
+        {error && <p className="text-sm text-error">{error}</p>}
 
         <button
           type="button"

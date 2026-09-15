@@ -23,14 +23,14 @@ import { kgToLbs, lbsToKg } from '../lib/units';
 import type { Profile } from '../lib/types';
 import type { ProgressSummary, WeightRange, WeightSeriesResponse } from '../lib/progressTypes';
 
-const MACRO_FILL = { protein: '#1E7A40', carbs: '#D4882A', fat: '#C85A3A' };
-const AXIS = '#7A5C4A';
-const GRID = '#D4C4B0';
+const MACRO_FILL = { protein: '#30D158', carbs: '#FF9F0A', fat: '#FF453A' };
+const AXIS = '#8E8E93';
+const GRID = '#E5E5EA';
 const TOOLTIP_STYLE = {
-  background: '#FAF5EE',
-  border: '1px solid #D4C4B0',
+  background: '#FFFFFF',
+  border: '1px solid #E5E5EA',
   borderRadius: 12,
-  color: '#2C1810',
+  color: '#1C1C1E',
   fontSize: 12,
   boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
 };
@@ -320,7 +320,7 @@ function FuelScoreSection({ summary }: { summary: ProgressSummary }) {
     <section className="card">
       <h2 className="section-header">FuelScore trend</h2>
       {imp != null && imp !== 0 ? (
-        <p className={`text-sm font-semibold ${imp > 0 ? 'text-accent-300' : 'text-coral-300'}`}>
+        <p className={`text-sm font-semibold ${imp > 0 ? 'text-accent-500' : 'text-error'}`}>
           Your food quality has {imp > 0 ? 'improved' : 'dropped'} {Math.abs(imp)}% over this period.
         </p>
       ) : (
@@ -336,7 +336,7 @@ function FuelScoreSection({ summary }: { summary: ProgressSummary }) {
               <XAxis dataKey="date" tick={{ fontSize: 11, fill: AXIS }} stroke={GRID} />
               <YAxis domain={[0, 10]} tick={{ fontSize: 11, fill: AXIS }} stroke={GRID} />
               <Tooltip contentStyle={TOOLTIP_STYLE} />
-              <Line type="monotone" dataKey="avg" name="Avg FuelScore" stroke="#1E7A40" strokeWidth={2} dot={{ r: 2 }} />
+              <Line type="monotone" dataKey="avg" name="Avg FuelScore" stroke="#30D158" strokeWidth={2} dot={{ r: 2 }} />
             </LineChart>
           </ResponsiveContainer>
         )}
@@ -367,7 +367,7 @@ function WorkoutVolumeSection({ summary }: { summary: ProgressSummary }) {
                   <XAxis type="number" tick={{ fontSize: 11, fill: AXIS }} stroke={GRID} />
                   <YAxis type="category" dataKey="muscle" tick={{ fontSize: 11, fill: AXIS }} width={80} stroke={GRID} />
                   <Tooltip contentStyle={TOOLTIP_STYLE} cursor={{ fill: '#ffffff08' }} />
-                  <Bar dataKey="volume" fill="#1E7A40" radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="volume" fill="#30D158" radius={[0, 4, 4, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -385,7 +385,7 @@ function WorkoutVolumeSection({ summary }: { summary: ProgressSummary }) {
                   <XAxis dataKey="week" tick={{ fontSize: 11, fill: AXIS }} stroke={GRID} />
                   <YAxis tick={{ fontSize: 11, fill: AXIS }} stroke={GRID} />
                   <Tooltip contentStyle={TOOLTIP_STYLE} cursor={{ fill: '#ffffff08' }} />
-                  <Bar dataKey="minutes" fill="#1E7A40" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="minutes" fill="#30D158" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             )}

@@ -12,7 +12,7 @@ export function AIInsightCard({ content, source, title = "Today's insight" }: Pr
     <div className="card card-hover relative overflow-hidden">
       <div
         className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full opacity-20 blur-2xl"
-        style={{ background: '#D4F0E0' }}
+        style={{ background: '#D1FFE1' }}
       />
       <div className="flex items-center gap-2">
         <Lightbulb size={20} aria-hidden />

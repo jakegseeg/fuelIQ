@@ -69,7 +69,7 @@ export function LogPage() {
       </button>
       <button
         onClick={() => setDate(todayISO())}
-        className="ml-1 rounded-lg px-2 py-1 text-sm font-semibold text-accent-300 hover:bg-accent-400/10"
+        className="ml-1 rounded-lg px-2 py-1 text-sm font-semibold text-accent-500 hover:bg-accent-400/10"
       >
         Today
       </button>
@@ -176,7 +176,7 @@ function DailySummaryCard({ day }: { day: DaySummary }) {
         ) : (
           <p>
             Net calories: {totals.calories.toLocaleString()} kcal —{' '}
-            <Link to="/workouts" className="font-semibold text-accent-300">
+            <Link to="/workouts" className="font-semibold text-accent-500">
               log a workout
             </Link>{' '}
             to bank more.

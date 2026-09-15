@@ -154,9 +154,9 @@ const MUSCLE_FALLBACKS: Record<string, ExerciseAlternative[]> = {
 };
 
 const DIFFICULTY_STYLE: Record<ExerciseDifficulty, string> = {
-  Beginner: 'bg-accent-100 text-accent-600 ring-accent-400/30',
-  Intermediate: 'bg-amber-400/20 text-amber-300 ring-amber-400/30',
-  Advanced: 'bg-coral-100 text-coral-500 ring-coral-400/30',
+  Beginner: 'bg-accent-50 text-accent-600 ring-accent-400/30',
+  Intermediate: 'bg-amber-100 text-amber-500 ring-amber-400/30',
+  Advanced: 'bg-coral-100 text-error ring-coral-400/30',
 };
 
 export function difficultyClass(d: ExerciseDifficulty): string {

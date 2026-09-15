@@ -245,7 +245,7 @@ function SetupForm({
           Dinner
         </div>
 
-        {error && <p className="text-sm text-coral-300">{error}</p>}
+        {error && <p className="text-sm text-error">{error}</p>}
 
         <button type="submit" disabled={generating} className="btn-primary w-full">
           {generating ? 'Generating…' : 'Generate my grocery plan'}
@@ -302,7 +302,7 @@ function PantrySection({
               {items.map((item) => (
                 <span
                   key={item}
-                  className="inline-flex items-center gap-1 rounded-full bg-accent-400/12 px-2.5 py-1 text-xs font-semibold text-accent-300 ring-1 ring-accent-400/25"
+                  className="inline-flex items-center gap-1 rounded-full bg-accent-400/12 px-2.5 py-1 text-xs font-semibold text-accent-500 ring-1 ring-accent-400/25"
                 >
                   {pantryDisplayLabel(item)}
                   <button
@@ -400,7 +400,7 @@ function TabButton({
       onClick={onClick}
       className={`rounded-md px-4 py-2 text-sm font-semibold transition ${
         active
-          ? 'bg-accent-400/12 text-accent-300 ring-1 ring-accent-400/30'
+          ? 'bg-accent-400/12 text-accent-500 ring-1 ring-accent-400/30'
           : 'text-ink-600 hover:bg-surface2 hover:text-ink-800'
       }`}
     >
@@ -647,7 +647,7 @@ function SwapMealModal({
           </ul>
         )}
 
-        {error && <p className="text-sm text-coral-300">{error}</p>}
+        {error && <p className="text-sm text-error">{error}</p>}
 
         <button type="button" onClick={onClose} className="btn-ghost w-full">
           Keep original
@@ -719,7 +719,7 @@ function PlanMealModal({
           />
         )}
 
-        <p className="text-sm font-semibold text-accent-300">
+        <p className="text-sm font-semibold text-accent-500">
           {day} {slotLabel}
         </p>
 
@@ -780,7 +780,7 @@ function PlanMealModal({
           )}
         </div>
 
-        {error && <p className="text-sm text-coral-300">{error}</p>}
+        {error && <p className="text-sm text-error">{error}</p>}
 
         <button
           type="button"
@@ -838,12 +838,12 @@ function GroceryListTab({ plan }: { plan: GroceryPlanRecord }) {
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="font-semibold text-ink-900">Estimated total</p>
-          <p className={`text-xl font-semibold tabular-nums text-ink-900'text-accent-300' : 'text-coral-300'}`}>
+          <p className={`text-xl font-semibold tabular-nums ${underBudget ? 'text-accent-500' : 'text-error'}`}>
             ${plan.totalCost.toFixed(2)}
             <span className="text-sm font-semibold text-ink-600"> / ${plan.budget.toFixed(0)} budget</span>
           </p>
         </div>
-        <p className={`mt-1 text-sm ${underBudget ? 'text-accent-400/90' : 'text-coral-300'}`}>
+        <p className={`mt-1 text-sm ${underBudget ? 'text-accent-400/90' : 'text-error'}`}>
           {underBudget ? 'Within your weekly budget' : 'Over budget — regenerate with a higher budget or review swaps'}
         </p>
       </div>

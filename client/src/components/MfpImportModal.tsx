@@ -59,7 +59,7 @@ export function MfpImportModal({ open, onClose, onImported }: Props) {
           <p className="font-semibold text-ink-900">Import summary</p>
           <ul className="mt-2 space-y-1 text-ink-600">
             <li>
-              <span className="font-bold text-accent-300">{result.imported}</span> entries imported
+              <span className="font-bold text-accent-500">{result.imported}</span> entries imported
             </li>
             <li>{result.skipped} rows skipped</li>
             {result.dateRange.from && (

@@ -27,13 +27,13 @@ export function MacroRing({
     <div className="flex flex-col items-center gap-1">
       <div className="relative" style={{ width: size, height: size }}>
         <svg width={size} height={size} className="-rotate-90">
-          <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#D4C4B0" strokeWidth={strokeWidth} />
+          <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#E5E5EA" strokeWidth={strokeWidth} />
           <circle
             cx={size / 2}
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke={over ? '#C85A3A' : color}
+            stroke={over ? '#FF453A' : color}
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeDasharray={`${pct * circ} ${circ}`}

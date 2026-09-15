@@ -213,8 +213,8 @@ function MealPill({
         large ? 'gap-1.5 p-4' : 'gap-0.5 p-2'
       } ${
         summary.logged
-          ? 'border-2 border-accent-500 bg-accent-100'
-          : 'border border-ink-200 bg-surface hover:bg-ink-50'
+          ? 'border-2 border-accent-400 bg-[#F0FFF4]'
+          : 'border border-line-card bg-surface hover:bg-surface2'
       }`}
     >
       <span className={`font-semibold text-ink-700 ${large ? 'text-sm' : 'text-xs'}`}>
@@ -222,7 +222,7 @@ function MealPill({
       </span>
       {summary.logged ? (
         <>
-          <span className={`text-accent-500 ${large ? 'text-lg' : 'text-sm'}`}>
+          <span className={`text-accent-400 ${large ? 'text-lg' : 'text-sm'}`}>
             <Check size={14} aria-hidden />
           </span>
           <span

@@ -251,7 +251,7 @@ function ActiveSession({ payload, onExit }: { payload: ActivePayload; onExit: ()
             {ex.muscleGroups.map((mg) => (
               <span
                 key={mg}
-                className="rounded-md bg-surface2 px-2 py-0.5 text-[11px] font-semibold text-accent-300 ring-1 ring-accent-400/25"
+                className="rounded-md bg-surface2 px-2 py-0.5 text-[11px] font-semibold text-accent-500 ring-1 ring-accent-400/25"
               >
                 {mg}
               </span>
@@ -284,7 +284,7 @@ function ActiveSession({ payload, onExit }: { payload: ActivePayload; onExit: ()
                 }`}
               >
                 <span
-                  className={`w-12 text-sm font-bold ${s.done ? 'text-accent-300' : 'text-ink-700'}`}
+                  className={`w-12 text-sm font-bold ${s.done ? 'text-accent-500' : 'text-ink-700'}`}
                 >
                   Set {i + 1}
                 </span>
@@ -356,7 +356,7 @@ function ActiveSession({ payload, onExit }: { payload: ActivePayload; onExit: ()
         <button
           onClick={finish}
           disabled={finishing}
-          className="mt-3 text-center text-sm font-semibold text-ink-600 transition hover:text-accent-300 disabled:opacity-50"
+          className="mt-3 text-center text-sm font-semibold text-ink-600 transition hover:text-accent-500 disabled:opacity-50"
         >
           Finish early ({totalSetsDone} sets done)
         </button>

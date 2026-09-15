@@ -19,9 +19,8 @@ export function FuelScoreBadge({ score, size = 'sm', interactive = true }: Badge
       className={`inline-flex items-center gap-1 rounded-full ${pad} ${style.badge}`}
       title={`FuelScore ${score.score}/10 — ${style.label}`}
     >
-      <span className={`inline-block h-1.5 w-1.5 rounded-full ${style.dot}`} />
       {score.score.toFixed(1)}
-      <span className="font-semibold opacity-80">{style.label}</span>
+      <span className="font-semibold opacity-90">{style.label}</span>
     </span>
   );
 
@@ -73,7 +72,7 @@ function FuelScoreDrawer({
             </div>
             <div className="h-2 w-full overflow-hidden rounded-full bg-ink-100">
               <div
-                className={`h-full rounded-full ${c.score == null ? 'bg-ink-200' : 'bg-accent-200'}`}
+                className={`h-full rounded-full ${c.score == null ? 'bg-ink-200' : 'bg-accent-400'}`}
                 style={{ width: `${((c.score ?? 0) / 10) * 100}%` }}
               />
             </div>

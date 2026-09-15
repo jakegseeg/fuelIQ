@@ -195,7 +195,7 @@ function SuggestedMealCard({
           <Zap size={16} />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="text-[10px] font-bold uppercase tracking-wide text-accent-300">
+          <p className="text-[10px] font-bold uppercase tracking-wide text-accent-500">
             Suggested for today
           </p>
           <p className="mt-1 font-semibold text-ink-900">{suggestion.name}</p>
@@ -208,7 +208,7 @@ function SuggestedMealCard({
           </p>
         </div>
       </div>
-      {error && <p className="mt-2 text-xs text-coral-300">{error}</p>}
+      {error && <p className="mt-2 text-xs text-error">{error}</p>}
       <button
         type="button"
         onClick={onLog}
@@ -377,7 +377,7 @@ function SearchTab({
             <Spinner label="Searching foods…" />
           </div>
         )}
-        {error && <p className="text-sm font-medium text-coral-300">{error}</p>}
+        {error && <p className="text-sm font-medium text-error">{error}</p>}
 
         {noResults && !showManual && (
           <div className="rounded-xl border border-dashed border-ink-200 bg-surface2 p-4">
@@ -420,7 +420,7 @@ function SearchTab({
             Not what you need?{' '}
             <button
               type="button"
-              className="font-semibold text-accent-300 hover:underline"
+              className="font-semibold text-accent-500 hover:underline"
               onClick={() => setShowManual(true)}
             >
               Add it manually
@@ -444,7 +444,7 @@ function ResultSection({
   return (
     <div>
       <div className="mb-2">
-        <h3 className="text-xs font-bold uppercase tracking-wide text-accent-300">{title}</h3>
+        <h3 className="text-xs font-bold uppercase tracking-wide text-accent-500">{title}</h3>
         {subtitle && <p className="text-[11px] text-ink-600">{subtitle}</p>}
       </div>
       <div className="space-y-2">{children}</div>
@@ -666,7 +666,7 @@ function BarcodeView({
 
   return (
     <div>
-      <button onClick={onBack} className="mb-3 text-sm font-semibold text-accent-300">
+      <button onClick={onBack} className="mb-3 text-sm font-semibold text-accent-500">
         ← Back to search
       </button>
       <BarcodeScanner onDetected={onDetected} onError={(m) => setMsg(m)} />

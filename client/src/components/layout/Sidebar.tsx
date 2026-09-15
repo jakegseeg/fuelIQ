@@ -10,6 +10,11 @@ import {
 } from './navLinks';
 import { WorkoutsNavSubmenu } from './WorkoutsNav';
 
+const NAV_ACTIVE =
+  'border-l-[3px] border-accent-400 bg-surface2 pl-[9px] text-ink-900';
+const NAV_INACTIVE =
+  'border-l-[3px] border-transparent pl-3 text-ink-700 hover:bg-surface2 hover:text-ink-900';
+
 /** Desktop sidebar (>= lg). Hidden on mobile/tablet where BottomNav is used. */
 export function Sidebar() {
   const navigate = useNavigate();
@@ -37,8 +42,8 @@ export function Sidebar() {
   const workoutsParentActive = onWorkoutRoute;
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-line-sidebar glass px-3 py-5 lg:flex">
-      <div className="bg-transparent px-2">
+    <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-line-sidebar bg-surface px-3 py-5 lg:flex">
+      <div className="px-2">
         <Logo />
       </div>
       <nav className="mt-8 flex flex-1 flex-col gap-2">
@@ -47,10 +52,8 @@ export function Sidebar() {
             key={l.to}
             to={l.to}
             className={({ isActive }) =>
-              `flex min-h-11 items-center gap-3 rounded-lg px-3 text-[15px] font-medium transition ${
-                isActive
-                  ? 'bg-accent-100/35 text-accent-500'
-                  : 'text-ink-600 hover:bg-ink-100/40 hover:text-ink-900'
+              `flex min-h-11 items-center gap-3 rounded-lg pr-3 text-[15px] font-medium transition ${
+                isActive ? NAV_ACTIVE : NAV_INACTIVE
               }`
             }
           >
@@ -63,10 +66,8 @@ export function Sidebar() {
           <button
             type="button"
             onClick={toggleWorkouts}
-            className={`flex min-h-11 w-full items-center gap-3 rounded-md px-3 text-[15px] font-medium transition ${
-              workoutsParentActive
-                ? 'bg-accent-100/35 text-accent-500'
-                : 'text-ink-600 hover:bg-ink-100/40 hover:text-ink-900'
+            className={`flex min-h-11 w-full items-center gap-3 rounded-lg pr-3 text-[15px] font-medium transition ${
+              workoutsParentActive ? NAV_ACTIVE : NAV_INACTIVE
             }`}
           >
             {WORKOUTS_NAV.Icon ? (
@@ -78,7 +79,7 @@ export function Sidebar() {
               aria-hidden
               className={`flex-none transition-transform duration-150 ease-out ${
                 workoutsExpanded ? 'rotate-180' : ''
-              } ${workoutsParentActive ? 'text-white' : 'text-ink-500'}`}
+              } text-ink-500`}
             />
           </button>
           <div
@@ -95,10 +96,8 @@ export function Sidebar() {
             key={l.to}
             to={l.to}
             className={({ isActive }) =>
-              `flex min-h-11 items-center gap-3 rounded-lg px-3 text-[15px] font-medium transition ${
-                isActive
-                  ? 'bg-accent-100/35 text-accent-500'
-                  : 'text-ink-600 hover:bg-ink-100/40 hover:text-ink-900'
+              `flex min-h-11 items-center gap-3 rounded-lg pr-3 text-[15px] font-medium transition ${
+                isActive ? NAV_ACTIVE : NAV_INACTIVE
               }`
             }
           >
@@ -110,11 +109,11 @@ export function Sidebar() {
       <button
         type="button"
         onClick={() => void logout()}
-        className="mb-2 w-full rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-ink-600 transition hover:bg-ink-50 hover:text-coral-500"
+        className="mb-2 w-full rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-ink-700 transition hover:bg-surface2 hover:text-error"
       >
         Log out
       </button>
-      <p className="px-3 text-[11px] text-ink-600">iso</p>
+      <p className="px-3 text-[11px] text-ink-500">iso</p>
     </aside>
   );
 }

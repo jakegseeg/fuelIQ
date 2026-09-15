@@ -31,7 +31,7 @@ export function WaterWidget({ water, onAdd }: Props) {
           {water.totalOz} / {water.goalOz} oz
         </span>
       </div>
-      <div className="mt-3 h-3 w-full overflow-hidden rounded-full bg-sky-100">
+      <div className="mt-3 h-3 w-full overflow-hidden rounded-full bg-line-track">
         <div
           className="h-full rounded-full bg-sky-400 transition-all"
           style={{ width: `${pct}%` }}

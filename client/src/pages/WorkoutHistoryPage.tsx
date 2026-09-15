@@ -33,7 +33,7 @@ export function WorkoutHistoryPage() {
     <AppShell
       title="Workout History"
       actions={
-        <Link to="/workouts" className="text-sm font-semibold text-accent-300 hover:underline">
+        <Link to="/workouts" className="text-sm font-semibold text-accent-500 hover:underline">
           Plan
         </Link>
       }
@@ -146,7 +146,7 @@ function VolumeChart({ stats }: { stats: WorkoutStats }) {
               </div>
               <div className="h-2.5 w-full overflow-hidden rounded-full bg-ink-100">
                 <div
-                  className="h-full rounded-full bg-accent-200"
+                  className="h-full rounded-full bg-accent-400"
                   style={{ width: `${(v.volume / max) * 100}%` }}
                 />
               </div>

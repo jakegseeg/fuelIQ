@@ -18,13 +18,13 @@ export function CalorieRing({ consumed, target, burned = 0, size = 200, strokeWi
   return (
     <div className="relative" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90">
-        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#D4C4B0" strokeWidth={strokeWidth} />
+        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#E5E5EA" strokeWidth={strokeWidth} />
         <circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke={over ? '#C85A3A' : '#1E7A40'}
+          stroke={over ? '#FF453A' : '#30D158'}
           strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeDasharray={`${pct * circ} ${circ}`}

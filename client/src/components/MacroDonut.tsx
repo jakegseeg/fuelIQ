@@ -47,7 +47,7 @@ export function MacroDonut({
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke="#D4C4B0"
+            stroke="#E5E5EA"
             strokeWidth={strokeWidth}
           />
           {slices.map((slice, i) => {
@@ -117,7 +117,7 @@ export function MacroDonut({
 }
 
 export const MACRO_COLORS = {
-  protein: '#1E7A40',
-  carbs: '#D4882A',
-  fat: '#C85A3A',
+  protein: '#30D158',
+  carbs: '#FF9F0A',
+  fat: '#FF453A',
 };

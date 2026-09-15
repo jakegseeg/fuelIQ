@@ -223,7 +223,7 @@ export function LogStrengthWorkout({ onBack }: Props) {
                     className={`flex h-9 w-9 flex-none items-center justify-center rounded-md border transition ${
                       s.done
                         ? 'border-accent-400 bg-accent-500 text-white'
-                        : 'border-ink-200 text-ink-400 hover:border-accent-300'
+                        : 'border-ink-200 text-ink-400 hover:border-accent-400'
                     }`}
                     aria-label={s.done ? 'Set complete' : 'Mark set complete'}
                   >

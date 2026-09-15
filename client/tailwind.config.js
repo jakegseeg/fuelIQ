@@ -5,66 +5,87 @@ export default {
     extend: {
       screens: { md: '768px', lg: '1024px' },
       colors: {
-        bg: 'rgb(var(--ios-background) / <alpha-value>)',
-        surface: 'rgb(var(--ios-secondary-background) / <alpha-value>)',
-        surface2: 'rgb(var(--ios-tertiary-background) / <alpha-value>)',
-        section: 'rgb(var(--ios-label) / <alpha-value>)',
-        'line-card': '#E0D8CC',
-        'line-sidebar': 'rgb(var(--ios-separator) / <alpha-value>)',
-        'line-track': 'rgb(var(--ios-fill) / <alpha-value>)',
-        'line-streak': 'rgb(var(--ios-separator) / <alpha-value>)',
+        // Backgrounds — mostly neutral
+        bg: '#F2F2F7',
+        surface: '#FFFFFF',
+        surface2: '#F2F2F7',
+
+        // Section labels
+        section: '#8E8E93',
+
+        // Card borders & tracks
+        'line-card': '#E5E5EA',
+        'line-sidebar': '#E5E5EA',
+        'line-track': '#E5E5EA',
+        'line-streak': '#E5E5EA',
+
+        // Text — Apple standard
         ink: {
-          50: 'rgb(var(--ios-tertiary-background) / <alpha-value>)',
-          100: 'rgb(var(--ios-quaternary-fill) / <alpha-value>)',
-          200: 'rgb(var(--ios-separator) / <alpha-value>)',
-          300: 'rgb(var(--ios-opaque-separator) / <alpha-value>)',
-          400: 'rgb(var(--ios-tertiary-label) / <alpha-value>)',
-          500: 'rgb(var(--ios-secondary-label) / <alpha-value>)',
-          600: 'rgb(var(--ios-secondary-label) / <alpha-value>)',
-          700: 'rgb(var(--ios-label) / <alpha-value>)',
-          800: 'rgb(var(--ios-label) / <alpha-value>)',
-          900: 'rgb(var(--ios-label) / <alpha-value>)',
+          50: '#FFFFFF',
+          100: '#F2F2F7',
+          200: '#E5E5EA',
+          300: '#C7C7CC',
+          400: '#8E8E93',
+          500: '#636366',
+          600: '#636366',
+          700: '#3A3A3C',
+          800: '#1C1C1E',
+          900: '#1C1C1E',
         },
+
+        // Primary brand green — vivid
         accent: {
-          50: '#F0FBF4',
-          100: '#D4F0E0',
-          200: '#B8EDD0',
-          300: '#1A6B38',
-          400: '#1A6B38',
-          500: '#1A6B38',
-          600: '#155830',
-          700: '#155830',
+          50: '#E8FFF0',
+          100: '#D1FFE1',
+          200: '#B8F5C8',
+          300: '#30D158',
+          400: '#30D158',
+          500: '#28B14A',
+          600: '#1E8A3A',
+        },
+
+        // Macro ring colors — Apple Health Activity ring colors
+        protein: {
+          400: '#30D158',
+          500: '#28B14A',
+        },
+        carbs: {
+          400: '#FF9F0A',
+          500: '#E8900A',
+        },
+        fat: {
+          400: '#FF453A',
+          500: '#E03530',
+        },
+
+        // Water
+        sky: {
+          400: '#0A84FF',
+          500: '#0070E0',
+        },
+
+        // Semantic
+        success: '#30D158',
+        warning: '#FF9F0A',
+        error: '#FF453A',
+
+        // Legacy aliases
+        brand: {
+          400: '#30D158',
+          500: '#28B14A',
+          600: '#1E8A3A',
+        },
+        coral: {
+          100: '#FFE8E6',
+          300: '#FF453A',
+          400: '#FF453A',
+          500: '#E03530',
         },
         amber: {
-          50: '#fff8e1',
-          100: '#ffecb3',
-          200: '#ffe082',
-          300: '#ffca28',
-          400: '#ffb300',
-          500: '#ff9500',
-          600: '#c77700',
-          700: '#9a5c00',
-          900: '#633b00',
-        },
-        coral: { 100: '#ffebe8', 300: '#ff6b5e', 400: '#ff453a', 500: '#d70015' },
-        fat: { 400: '#ff453a' },
-        clay: {
-          100: 'rgb(var(--clay-wash) / <alpha-value>)',
-          400: 'rgb(var(--clay) / <alpha-value>)',
-          500: 'rgb(var(--clay-strong) / <alpha-value>)',
-        },
-        brand: {
-          200: 'rgb(var(--sage-soft) / <alpha-value>)',
-          500: 'rgb(var(--sage-ink) / <alpha-value>)',
-          600: 'rgb(var(--sage-strong) / <alpha-value>)',
-        },
-        sky: {
-          50: '#e8f5ff',
-          100: '#d9f0ff',
-          300: '#64d2ff',
-          400: '#0a84ff',
-          500: '#007aff',
-          600: '#0066d6',
+          100: '#FFF4E0',
+          300: '#FF9F0A',
+          400: '#FF9F0A',
+          500: '#E8900A',
         },
       },
       fontFamily: {
@@ -103,7 +124,7 @@ export default {
         low: '0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)',
         mid: '0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04)',
         high: '0 8px 24px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06)',
-        glow: '0 0 0 3px rgba(26,107,56,0.15)',
+        glow: '0 0 0 3px rgba(40,177,74,0.15)',
         card: '0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04)',
       },
       keyframes: {

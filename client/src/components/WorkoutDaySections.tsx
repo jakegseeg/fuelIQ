@@ -6,7 +6,7 @@ export function SessionOverviewSection({ day }: { day: DayPlan }) {
   const [open, setOpen] = useState(false);
   if (!day.sessionOverview) return null;
   return (
-    <div className="mb-4 rounded-xl border border-ink-100 bg-ink-50">
+    <div className="mb-4 rounded-xl border border-line-card bg-surface2">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -16,7 +16,7 @@ export function SessionOverviewSection({ day }: { day: DayPlan }) {
         <ChevronDown size={16} className={open ? 'rotate-180' : ''} aria-hidden />
       </button>
       {open && (
-        <p className="border-t border-ink-100 px-4 pb-3 pt-2 text-sm leading-relaxed text-ink-600">
+        <p className="border-t border-line-card px-4 pb-3 pt-2 text-sm leading-relaxed text-ink-600">
           {day.sessionOverview}
         </p>
       )}

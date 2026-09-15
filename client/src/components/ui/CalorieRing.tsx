@@ -19,12 +19,12 @@ export function CalorieRing({ consumed, target, burned = 0, size = 200, strokeWi
 
   const animatedRemaining = useAnimatedNumber(Math.abs(remaining));
   const animatedDash = useAnimatedNumber(pct * circ);
-  const stroke = over ? '#C85A3A' : '#1E7A40';
+  const stroke = over ? '#FF453A' : '#30D158';
 
   return (
     <div className="relative" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90">
-        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#D4C4B0" strokeWidth={strokeWidth} />
+        <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="#E5E5EA" strokeWidth={strokeWidth} />
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -39,7 +39,7 @@ export function CalorieRing({ consumed, target, burned = 0, size = 200, strokeWi
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <span
           className="display-num"
-          style={{ color: over ? '#C85A3A' : undefined }}
+          style={{ color: over ? '#FF453A' : undefined }}
         >
           {Math.round(animatedRemaining).toLocaleString()}
         </span>

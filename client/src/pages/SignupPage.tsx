@@ -94,7 +94,7 @@ export function SignupPage() {
               />
             </div>
             {error && (
-              <p className="rounded-xl bg-coral-400/10 px-3 py-2 text-sm font-medium text-coral-300">
+              <p className="rounded-xl bg-coral-400/10 px-3 py-2 text-sm font-medium text-error">
                 {error}
               </p>
             )}
@@ -104,7 +104,7 @@ export function SignupPage() {
           </form>
           <p className="mt-6 text-center text-sm text-ink-600">
             Already have an account?{' '}
-            <Link to="/login" className="font-semibold text-accent-300 hover:underline">
+            <Link to="/login" className="font-semibold text-accent-500 hover:underline">
               Sign in
             </Link>
           </p>

@@ -189,7 +189,7 @@ function MySplitView({
               className={`rounded-lg border p-3 text-left transition ${
                 isSelected
                   ? 'state-accent'
-                  : `border-ink-100 ${isRest ? 'bg-ink-50' : 'bg-surface hover:border-brand-200'}`
+                  : `border-line-card ${isRest ? 'bg-surface2' : 'bg-surface hover:border-accent-400/40'}`
               }`}
             >
               <p
@@ -269,7 +269,7 @@ function MySplitView({
                 </div>
               )}
               {day.cardioFinisher && (
-                <p className="mb-3 text-sm text-emerald-700">{day.cardioFinisher}</p>
+                <p className="mb-3 text-sm text-accent-600">{day.cardioFinisher}</p>
               )}
               <div className="space-y-3">
                 {displayExercises.map((ex, i) => (

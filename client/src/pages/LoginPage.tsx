@@ -78,7 +78,7 @@ export function LoginPage() {
           />
         </div>
         {error && (
-          <p className="rounded-xl bg-coral-400/10 px-3 py-2 text-sm font-medium text-coral-300">
+          <p className="rounded-xl bg-coral-400/10 px-3 py-2 text-sm font-medium text-error">
             {error}
           </p>
         )}
@@ -88,7 +88,7 @@ export function LoginPage() {
       </form>
       <p className="mt-6 text-center text-sm text-ink-600">
         No account?{' '}
-        <Link to="/signup" className="font-semibold text-accent-300 hover:underline">
+        <Link to="/signup" className="font-semibold text-accent-500 hover:underline">
           Create one
         </Link>
       </p>

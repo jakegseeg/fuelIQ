@@ -16,7 +16,7 @@ export function ExerciseHowTo({ name, defaultOpen = false }: Props) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-center justify-between gap-2 text-left text-xs font-semibold text-accent-300 transition hover:text-accent-400"
+        className="flex w-full items-center justify-between gap-2 text-left text-xs font-semibold text-accent-500 transition hover:text-accent-400"
         aria-expanded={open}
       >
         <span>How to do this</span>

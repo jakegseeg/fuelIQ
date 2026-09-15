@@ -8,10 +8,10 @@ interface Props {
   strokeWidth?: number;
 }
 
-const PROTEIN_COLOR = '#1E7A40';
-const CARBS_COLOR = '#D4882A';
-const FAT_COLOR = '#C85A3A';
-const TRACK_COLOR = '#D4C4B0';
+const PROTEIN_COLOR = '#30D158';
+const CARBS_COLOR = '#FF9F0A';
+const FAT_COLOR = '#FF453A';
+const TRACK_COLOR = '#E5E5EA';
 
 function arcLengths(totals: MacroTotals, targetCal: number, circ: number) {
   if (targetCal <= 0) return { protein: 0, carbs: 0, fat: 0 };
