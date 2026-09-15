@@ -60,7 +60,7 @@ export function WorkoutsNavSheet({ open, onClose }: SheetProps) {
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg px-2 py-1 text-sm font-semibold text-ink-600 hover:bg-ink-50"
+            className="rounded-[10px] px-2 py-1 text-sm font-semibold text-ink-600 hover:bg-ink-50"
           >
             Close
           </button>

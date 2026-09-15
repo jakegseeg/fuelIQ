@@ -49,29 +49,33 @@ button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
 
 @layer components {
   .btn {
-    @apply inline-flex items-center justify-center gap-2 transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-[10px] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-500/40 focus-visible:ring-offset-2 focus-visible:ring-offset-bg disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-primary {
-    @apply btn rounded-[10px] px-5 py-3 text-sm font-semibold bg-accent-500 text-white hover:bg-accent-600 active:scale-[0.98];
+    @apply btn px-5 py-3 text-sm font-semibold bg-accent-500 text-white hover:bg-accent-600 active:scale-[0.98];
   }
   .btn-secondary {
-    @apply btn rounded-[10px] border-[1.5px] border-accent-500 bg-surface px-5 py-3 text-sm font-semibold text-accent-500 hover:bg-accent-50 active:scale-[0.98];
+    @apply btn border-[1.5px] border-accent-500 bg-surface px-5 py-3 text-sm font-semibold text-accent-500 hover:bg-accent-50 active:scale-[0.98];
   }
   .btn-ghost {
-    @apply btn rounded-[10px] border-[1.5px] border-line-card bg-transparent px-4 py-2.5 text-sm font-normal text-[#4A3028] hover:bg-[#FAF5EE] active:scale-[0.98];
+    @apply btn border-[1.5px] border-line-card bg-transparent px-4 py-2.5 text-sm font-normal text-[#4A3028] hover:bg-[#FAF5EE] active:scale-[0.98];
+  }
+  .btn-add {
+    @apply inline-flex items-center justify-center rounded-[10px] border-[1.5px] border-line-card bg-transparent px-3 py-1.5 text-xs font-medium text-ink-700 transition hover:bg-ink-50 disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-pill {
     @apply inline-flex items-center justify-center rounded-full bg-[#F2EBE0] px-3 py-1.5 text-xs font-medium text-[#4A3028] transition hover:bg-[#FAF5EE] disabled:cursor-not-allowed disabled:opacity-50;
   }
   /* Legacy alias — duplicate styles to avoid @apply circular refs. */
   .btn-accent {
-    @apply btn rounded-[10px] px-5 py-3 text-sm font-semibold bg-accent-500 text-white hover:bg-accent-600 active:scale-[0.98];
+    @apply btn px-5 py-3 text-sm font-semibold bg-accent-500 text-white hover:bg-accent-600 active:scale-[0.98];
   }
   .field-label { @apply mb-1.5 block text-[15px] font-normal text-ink-600; }
-  .field-input { @apply min-h-11 w-full rounded-xl border-0 bg-surface2 px-3.5 py-2 text-[17px] text-ink-900 outline-none ring-1 ring-inset ring-ink-200 transition placeholder:text-ink-400 focus:ring-2 focus:ring-inset focus:ring-accent-500; }
-  .surface-card { @apply overflow-hidden rounded-card border border-line-card bg-surface shadow-card; }
+  .field-input { @apply min-h-11 w-full rounded-[10px] border-0 bg-surface2 px-3.5 py-2 text-[17px] text-ink-900 outline-none ring-1 ring-inset ring-ink-200 transition placeholder:text-ink-400 focus:ring-2 focus:ring-inset focus:ring-accent-500; }
+  .surface-card { @apply overflow-hidden rounded-[16px] border border-line-card bg-surface shadow-card; }
   .section-label { @apply text-[13px] font-normal normal-case tracking-normal text-ink-600; }
-  .card { @apply overflow-hidden rounded-card border border-line-card bg-surface p-4 shadow-card sm:p-5; }
+  .card { @apply overflow-hidden rounded-[16px] border border-line-card bg-surface p-4 shadow-card sm:p-5; }
+  .card-item { @apply rounded-[12px]; }
   .card-hover { @apply hover:ring-accent-400/40; }
   .state-accent { @apply border border-accent-500 bg-accent-100/30 ring-0; }
   .state-accent-text, .state-accent-text-muted { @apply text-accent-500; }
@@ -89,5 +93,13 @@ button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
 @layer utilities {
   .page-enter { @apply animate-page-in; }
   .glass { background: rgb(var(--ios-background) / 0.84); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); }
+  /* Enforce 10px radius on all buttons except pill shortcuts. */
+  button:not(.btn-pill):not(.rounded-full),
+  a.btn-primary, a.btn-secondary, a.btn-ghost, a.btn-accent {
+    border-radius: 10px;
+  }
+  button.rounded-lg, button.rounded-xl, button.rounded-2xl, button.rounded-md {
+    border-radius: 10px;
+  }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; } }
 }

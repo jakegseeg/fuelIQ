@@ -73,7 +73,7 @@ export function WorkoutHistoryPage() {
                     const badge = logSourceBadge(log);
                     return (
                       <li key={log.id} className="flex items-center gap-3 rounded-xl border border-ink-100 p-3">
-                        <span className={`flex h-10 w-10 flex-none items-center justify-center rounded-xl ${style.color}`}>
+                        <span className={`flex h-10 w-10 flex-none items-center justify-center rounded-[10px] ${style.color}`}>
                           <FocusIcon focus={log.focus} size={16} />
                         </span>
                         <div className="min-w-0 flex-1">

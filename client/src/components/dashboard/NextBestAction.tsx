@@ -14,7 +14,7 @@ function isRestDay(workout: DayPlan | null) {
 }
 
 const bannerClass =
-  'overflow-hidden rounded-card border border-line-card bg-surface shadow-card';
+  'overflow-hidden rounded-[16px] border border-line-card bg-surface shadow-card';
 
 /** A single, contextual next step keeps Today from becoming a competing card grid. */
 export function NextBestAction({ date, day, workout }: Props) {

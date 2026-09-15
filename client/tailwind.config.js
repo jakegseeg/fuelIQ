@@ -33,7 +33,7 @@ export default {
         sky: { 50: '#e8f5ff', 100: '#d9f0ff', 300: '#64d2ff', 400: '#0a84ff', 500: '#007aff', 600: '#0066d6' },
       },
       fontFamily: { sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"SF Pro Display"', 'system-ui', 'sans-serif'], display: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', 'system-ui', 'sans-serif'], heading: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', 'system-ui', 'sans-serif'] },
-      borderRadius: { card: '0.75rem' }, transitionDuration: { DEFAULT: '180ms' },
+      borderRadius: { card: '1rem' }, transitionDuration: { DEFAULT: '180ms' },
       boxShadow: { card: '0 2px 8px rgba(0, 0, 0, 0.08)', glow: '0 0 0 3px rgb(26 107 56 / 0.24)' },
       keyframes: { 'fade-slide-up': { '0%': { opacity: '0', transform: 'translateY(6px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }, wave: { '0%': { transform: 'translateX(0)' }, '100%': { transform: 'translateX(-50%)' } }, pop: { '0%': { transform: 'scale(1)' }, '50%': { transform: 'scale(1.05)' }, '100%': { transform: 'scale(1)' } } },
       animation: { 'page-in': 'fade-slide-up 0.2s ease-out', wave: 'wave 2.2s linear infinite', pop: 'pop 0.3s ease-out' },

@@ -11,7 +11,7 @@ interface Props {
 export function FoodCard({ food, onSelect, onQuickAdd }: Props) {
   return (
     <div
-      className={`group flex items-center gap-3 rounded-xl border border-ink-200 bg-surface2 p-3 transition ${
+      className={`card-item group flex items-center gap-3 border border-ink-200 bg-surface2 p-3 transition ${
         onSelect ? 'cursor-pointer hover:border-accent-400/40 hover:shadow-glow' : ''
       }`}
       onClick={onSelect ? () => onSelect(food) : undefined}
@@ -33,7 +33,7 @@ export function FoodCard({ food, onSelect, onQuickAdd }: Props) {
             e.stopPropagation();
             onQuickAdd(food);
           }}
-          className="btn-ghost flex-none text-xs"
+          className="btn-add flex-none"
         >
           + Add
         </button>

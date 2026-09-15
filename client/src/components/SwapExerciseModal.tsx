@@ -70,7 +70,7 @@ export function SwapExerciseModal({
         {alternatives.map((alt) => (
           <div
             key={alt.name}
-            className="rounded-xl border border-ink-200 bg-surface2 p-3 ring-1 ring-ink-200/50"
+            className="card-item border border-ink-200 bg-surface2 p-3 ring-1 ring-ink-200/50"
           >
             <p className="font-semibold text-ink-900">{alt.name}</p>
             {alt.primaryMuscle && (

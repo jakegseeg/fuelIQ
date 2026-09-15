@@ -253,7 +253,7 @@ function Browse({
             <button
               key={t.id}
               onClick={() => setTab(t.id)}
-              className={`flex-1 whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-semibold transition ${
+              className={`flex-1 whitespace-nowrap rounded-[10px] px-3 py-1.5 text-sm font-semibold transition ${
                 tab === t.id ? 'bg-accent-500 text-white shadow-sm' : 'text-ink-600'
               }`}
             >
@@ -485,7 +485,7 @@ function FoodRow({ food, onClick }: { food: ScoredFood; onClick: () => void }) {
     <button
       type="button"
       onClick={onClick}
-      className="flex w-full items-center gap-3 rounded-xl border border-ink-200 bg-surface2 p-3 text-left transition hover:border-accent-400/40 hover:shadow-glow"
+      className="flex w-full items-center gap-3 rounded-[10px] border border-ink-200 bg-surface2 p-3 text-left transition hover:border-accent-400/40 hover:shadow-glow"
     >
       <div className="min-w-0 flex-1">
         <p className="truncate font-semibold text-ink-900">{food.name}</p>

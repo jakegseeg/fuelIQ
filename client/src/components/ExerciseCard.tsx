@@ -46,7 +46,7 @@ export function ExerciseCard({ exercise, onSwap }: Props) {
     iconKind === 'cardio' ? Activity : iconKind === 'core' ? CircleDot : Dumbbell;
 
   return (
-    <div className="flex gap-3 rounded-2xl border border-ink-200 bg-surface p-3">
+    <div className="card-item flex gap-3 border border-ink-200 bg-surface p-3">
       <div className="flex h-16 w-16 flex-none items-center justify-center overflow-hidden rounded-xl bg-surface2">
         {demo ? (
           <img src={demo} alt={exercise.name} className="h-full w-full object-cover" />

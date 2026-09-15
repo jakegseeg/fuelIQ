@@ -19,7 +19,7 @@ export function WorkoutModeSelector({ value, onChange }: Props) {
           key={opt.value}
           type="button"
           onClick={() => onChange(opt.value)}
-          className={`rounded-xl px-3 py-2.5 text-sm font-semibold transition ${
+          className={`rounded-[10px] px-3 py-2.5 text-sm font-semibold transition ${
             value === opt.value
               ? 'bg-accent-500 text-white shadow-sm'
               : 'border border-ink-200 bg-surface text-ink-700 hover:border-ink-300'

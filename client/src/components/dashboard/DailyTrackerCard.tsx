@@ -209,7 +209,7 @@ function MealPill({
     <button
       type="button"
       onClick={(e) => onLog(meal, e)}
-      className={`flex flex-col items-center justify-center rounded-xl text-center transition ${
+      className={`flex flex-col items-center justify-center rounded-[10px] text-center transition ${
         large ? 'gap-1.5 p-4' : 'gap-0.5 p-2'
       } ${
         summary.logged
@@ -259,13 +259,13 @@ function WorkoutStrip({
   if (caloriesBurned > 0) {
     return (
       <div
-        className={`flex items-center gap-2 rounded-xl bg-accent-400/10 px-3 py-2 ring-1 ring-accent-400/25 ${className} ${large ? 'py-4' : ''}`}
+        className={`flex items-center gap-2 rounded-[16px] bg-accent-400/10 px-3 py-2 ring-1 ring-accent-400/25 ${className} ${large ? 'py-4' : ''}`}
       >
-        <span className={`text-accent-400 ${large ? 'text-base' : 'text-sm'}`}>
+        <span className={`text-accent-500 ${large ? 'text-base' : 'text-sm'}`}>
           <Check size={14} aria-hidden />
         </span>
         <div>
-          <p className={`font-semibold text-accent-300 ${large ? 'text-sm' : 'text-[10px]'}`}>
+          <p className={`font-semibold text-accent-500 ${large ? 'text-sm' : 'text-[10px]'}`}>
             Complete
           </p>
           <p className={`text-ink-600 ${large ? 'text-xs' : 'text-[9px]'}`}>
@@ -279,7 +279,7 @@ function WorkoutStrip({
   if (!hasPlan) {
     return (
       <div
-        className={`rounded-xl bg-surface2 px-3 py-2 ring-1 ring-ink-200/50 ${className} ${large ? 'py-4' : ''}`}
+        className={`rounded-[16px] bg-surface2 px-3 py-2 ring-1 ring-ink-200/50 ${className} ${large ? 'py-4' : ''}`}
       >
         <p className={`text-ink-600 ${large ? 'text-sm' : 'text-[10px]'}`}>No workout plan</p>
       </div>
@@ -289,7 +289,7 @@ function WorkoutStrip({
   if (!workout || isRestDay(workout)) {
     return (
       <div
-        className={`rounded-xl bg-surface2 px-3 py-2 ring-1 ring-ink-200/50 ${className} ${large ? 'py-4' : ''}`}
+        className={`rounded-[16px] bg-surface2 px-3 py-2 ring-1 ring-ink-200/50 ${className} ${large ? 'py-4' : ''}`}
       >
         <p className={`flex items-center gap-1.5 text-ink-600 ${large ? 'text-sm' : 'text-[10px]'}`}>
           <Moon size={14} aria-hidden />
@@ -303,10 +303,10 @@ function WorkoutStrip({
 
   return (
     <div
-      className={`flex items-center gap-2 rounded-xl bg-surface2 px-3 py-2 ring-1 ring-ink-200/50 ${className} ${large ? 'py-3' : ''}`}
+      className={`flex items-center gap-2 rounded-[16px] bg-surface2 px-3 py-2 ring-1 ring-ink-200/50 ${className} ${large ? 'py-3' : ''}`}
     >
       <span
-        className={`flex flex-none items-center justify-center rounded-lg ${style.color} ${large ? 'h-10 w-10' : 'h-7 w-7'}`}
+        className={`flex flex-none items-center justify-center rounded-[10px] ${style.color} ${large ? 'h-10 w-10' : 'h-7 w-7'}`}
       >
         <FocusIcon focus={workout.focus} size={large ? 16 : 14} />
       </span>

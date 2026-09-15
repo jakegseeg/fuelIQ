@@ -42,7 +42,7 @@ export function RestTimer({ triggerKey, seconds, onDone }: Props) {
 
   return (
     <div
-      className={`flex items-center justify-between rounded-2xl px-4 py-3 transition ${
+      className={`flex items-center justify-between rounded-[10px] px-4 py-3 transition ${
         idle ? 'bg-ink-100' : 'bg-accent-500 text-white'
       }`}
     >

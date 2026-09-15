@@ -399,7 +399,7 @@ function TabButton({
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+      className={`rounded-[10px] px-4 py-2 text-sm font-semibold transition ${
         active
           ? 'bg-accent-400/12 text-accent-300 ring-1 ring-accent-400/30'
           : 'text-ink-600 hover:bg-surface2 hover:text-ink-800'
@@ -831,7 +831,7 @@ function GroceryListTab({ plan }: { plan: GroceryPlanRecord }) {
       {alreadyHave.length > 0 && <AlreadyHaveSection items={alreadyHave} />}
 
       <div
-        className={`rounded-xl p-4 ring-1 ${
+        className={`rounded-[10px] p-4 ring-1 ${
           underBudget
             ? 'bg-accent-400/10 ring-accent-400/30'
             : 'bg-coral-400/10 ring-coral-400/30'

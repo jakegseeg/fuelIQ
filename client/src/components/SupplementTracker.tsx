@@ -68,7 +68,7 @@ export function SupplementTracker() {
                 type="button"
                 disabled={busy}
                 onClick={() => toggle(s.id, s.loggedToday)}
-                className={`flex h-9 w-9 flex-none items-center justify-center rounded-lg text-lg transition ${
+                className={`flex h-9 w-9 flex-none items-center justify-center rounded-[10px] text-lg transition ${
                   s.loggedToday
                     ? 'bg-accent-500 text-white'
                     : 'bg-ink-200 text-ink-600 hover:bg-accent-400/10'

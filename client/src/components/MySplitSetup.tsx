@@ -199,7 +199,7 @@ function DayMuscleSelector({
               setRest(true);
               setMuscleGroups([]);
             }}
-            className={`flex-1 rounded-xl px-3 py-2 text-sm font-semibold ${
+            className={`flex-1 rounded-[10px] px-3 py-2 text-sm font-semibold ${
               rest ? 'bg-accent-500 text-white' : 'border border-ink-200 text-ink-700'
             }`}
           >
@@ -208,7 +208,7 @@ function DayMuscleSelector({
           <button
             type="button"
             onClick={() => setRest(false)}
-            className={`flex-1 rounded-xl px-3 py-2 text-sm font-semibold ${
+            className={`flex-1 rounded-[10px] px-3 py-2 text-sm font-semibold ${
               !rest ? 'bg-accent-500 text-white' : 'border border-ink-200 text-ink-700'
             }`}
           >

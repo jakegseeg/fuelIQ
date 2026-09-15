@@ -96,7 +96,7 @@ export function BestFoodsSubCard({ date, remaining, goal, onLogged }: Props) {
         onKeyDown={(e) =>
           e.key === 'Enter' && !onTrack && suggestions.length > 0 && setDetailOpen(true)
         }
-        className={`flex min-h-[140px] flex-col rounded-xl bg-surface2 p-3 ring-1 ring-ink-200/50 ${
+        className={`flex min-h-[140px] flex-col rounded-[16px] bg-surface2 p-3 ring-1 ring-ink-200/50 ${
           !onTrack && suggestions.length > 0
             ? 'cursor-pointer transition hover:ring-ink-300/70'
             : ''
@@ -132,7 +132,7 @@ export function BestFoodsSubCard({ date, remaining, goal, onLogged }: Props) {
                     type="button"
                     disabled={addingKey !== null}
                     onClick={(e) => addSuggestion(s, e)}
-                    className="btn-ghost flex-none px-2 py-0.5 text-[10px] disabled:opacity-50"
+                    className="btn-add flex-none disabled:opacity-50"
                   >
                     {addingKey === `${s.food.name}-${s.suggestedServingG}` ? '…' : '+ Add'}
                   </button>
@@ -186,7 +186,7 @@ function BestFoodsDetailModal({
           return (
             <div
               key={itemKey}
-              className="overflow-hidden rounded-xl border border-ink-200 bg-surface2 ring-1 ring-ink-200/40"
+              className="card-item overflow-hidden border border-ink-200 bg-surface2 ring-1 ring-ink-200/40"
             >
               <div className="flex items-center gap-2 p-3">
                 <button
@@ -203,7 +203,7 @@ function BestFoodsDetailModal({
                   type="button"
                   disabled={addingKey !== null}
                   onClick={(e) => onAdd(s, e)}
-                  className="btn-ghost flex-none px-2.5 py-1 text-xs disabled:opacity-50"
+                  className="btn-add flex-none disabled:opacity-50"
                 >
                   + Add
                 </button>
@@ -212,7 +212,7 @@ function BestFoodsDetailModal({
                   onClick={() => setExpanded(isOpen ? null : i)}
                   aria-expanded={isOpen}
                   aria-label={isOpen ? 'Collapse' : 'Expand'}
-                  className="flex-none rounded-md p-1 text-ink-600 hover:bg-ink-200/50 hover:text-ink-700"
+                  className="flex-none rounded-[10px] p-1 text-ink-600 hover:bg-ink-200/50 hover:text-ink-700"
                 >
                   <svg
                     viewBox="0 0 20 20"

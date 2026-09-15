@@ -168,7 +168,7 @@ function WeightSection({
             <button
               key={r.value}
               onClick={() => onRange(r.value)}
-              className={`rounded-lg px-3 py-1 text-sm font-semibold transition ${
+              className={`rounded-[10px] px-3 py-1 text-sm font-semibold transition ${
                 range === r.value ? 'bg-ink-200 text-ink-900' : 'text-ink-600'
               }`}
             >

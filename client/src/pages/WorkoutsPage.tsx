@@ -275,7 +275,7 @@ function PlanView({
             <button
               key={d.day}
               onClick={() => onSelectDay(i)}
-              className={`rounded-2xl border p-3 text-left transition ${
+              className={`rounded-[10px] border p-3 text-left transition ${
                 isSelected
                   ? 'state-accent'
                   : `border-ink-100 ${isRest ? 'bg-ink-50' : 'bg-surface hover:border-brand-200'}`
@@ -289,7 +289,7 @@ function PlanView({
                 {d.day.slice(0, 3)}
               </p>
               <span
-                className={`mt-1 inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-xs font-bold ${
+                className={`mt-1 inline-flex items-center gap-1 rounded-[10px] px-1.5 py-0.5 text-xs font-bold ${
                   isSelected ? 'bg-accent-400/10 text-accent-500' : style.color
                 }`}
               >

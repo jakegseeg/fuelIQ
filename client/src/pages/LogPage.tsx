@@ -54,7 +54,7 @@ export function LogPage() {
 
   const actions = (
     <div className="flex items-center gap-1">
-      <button onClick={() => shiftDay(-1)} className="rounded-lg p-2 hover:bg-surface2" aria-label="Previous day">
+      <button onClick={() => shiftDay(-1)} className="rounded-[10px] p-2 hover:bg-surface2" aria-label="Previous day">
         ‹
       </button>
       <input
@@ -64,7 +64,7 @@ export function LogPage() {
         onChange={(e) => setDate(e.target.value)}
         className="rounded-lg border border-ink-200 bg-surface px-2 py-1 text-sm font-medium text-ink-800"
       />
-      <button onClick={() => shiftDay(1)} className="rounded-lg p-2 hover:bg-surface2" aria-label="Next day">
+      <button onClick={() => shiftDay(1)} className="rounded-[10px] p-2 hover:bg-surface2" aria-label="Next day">
         ›
       </button>
       <button

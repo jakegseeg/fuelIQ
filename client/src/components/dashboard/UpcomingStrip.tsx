@@ -242,7 +242,7 @@ function UpcomingCard({
       type="button"
       onClick={interactive ? handleClick : undefined}
       disabled={!interactive}
-      className={`flex w-[88px] flex-none flex-col items-center justify-center rounded-xl bg-surface px-2 py-3 ring-1 ring-ink-200/70 ${
+      className={`flex w-[88px] flex-none flex-col items-center justify-center rounded-[10px] bg-surface px-2 py-3 ring-1 ring-ink-200/70 ${
         interactive
           ? 'cursor-pointer transition hover:bg-surface2 hover:ring-accent-400/40 active:scale-[0.98]'
           : 'cursor-default opacity-80'

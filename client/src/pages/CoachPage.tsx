@@ -187,7 +187,7 @@ function CoachAvatar({ size = 'lg' }: { size?: 'sm' | 'lg' }) {
   const dim = size === 'lg' ? 'h-16 w-16' : 'h-8 w-8';
   return (
     <div
-      className={`flex ${dim} flex-none items-center justify-center rounded-2xl bg-accent-400/15 ring-2 ring-accent-400/30`}
+      className={`flex ${dim} flex-none items-center justify-center rounded-[10px] bg-accent-400/15 ring-2 ring-accent-400/30`}
       aria-hidden
     />
   );
@@ -262,7 +262,7 @@ function Bubble({ message, isStreaming }: { message: ChatMessage; isStreaming?: 
           </p>
         )}
         <div
-          className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+          className={`rounded-[10px] px-4 py-2.5 text-sm leading-relaxed ${
             isUser
               ? 'bg-accent-500 font-medium text-white'
               : 'bg-surface text-ink-800 ring-1 ring-ink-200'

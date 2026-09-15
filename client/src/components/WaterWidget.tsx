@@ -50,7 +50,7 @@ export function WaterWidget({ water, onAdd }: Props) {
         ))}
         <div className="ml-auto flex items-center gap-2">
           <input
-            className="w-20 rounded-lg border border-ink-200 px-2 py-1.5 text-sm"
+            className="field-input w-20 px-2 py-1.5 text-sm"
             type="number"
             min="0"
             placeholder="oz"

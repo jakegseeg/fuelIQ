@@ -277,7 +277,7 @@ function ActiveSession({ payload, onExit }: { payload: ActivePayload; onExit: ()
             {sets.map((s, i) => (
               <div
                 key={i}
-                className={`flex items-center gap-3 rounded-xl p-2.5 ring-1 transition ${
+                className={`flex items-center gap-3 rounded-[10px] p-2.5 ring-1 transition ${
                   s.done
                     ? 'bg-surface ring-accent-400/45'
                     : 'bg-surface ring-ink-200'
@@ -289,7 +289,7 @@ function ActiveSession({ payload, onExit }: { payload: ActivePayload; onExit: ()
                   Set {i + 1}
                 </span>
                 <input
-                  className="min-h-11 w-full rounded-lg border border-ink-200 bg-surface2 px-3 py-2 text-ink-900 outline-none placeholder:text-ink-600 focus:border-accent-400 focus:ring-2 focus:ring-accent-400/20"
+                  className="field-input min-h-11 w-full px-3 py-2"
                   type="number"
                   inputMode="decimal"
                   placeholder={unit}
@@ -298,7 +298,7 @@ function ActiveSession({ payload, onExit }: { payload: ActivePayload; onExit: ()
                   onChange={(e) => updateSet(i, { weight: e.target.value })}
                 />
                 <input
-                  className="min-h-11 w-full rounded-lg border border-ink-200 bg-surface2 px-3 py-2 text-ink-900 outline-none placeholder:text-ink-600 focus:border-accent-400 focus:ring-2 focus:ring-accent-400/20"
+                  className="field-input min-h-11 w-full px-3 py-2"
                   type="number"
                   inputMode="numeric"
                   placeholder="reps"
@@ -308,7 +308,7 @@ function ActiveSession({ payload, onExit }: { payload: ActivePayload; onExit: ()
                 />
                 <button
                   onClick={() => completeSet(i)}
-                  className={`flex h-11 w-11 flex-none items-center justify-center rounded-lg font-bold transition ${
+                  className={`flex h-11 w-11 flex-none items-center justify-center rounded-[10px] font-bold transition ${
                     s.done
                       ? 'bg-accent-500 text-white'
                       : 'bg-ink-200 text-ink-600 hover:bg-ink-300 hover:text-ink-800'

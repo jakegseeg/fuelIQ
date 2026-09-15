@@ -51,7 +51,7 @@ function FuelScoreDrawer({
     <Modal open={open} onClose={onClose} title="FuelScore breakdown" maxWidth="max-w-md">
       <div className="mb-5 flex items-center gap-4">
         <div
-          className={`flex h-16 w-16 flex-col items-center justify-center rounded-2xl ${style.badge}`}
+          className={`flex h-16 w-16 flex-col items-center justify-center rounded-[10px] ${style.badge}`}
         >
           <span className="text-2xl font-extrabold leading-none">{score.score.toFixed(1)}</span>
           <span className="text-[10px] font-bold uppercase">{style.label}</span>

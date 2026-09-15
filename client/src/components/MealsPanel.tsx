@@ -100,7 +100,7 @@ export function MealsPanel({ day, date, onChanged }: Props) {
             <button
               key={t}
               onClick={() => setTab(t)}
-              className={`rounded-lg px-3 py-1.5 text-sm font-semibold capitalize transition ${
+              className={`rounded-[10px] px-3 py-1.5 text-sm font-semibold capitalize transition ${
                 tab === t ? 'bg-accent-500 text-white shadow-sm' : 'text-ink-600'
               }`}
             >
@@ -189,7 +189,7 @@ function DeleteBtn({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="flex-none rounded-lg p-1.5 text-ink-600 hover:bg-ink-100 hover:text-red-500"
+      className="flex-none rounded-[10px] p-1.5 text-ink-600 hover:bg-ink-100 hover:text-red-500"
       aria-label="Delete"
     >
       <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor">

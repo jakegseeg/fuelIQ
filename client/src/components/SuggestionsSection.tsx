@@ -88,7 +88,7 @@ export function SuggestionsSection({ remaining, goal, onQuickAdd }: Props) {
                 }
               }}
               disabled={addingIdx !== null}
-              className="btn-ghost flex-none text-xs disabled:opacity-50"
+              className="btn-add flex-none disabled:opacity-50"
             >
               {addingIdx === i ? 'Adding…' : '+ Add'}
             </button>

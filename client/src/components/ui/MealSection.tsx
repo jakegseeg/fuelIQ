@@ -45,7 +45,7 @@ export function MealSection({ group, onAdd, onDelete, defaultOpen = true }: Prop
           )}
           <button
             onClick={onAdd}
-            className="btn-ghost mt-1 w-full"
+            className="btn-add mt-1 w-full"
           >
             + Add food
           </button>
@@ -57,7 +57,7 @@ export function MealSection({ group, onAdd, onDelete, defaultOpen = true }: Prop
 
 function EntryRow({ entry, onDelete }: { entry: LogEntry; onDelete: (id: number) => void }) {
   return (
-    <div className="group flex items-center gap-3 rounded-xl bg-surface2 p-2.5">
+    <div className="card-item group flex items-center gap-3 bg-surface2 p-2.5">
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <p className="truncate text-sm font-semibold text-ink-900">{entry.name}</p>
