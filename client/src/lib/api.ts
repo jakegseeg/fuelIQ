@@ -75,6 +75,9 @@ import {
 
 const TOKEN_KEY = 'fueliq.token';
 const GUEST_TOKEN = 'demo:max';
+const LOCAL_TOKEN_PREFIX = 'local:';
+const LOCAL_USERS_KEY = 'fueliq.local.users';
+const LAST_USERNAME_KEY = 'fueliq.username';
 const GUEST_GROCERY_PLAN_KEY = 'fueliq.demo.groceryPlan';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') ?? '';
 
@@ -91,6 +94,10 @@ function apiFetch(input: RequestInfo | URL, init?: RequestInit): Promise<Respons
   return globalThis.fetch(url, init);
 }
 
+function normalizeUsername(username: string): string {
+  return username.trim().toLowerCase();
+}
+
 export const auth = {
   get token(): string | null {
     return localStorage.getItem(TOKEN_KEY);
@@ -105,8 +112,16 @@ export const auth = {
   get isGuest(): boolean {
     return localStorage.getItem(TOKEN_KEY) === GUEST_TOKEN;
   },
+  get isLocal(): boolean {
+    return localStorage.getItem(TOKEN_KEY)?.startsWith(LOCAL_TOKEN_PREFIX) ?? false;
+  },
   startGuestSession() {
     localStorage.setItem(TOKEN_KEY, GUEST_TOKEN);
+  },
+  startLocalSession(username: string) {
+    const normalized = normalizeUsername(username);
+    localStorage.setItem(TOKEN_KEY, `${LOCAL_TOKEN_PREFIX}${encodeURIComponent(normalized)}`);
+    localStorage.setItem(LAST_USERNAME_KEY, normalized);
   },
 };
 
@@ -136,6 +151,87 @@ function getGuestGroceryPlan(): GroceryPlanRecord | null {
 function setGuestGroceryPlan(plan: GroceryPlanRecord | null): void {
   if (plan) localStorage.setItem(GUEST_GROCERY_PLAN_KEY, JSON.stringify(plan));
   else localStorage.removeItem(GUEST_GROCERY_PLAN_KEY);
+}
+
+interface LocalUserRecord {
+  username: string;
+  passwordHash: string;
+  createdAt: string;
+  profile?: Profile;
+}
+
+function getLocalUsers(): Record<string, LocalUserRecord> {
+  const raw = localStorage.getItem(LOCAL_USERS_KEY);
+  if (!raw) return {};
+  try {
+    return JSON.parse(raw) as Record<string, LocalUserRecord>;
+  } catch {
+    localStorage.removeItem(LOCAL_USERS_KEY);
+    return {};
+  }
+}
+
+function saveLocalUsers(users: Record<string, LocalUserRecord>): void {
+  localStorage.setItem(LOCAL_USERS_KEY, JSON.stringify(users));
+}
+
+async function localPasswordHash(username: string, password: string): Promise<string> {
+  const input = `${normalizeUsername(username)}:${password}`;
+  if (!globalThis.crypto?.subtle) return input;
+  const data = new TextEncoder().encode(input);
+  const hash = await globalThis.crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hash), (byte) => byte.toString(16).padStart(2, '0')).join('');
+}
+
+function currentLocalUsername(): string | null {
+  const token = auth.token;
+  if (token?.startsWith(LOCAL_TOKEN_PREFIX)) {
+    return decodeURIComponent(token.slice(LOCAL_TOKEN_PREFIX.length));
+  }
+  return localStorage.getItem(LAST_USERNAME_KEY);
+}
+
+async function rememberLocalCredentials(
+  username: string,
+  password: string,
+  createdAt = new Date().toISOString(),
+): Promise<void> {
+  const normalized = normalizeUsername(username);
+  const users = getLocalUsers();
+  users[normalized] = {
+    ...users[normalized],
+    username: normalized,
+    passwordHash: await localPasswordHash(normalized, password),
+    createdAt: users[normalized]?.createdAt ?? createdAt,
+  };
+  saveLocalUsers(users);
+  localStorage.setItem(LAST_USERNAME_KEY, normalized);
+}
+
+async function localLogin(username: string, password: string): Promise<PublicUser | null> {
+  const normalized = normalizeUsername(username);
+  const record = getLocalUsers()[normalized];
+  if (!record) return null;
+  if (record.passwordHash !== (await localPasswordHash(normalized, password))) return null;
+  auth.startLocalSession(normalized);
+  return { id: `local-${normalized}`, username: normalized, email: normalized, createdAt: record.createdAt };
+}
+
+function getLocalProfile(): Profile | null {
+  const username = currentLocalUsername();
+  if (!username) return null;
+  return getLocalUsers()[normalizeUsername(username)]?.profile ?? null;
+}
+
+function saveLocalProfile(profile: Profile): void {
+  const username = currentLocalUsername();
+  if (!username) return;
+  const normalized = normalizeUsername(username);
+  const users = getLocalUsers();
+  const existing = users[normalized];
+  if (!existing) return;
+  users[normalized] = { ...existing, profile };
+  saveLocalUsers(users);
 }
 
 export interface PublicUser {
@@ -234,19 +330,27 @@ export const api = {
       body: JSON.stringify({ username, password }),
     });
     const data = await handle<{ token: string; user: PublicUser }>(res);
+    await rememberLocalCredentials(username, password, data.user.createdAt);
     auth.set(data.token);
     return data.user;
   },
 
   async login(username: string, password: string): Promise<PublicUser> {
-    const res = await apiFetch('/api/auth/login', {
-      method: 'POST',
-      headers: headers({ 'Content-Type': 'application/json' }, { withAuth: false }),
-      body: JSON.stringify({ username, password }),
-    });
-    const data = await handle<{ token: string; user: PublicUser }>(res);
-    auth.set(data.token);
-    return data.user;
+    try {
+      const res = await apiFetch('/api/auth/login', {
+        method: 'POST',
+        headers: headers({ 'Content-Type': 'application/json' }, { withAuth: false }),
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await handle<{ token: string; user: PublicUser }>(res);
+      await rememberLocalCredentials(username, password, data.user.createdAt);
+      auth.set(data.token);
+      return data.user;
+    } catch (err) {
+      const localUser = await localLogin(username, password);
+      if (localUser) return localUser;
+      throw err;
+    }
   },
 
   async logout(): Promise<void> {
@@ -422,23 +526,41 @@ export const api = {
 
   async getProfile(): Promise<Profile | null> {
     if (auth.isGuest) return demoProfile;
+    if (auth.isLocal) return getLocalProfile();
     const authHeaders = headers();
     const hasAuth = Boolean((authHeaders as Record<string, string>).Authorization);
     console.log('[api] GET /api/profile — Authorization header:', hasAuth ? 'present' : 'missing');
     const res = await apiFetch('/api/profile', { headers: authHeaders });
     console.log('[api] GET /api/profile — status:', res.status);
-    if (res.status === 404) return null;
-    return handle<Profile>(res);
+    if (res.status === 404) {
+      const localProfile = getLocalProfile();
+      const username = currentLocalUsername();
+      if (localProfile && username) {
+        auth.startLocalSession(username);
+        return localProfile;
+      }
+      return null;
+    }
+    const profile = await handle<Profile>(res);
+    saveLocalProfile(profile);
+    return profile;
   },
 
   async saveProfile(input: ProfileInput): Promise<Profile> {
     if (auth.isGuest) return demoSaveProfile(input);
+    if (auth.isLocal) {
+      const profile = demoSaveProfile(input);
+      saveLocalProfile(profile);
+      return profile;
+    }
     const res = await apiFetch('/api/profile', {
       method: 'PUT',
       headers: headers({ 'Content-Type': 'application/json' }),
       body: JSON.stringify(input),
     });
-    return handle<Profile>(res);
+    const profile = await handle<Profile>(res);
+    saveLocalProfile(profile);
+    return profile;
   },
 
   async previewTargets(input: ProfileInput): Promise<NutritionTargets> {
@@ -453,12 +575,14 @@ export const api = {
 
   async getTargets(): Promise<NutritionTargets> {
     if (auth.isGuest) return demoProfile.targets;
+    if (auth.isLocal) return getLocalProfile()?.targets ?? demoProfile.targets;
     const res = await apiFetch('/api/profile/targets', { headers: headers() });
     return handle<NutritionTargets>(res);
   },
 
   async getWorkoutSchedule(): Promise<WorkoutSchedulePreferences | null> {
     if (auth.isGuest) return demoProfile.workoutSchedule ?? null;
+    if (auth.isLocal) return getLocalProfile()?.workoutSchedule ?? null;
     const res = await apiFetch('/api/profile/workout-schedule', { headers: headers() });
     if (res.status === 404) return null;
     return (await handle<{ schedule: WorkoutSchedulePreferences | null }>(res)).schedule;
@@ -478,12 +602,18 @@ export const api = {
 
   async getPantry(): Promise<string[]> {
     if (auth.isGuest) return demoProfile.pantry ?? [];
+    if (auth.isLocal) return getLocalProfile()?.pantry ?? [];
     const res = await apiFetch('/api/profile/pantry', { headers: headers() });
     return (await handle<{ pantry: string[] }>(res)).pantry;
   },
 
   async savePantry(pantry: string[]): Promise<string[]> {
     if (auth.isGuest) return pantry;
+    if (auth.isLocal) {
+      const profile = getLocalProfile();
+      if (profile) saveLocalProfile({ ...profile, pantry });
+      return pantry;
+    }
     const res = await apiFetch('/api/profile/pantry', {
       method: 'PUT',
       headers: headers({ 'Content-Type': 'application/json' }),
