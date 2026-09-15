@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Flame } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Flame } from 'lucide-react';
 import { AppShell } from '../components/layout/AppShell';
 import { Spinner } from '../components/Spinner';
 import { MacroBar } from '../components/ui/MacroBar';
@@ -54,23 +54,30 @@ export function LogPage() {
 
   const actions = (
     <div className="flex items-center gap-1">
-      <button onClick={() => shiftDay(-1)} className="rounded-md p-2 hover:bg-surface2" aria-label="Previous day">
-        ‹
+      <button
+        type="button"
+        onClick={() => shiftDay(-1)}
+        className="flex h-11 w-11 items-center justify-center rounded-btn hover:bg-surface2"
+        aria-label="Previous day"
+      >
+        <ChevronLeft size={20} aria-hidden />
       </button>
       <input
         type="date"
         value={date}
         max={todayISO()}
         onChange={(e) => setDate(e.target.value)}
-        className="rounded-lg border border-ink-200 bg-surface px-2 py-1 text-sm font-medium text-ink-800"
+        className="field-input w-auto py-2 text-sm font-medium"
       />
-      <button onClick={() => shiftDay(1)} className="rounded-md p-2 hover:bg-surface2" aria-label="Next day">
-        ›
-      </button>
       <button
-        onClick={() => setDate(todayISO())}
-        className="ml-1 rounded-lg px-2 py-1 text-sm font-semibold text-accent-500 hover:bg-accent-400/10"
+        type="button"
+        onClick={() => shiftDay(1)}
+        className="flex h-11 w-11 items-center justify-center rounded-btn hover:bg-surface2"
+        aria-label="Next day"
       >
+        <ChevronRight size={20} aria-hidden />
+      </button>
+      <button type="button" onClick={() => setDate(todayISO())} className="btn-pill ml-1">
         Today
       </button>
     </div>
@@ -134,8 +141,8 @@ function DailySummaryCard({ day }: { day: DaySummary }) {
   const remainingCal = remaining?.calories ?? 0;
 
   return (
-    <div className="card">
-      <h3 className="font-semibold">Daily summary</h3>
+    <div className="summary-group">
+      <h3 className="section-header">Daily summary</h3>
       <div className="mt-2 flex items-end justify-between">
         <div>
           <p className="display-num">

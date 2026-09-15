@@ -127,10 +127,11 @@ export function ProfilePage() {
           <TargetsCard targets={profile.targets} profile={profile} className="lg:col-span-3" />
         </div>
 
-        <section className="card">
+        <div className="grouped-section">
+          <h2 className="grouped-header">Edit your profile</h2>
+          <section className="grouped-inset grouped-inset-body">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h2 className="section-header">Edit your profile</h2>
               <p className="text-sm text-ink-600">
                 Changing any value recalculates your targets on save.
               </p>
@@ -175,7 +176,8 @@ export function ProfilePage() {
               <UnitPreferencesFields draft={draft} update={update} />
             </EditSection>
           </div>
-        </section>
+          </section>
+        </div>
 
         <NotificationSettingsPanel />
         <SupplementTracker />
@@ -192,15 +194,17 @@ function MfpImportSection() {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <section className="card">
-        <h2 className="section-header">Import from MyFitnessPal</h2>
-        <p className="mt-1 text-sm text-ink-600">
-          Upload a CSV export to backfill your food log with retroactive FuelScores.
-        </p>
-        <button type="button" onClick={() => setOpen(true)} className="btn-ghost mt-4">
-          Import CSV
-        </button>
-      </section>
+      <div className="grouped-section">
+        <h2 className="grouped-header">Import from MyFitnessPal</h2>
+        <section className="grouped-inset grouped-inset-body">
+          <p className="text-sm text-ink-600">
+            Upload a CSV export to backfill your food log with retroactive FuelScores.
+          </p>
+          <button type="button" onClick={() => setOpen(true)} className="btn-ghost mt-4">
+            Import CSV
+          </button>
+        </section>
+      </div>
       <MfpImportModal open={open} onClose={() => setOpen(false)} />
     </>
   );
@@ -225,9 +229,10 @@ function StatsSummary({ profile, className = '' }: { profile: Profile; className
       : profile.dietaryPreferences.map((d) => DIETARY_LABELS[d]).join(', ');
 
   return (
-    <section className={`card ${className}`}>
-      <h2 className="section-header">Current stats</h2>
-      <dl className="mt-4 space-y-3 text-sm">
+    <div className={`grouped-section ${className}`}>
+      <h2 className="grouped-header">Current stats</h2>
+      <section className="grouped-inset grouped-inset-body">
+      <dl className="space-y-0 text-sm">
         <Row label="Age" value={`${targets.age} yrs`} />
         <Row label="Weight" value={formatWeight(profile.weightKg, units.weight)} />
         <Row
@@ -249,13 +254,14 @@ function StatsSummary({ profile, className = '' }: { profile: Profile; className
         <Row label="Diet" value={diet} />
         {profile.customDietary && <Row label="Custom" value={profile.customDietary} />}
       </dl>
-    </section>
+      </section>
+    </div>
   );
 }
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-start justify-between gap-4 border-b border-ink-50 pb-2 last:border-0">
+    <div className="flex items-start justify-between gap-4 border-b border-line-card py-2.5 last:border-b-0">
       <dt className="text-ink-600">{label}</dt>
       <dd className="text-right font-semibold text-ink-900">{value}</dd>
     </div>
@@ -274,9 +280,11 @@ function TargetsCard({
   const energy = profile.units.energy;
   const { macros } = targets;
   return (
-    <section className={`card ${className}`}>
+    <div className={`grouped-section ${className}`}>
+      <h2 className="grouped-header">Daily target</h2>
+      <section className="grouped-inset grouped-inset-body">
       <div className="flex items-baseline justify-between">
-        <h2 className="section-header">Daily target</h2>
+        <p className="text-sm font-medium text-ink-900">Macros</p>
         <span className="text-sm text-ink-600">
           BMR {Math.round(targets.bmr)} · TDEE {Math.round(targets.tdee)} kcal
         </span>
@@ -311,7 +319,8 @@ function TargetsCard({
             ? 'gain'
             : 'maintenance'}
       </p>
-    </section>
+      </section>
+    </div>
   );
 }
 

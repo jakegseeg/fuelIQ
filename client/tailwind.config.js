@@ -1,39 +1,31 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
+  darkMode: 'media',
   theme: {
     extend: {
       screens: { md: '768px', lg: '1024px' },
       colors: {
-        // Backgrounds — mostly neutral
-        bg: '#F2F2F7',
-        surface: '#FFFFFF',
-        surface2: '#F2F2F7',
-
-        // Section labels
-        section: '#8E8E93',
-
-        // Card borders & tracks
-        'line-card': '#E5E5EA',
-        'line-sidebar': '#E5E5EA',
-        'line-track': '#E5E5EA',
-        'line-streak': '#E5E5EA',
-
-        // Text — Apple standard
+        bg: 'rgb(var(--sys-bg) / <alpha-value>)',
+        surface: 'rgb(var(--sys-surface) / <alpha-value>)',
+        surface2: 'rgb(var(--sys-surface2) / <alpha-value>)',
+        section: 'rgb(var(--sys-quaternary-label) / <alpha-value>)',
+        'line-card': 'rgb(var(--sys-separator) / <alpha-value>)',
+        'line-sidebar': 'rgb(var(--sys-separator) / <alpha-value>)',
+        'line-track': 'rgb(var(--sys-separator) / <alpha-value>)',
+        'line-streak': 'rgb(var(--sys-separator) / <alpha-value>)',
         ink: {
-          50: '#FFFFFF',
-          100: '#F2F2F7',
-          200: '#E5E5EA',
-          300: '#C7C7CC',
-          400: '#8E8E93',
-          500: '#636366',
-          600: '#636366',
-          700: '#3A3A3C',
-          800: '#1C1C1E',
-          900: '#1C1C1E',
+          50: 'rgb(var(--sys-surface) / <alpha-value>)',
+          100: 'rgb(var(--sys-surface2) / <alpha-value>)',
+          200: 'rgb(var(--sys-separator) / <alpha-value>)',
+          300: 'rgb(var(--sys-separator-opaque) / <alpha-value>)',
+          400: 'rgb(var(--sys-quaternary-label) / <alpha-value>)',
+          500: 'rgb(var(--sys-tertiary-label) / <alpha-value>)',
+          600: 'rgb(var(--sys-secondary-label) / <alpha-value>)',
+          700: 'rgb(var(--sys-secondary-label) / <alpha-value>)',
+          800: 'rgb(var(--sys-label) / <alpha-value>)',
+          900: 'rgb(var(--sys-label) / <alpha-value>)',
         },
-
-        // Primary brand green — vivid
         accent: {
           50: '#E8FFF0',
           100: '#D1FFE1',
@@ -43,38 +35,14 @@ export default {
           500: '#28B14A',
           600: '#1E8A3A',
         },
-
-        // Macro ring colors — Apple Health Activity ring colors
-        protein: {
-          400: '#30D158',
-          500: '#28B14A',
-        },
-        carbs: {
-          400: '#FF9F0A',
-          500: '#E8900A',
-        },
-        fat: {
-          400: '#FF453A',
-          500: '#E03530',
-        },
-
-        // Water
-        sky: {
-          400: '#0A84FF',
-          500: '#0070E0',
-        },
-
-        // Semantic
+        protein: { 400: '#30D158', 500: '#28B14A' },
+        carbs: { 400: '#FF9F0A', 500: '#E8900A' },
+        fat: { 400: '#FF453A', 500: '#E03530' },
+        sky: { 400: '#0A84FF', 500: '#0070E0' },
         success: '#30D158',
         warning: '#FF9F0A',
         error: '#FF453A',
-
-        // Legacy aliases
-        brand: {
-          400: '#30D158',
-          500: '#28B14A',
-          600: '#1E8A3A',
-        },
+        brand: { 400: '#30D158', 500: '#28B14A', 600: '#1E8A3A' },
         coral: {
           100: '#FFE8E6',
           300: '#FF453A',
@@ -117,6 +85,8 @@ export default {
         xl: '20px',
         full: '9999px',
         card: '16px',
+        btn: '10px',
+        group: '10px',
       },
       transitionDuration: { DEFAULT: '180ms' },
       boxShadow: {

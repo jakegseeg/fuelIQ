@@ -3,8 +3,38 @@
 @tailwind components;
 @tailwind utilities;
 
+/* iOS semantic colors — light */
 :root {
-  color-scheme: light;
+  color-scheme: light dark;
+  --sys-bg: 242 242 247;
+  --sys-surface: 255 255 255;
+  --sys-surface2: 242 242 247;
+  --sys-label: 28 28 30;
+  --sys-secondary-label: 58 58 60;
+  --sys-tertiary-label: 99 99 102;
+  --sys-quaternary-label: 142 142 147;
+  --sys-separator: 229 229 234;
+  --sys-separator-opaque: 199 199 204;
+  --glass-bg: 255 255 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sys-bg: 0 0 0;
+    --sys-surface: 28 28 30;
+    --sys-surface2: 44 44 46;
+    --sys-label: 255 255 255;
+    --sys-secondary-label: 235 235 245;
+    --sys-tertiary-label: 235 235 245;
+    --sys-quaternary-label: 142 142 147;
+    --sys-separator: 56 56 58;
+    --sys-separator-opaque: 72 72 74;
+    --glass-bg: 28 28 30;
+  }
+}
+
+html {
+  font-size: clamp(14px, 13px + 0.25vw, 17px);
 }
 
 html,
@@ -13,7 +43,7 @@ body,
   min-height: 100%;
 }
 body {
-  @apply bg-bg font-sans text-sm font-normal text-ink-900 antialiased;
+  @apply bg-bg font-sans font-normal text-ink-900 antialiased;
   font-feature-settings: 'tnum' 1, 'ss01' 1;
 }
 button,
@@ -31,66 +61,100 @@ select {
 }
 
 @layer components {
+  /* ——— Typography (Dynamic Type–friendly) ——— */
+  .large-title {
+    font-size: clamp(1.625rem, 1.35rem + 1.1vw, 2.125rem);
+    line-height: 1.15;
+    @apply font-bold tracking-tight text-ink-900;
+  }
   .page-title {
-    @apply text-2xl font-semibold text-ink-900;
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.75rem);
+    @apply font-semibold text-ink-900;
   }
   .page-subtitle {
-    @apply text-sm font-normal text-ink-500;
+    font-size: clamp(0.8125rem, 0.78rem + 0.15vw, 0.9375rem);
+    @apply font-normal text-ink-500;
   }
   .section-header {
-    @apply text-lg font-semibold text-ink-900;
+    font-size: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+    @apply font-semibold text-ink-900;
   }
   .section-label,
   .card-header {
-    @apply text-xs font-semibold uppercase tracking-wider text-ink-500;
+    @apply text-xs font-normal uppercase tracking-wide text-ink-500;
   }
   .display-num {
-    @apply font-display text-4xl font-bold tabular-nums text-ink-900;
+    font-size: clamp(2rem, 1.6rem + 1.5vw, 2.5rem);
+    @apply font-display font-bold tabular-nums text-ink-900;
   }
   .text-muted {
     @apply text-xs font-normal text-ink-500;
   }
 
+  /* ——— Buttons (unified 10px radius) ——— */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-md text-sm font-semibold transition focus:outline-none focus-visible:shadow-glow disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-btn px-5 py-3 text-sm font-semibold transition focus:outline-none focus-visible:shadow-glow disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-primary {
-    @apply btn bg-accent-500 px-5 py-3 text-white shadow-low hover:bg-accent-600 active:scale-[0.98];
+    @apply btn bg-accent-500 text-white shadow-none hover:bg-accent-600 active:scale-[0.98];
   }
   .btn-secondary {
-    @apply btn border-[1.5px] border-accent-500 bg-surface px-5 py-3 text-accent-500 hover:bg-accent-50 active:scale-[0.98];
+    @apply btn border-[1.5px] border-accent-500 bg-surface text-accent-500 shadow-none hover:bg-accent-50 active:scale-[0.98];
   }
   .btn-ghost {
-    @apply btn border-[1.5px] border-line-card bg-transparent px-4 py-2.5 font-normal text-ink-700 hover:bg-ink-100 active:scale-[0.98];
+    @apply btn border-[1.5px] border-line-card bg-transparent px-4 py-2.5 font-normal text-ink-700 shadow-none hover:bg-ink-100 active:scale-[0.98];
   }
   .btn-add {
-    @apply inline-flex items-center justify-center rounded-md border-[1.5px] border-line-card bg-transparent px-3 py-1.5 text-xs font-medium text-ink-700 transition hover:bg-ink-100 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex min-h-[44px] items-center justify-center rounded-btn border-[1.5px] border-line-card bg-transparent px-3 py-2 text-sm font-medium text-ink-700 transition hover:bg-ink-100 disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-pill {
-    @apply inline-flex items-center justify-center rounded-full bg-bg px-3 py-1.5 text-xs font-medium text-ink-700 transition hover:bg-ink-100 disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex min-h-[36px] items-center justify-center rounded-full bg-surface2 px-3 py-1.5 text-xs font-medium text-ink-700 transition hover:bg-ink-200 disabled:cursor-not-allowed disabled:opacity-50;
   }
   .btn-accent {
-    @apply btn bg-accent-500 px-5 py-3 text-white shadow-low hover:bg-accent-600 active:scale-[0.98];
+    @apply btn-primary;
   }
 
   .field-label {
     @apply mb-1.5 block text-sm font-normal text-ink-600;
   }
   .field-input {
-    @apply w-full rounded-md border-[1.5px] border-line-card bg-surface px-3.5 py-2.5 text-sm text-ink-900 outline-none transition placeholder:text-ink-400 focus:border-accent-500 focus:shadow-glow;
+    @apply w-full min-h-[44px] rounded-btn border-[1.5px] border-line-card bg-surface px-3.5 py-2.5 text-sm text-ink-900 outline-none transition placeholder:text-ink-400 focus:border-accent-500 focus:shadow-glow;
   }
 
+  /* ——— Inset grouped lists (iOS Settings / Health style) ——— */
+  .grouped-section {
+    @apply mb-6;
+  }
+  .grouped-header {
+    @apply px-4 pb-1.5 text-xs font-normal uppercase tracking-wide text-ink-500;
+  }
+  .grouped-inset {
+    @apply overflow-hidden rounded-group bg-surface;
+  }
+  .grouped-row {
+    @apply flex min-h-[44px] items-center border-b border-line-card px-4 py-3 last:border-b-0;
+  }
+  .grouped-inset-body {
+    @apply p-4;
+  }
+
+  /* ——— Cards: flat on mobile, elevated on desktop ——— */
   .surface-card {
-    @apply overflow-hidden rounded-xl border border-line-card bg-surface p-4 shadow-mid;
+    @apply overflow-hidden rounded-group bg-surface p-4 lg:rounded-xl lg:border lg:border-line-card lg:shadow-mid;
   }
   .card {
-    @apply overflow-hidden rounded-xl border border-line-card bg-surface p-4 shadow-mid;
+    @apply overflow-hidden rounded-group bg-surface p-4 lg:rounded-xl lg:border lg:border-line-card lg:shadow-mid;
   }
   .card-item {
-    @apply rounded-lg shadow-low transition-shadow hover:shadow-mid;
+    @apply rounded-lg bg-surface2 lg:shadow-low lg:transition-shadow lg:hover:shadow-mid;
   }
   .card-hover {
-    @apply hover:shadow-mid;
+    @apply lg:hover:shadow-mid;
+  }
+
+  /* Dashboard / summary sections — edge-to-edge inset groups */
+  .summary-group {
+    @apply overflow-hidden rounded-group bg-surface p-4 lg:rounded-xl lg:border lg:border-line-card lg:shadow-mid;
   }
 
   .state-accent {
@@ -104,7 +168,7 @@ select {
     @apply border border-accent-400 bg-accent-400 text-white;
   }
   .panel-mint {
-    @apply rounded-lg bg-accent-50 p-4 ring-1 ring-inset ring-accent-400/25;
+    @apply rounded-group bg-accent-50 p-4 ring-1 ring-inset ring-accent-400/25;
   }
   .chip-status {
     @apply inline-flex items-center rounded-full bg-accent-500 px-2.5 py-0.5 text-xs font-semibold text-white;
@@ -122,7 +186,7 @@ select {
     @apply animate-page-in;
   }
   .glass {
-    background: rgba(255, 255, 255, 0.84);
+    background: rgb(var(--glass-bg) / 0.84);
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
   }

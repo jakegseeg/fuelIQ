@@ -25,7 +25,7 @@ export function WaterWidget({ water, onAdd }: Props) {
   };
 
   return (
-    <div className="card">
+    <div className="summary-group">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold">Water</h3>
         <span className="text-sm font-semibold text-ink-600 tabular-nums">

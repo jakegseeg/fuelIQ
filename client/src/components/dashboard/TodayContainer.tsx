@@ -115,7 +115,7 @@ export function TodayContainer({
 
   return (
     <div
-      className={`flex min-h-[280px] flex-col rounded-xl border border-line-card bg-surface p-6 shadow-mid md:h-full ${className}`}
+      className={`summary-group flex min-h-[280px] flex-col p-4 lg:p-6 md:h-full ${className}`}
     >
         {initialLoading || !summary ? (
           <div className="flex flex-1 items-center justify-center">

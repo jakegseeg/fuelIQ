@@ -13,8 +13,7 @@ function isRestDay(workout: DayPlan | null) {
   return !workout || /rest|recovery|off day/i.test(workout.focus) || workout.exercises.length === 0;
 }
 
-const bannerClass =
-  'overflow-hidden rounded-xl border border-line-card bg-surface shadow-mid';
+const bannerClass = 'summary-group';
 
 /** A single, contextual next step keeps Today from becoming a competing card grid. */
 export function NextBestAction({ date, day, workout }: Props) {
@@ -59,8 +58,9 @@ export function NextBestAction({ date, day, workout }: Props) {
             <h2 id="next-step-title" className="mt-0.5 section-header">Start {workout.focus}</h2>
             <p className="mt-1 text-sm text-ink-600">{workout.exercises.length} exercises · about {workout.estimatedDurationMin} minutes.</p>
           </div>
-          <button type="button" onClick={start} className="btn-primary flex-none" aria-label={`Start ${workout.focus}`}>
-            <span className="hidden sm:inline">Start</span><ChevronRight size={20} aria-hidden />
+          <button type="button" onClick={start} className="btn-primary flex-none px-5 py-3" aria-label={`Start ${workout.focus}`}>
+            <span className="hidden sm:inline">Start</span>
+            <ChevronRight size={16} aria-hidden />
           </button>
         </div>
       </section>

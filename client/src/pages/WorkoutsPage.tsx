@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { CheckCircle2, Moon } from 'lucide-react';
 import { AppShell } from '../components/layout/AppShell';
-import { WorkoutPageHeader } from '../components/layout/WorkoutPageHeader';
 import { WORKOUT_SUB_LINKS } from '../components/layout/navLinks';
 import { Spinner } from '../components/Spinner';
 import { Modal } from '../components/Modal';
@@ -84,13 +83,13 @@ export function WorkoutsPage() {
   return (
     <AppShell
       title={pageMeta.label}
+      subtitle={pageMeta.subtitle}
       actions={
         <Link to="/workouts/history" className="text-sm font-semibold text-accent-500 hover:underline">
           History
         </Link>
       }
     >
-      <WorkoutPageHeader title={pageMeta.label} subtitle={pageMeta.subtitle} />
       {loading ? (
         <div className="flex h-64 items-center justify-center">
           <Spinner label="Loading your plan…" />

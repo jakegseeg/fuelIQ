@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { AppShell } from '../components/layout/AppShell';
-import { WorkoutPageHeader } from '../components/layout/WorkoutPageHeader';
 import { WORKOUT_SUB_LINKS } from '../components/layout/navLinks';
 import { Spinner } from '../components/Spinner';
 import { MySplitPanel } from '../components/MySplitView';
@@ -21,8 +20,7 @@ export function WorkoutsCustomPage() {
   }, []);
 
   return (
-    <AppShell title={pageMeta.label}>
-      <WorkoutPageHeader title={pageMeta.label} subtitle={pageMeta.subtitle} />
+    <AppShell title={pageMeta.label} subtitle={pageMeta.subtitle}>
       {loading ? (
         <div className="flex h-64 items-center justify-center">
           <Spinner label="Loading your split…" />

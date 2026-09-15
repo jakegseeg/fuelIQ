@@ -113,7 +113,11 @@ export function DashboardPage() {
   const title = data?.firstName ? `${greeting()}, ${data.firstName}` : greeting();
 
   return (
-    <AppShell title="Dashboard" subtitle="Your day at a glance">
+    <AppShell
+      title="Dashboard"
+      mobileTitle={title}
+      subtitle="Your day at a glance"
+    >
       {loading && !data ? (
         <div className="flex h-64 items-center justify-center">
           <Spinner label="Loading your dashboard…" />
@@ -128,13 +132,9 @@ export function DashboardPage() {
         </div>
       ) : data ? (
         <section className="flex flex-col gap-4 overflow-hidden">
-          <header className="flex-none">
-            <h2 className="page-title">{title}</h2>
-          </header>
-
           <NextBestAction date={data.date} day={data.day} workout={data.todaysWorkout} />
 
-          <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-2">
             <TodayContainer
               date={data.date}
               goal={data.day.goal}
