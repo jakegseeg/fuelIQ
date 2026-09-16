@@ -101,7 +101,7 @@ export function DashboardPage() {
   const title = data?.firstName ? `${greeting()}, ${data.firstName}` : greeting();
 
   return (
-    <AppShell title="Dashboard" mobileTitle={title} maxWidth="max-w-2xl">
+    <AppShell title="Dashboard" mobileTitle={title} maxWidth="max-w-5xl">
       {loading && !data ? (
         <div className="flex h-64 items-center justify-center">
           <Spinner label="Loading your dashboard…" />
@@ -116,10 +116,26 @@ export function DashboardPage() {
         </div>
       ) : data ? (
         <TodayDataProvider date={data.date} refreshKey={todayRefresh}>
-          <section className="flex flex-col gap-12 pb-4">
+          <section className="flex flex-col gap-8 pb-4 lg:gap-10">
             <TodayHero date={data.date} className="-mt-2 lg:mt-0" />
 
-            <NextBestAction date={data.date} day={data.day} workout={data.todaysWorkout} />
+            <div className="grid gap-5 lg:grid-cols-2 lg:items-stretch">
+              <div className="grouped-section mb-0 flex flex-col">
+                <h2 className="grouped-header">Meals</h2>
+                <DailyTrackerCard
+                  date={data.date}
+                  onUpdate={handleMealLogged}
+                  className="h-full"
+                />
+              </div>
+
+              <NextBestAction
+                date={data.date}
+                day={data.day}
+                workout={data.todaysWorkout}
+                className="h-full"
+              />
+            </div>
 
             <TodayHighlights
               date={data.date}
@@ -127,21 +143,13 @@ export function DashboardPage() {
               onMealLogged={handleMealLogged}
             />
 
-          <div className="grouped-section">
-            <h2 className="grouped-header">Meals</h2>
-            <DailyTrackerCard
-              date={data.date}
-              onUpdate={handleMealLogged}
-            />
-          </div>
-
-          <div className="grouped-section">
-            <h2 className="grouped-header">Activity</h2>
-            <div className="space-y-4">
-              <LoggingStreakCard refreshKey={trackerRefresh} />
-              <UpcomingStrip />
+            <div className="grouped-section">
+              <h2 className="grouped-header">Activity</h2>
+              <div className="space-y-4">
+                <LoggingStreakCard refreshKey={trackerRefresh} />
+                <UpcomingStrip />
+              </div>
             </div>
-          </div>
           </section>
         </TodayDataProvider>
       ) : null}

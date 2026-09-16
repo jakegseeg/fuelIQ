@@ -7,23 +7,26 @@ interface Props {
   date: string;
   day: DaySummary;
   workout: DayPlan | null;
+  className?: string;
 }
 
 function isRestDay(workout: DayPlan | null) {
   return !workout || /rest|recovery|off day/i.test(workout.focus) || workout.exercises.length === 0;
 }
 
-const bannerClass = 'summary-group';
+function bannerClass(className = '') {
+  return `summary-group ${className}`;
+}
 
 /** A single, contextual next step keeps Today from becoming a competing card grid. */
-export function NextBestAction({ date, day, workout }: Props) {
+export function NextBestAction({ date, day, workout, className = '' }: Props) {
   const navigate = useNavigate();
   const hasLoggedFood = day.meals.some((group) => group.entries.length > 0);
   const proteinRemaining = Math.max(0, Math.round(day.remaining?.protein ?? 0));
 
   if (!hasLoggedFood) {
     return (
-      <section className={bannerClass} aria-labelledby="next-step-title">
+      <section className={bannerClass(className)} aria-labelledby="next-step-title">
         <div className="flex items-center gap-4 p-4 sm:p-5">
           <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-transparent">
             <Plus size={22} className="text-accent-500" aria-hidden />
@@ -48,7 +51,7 @@ export function NextBestAction({ date, day, workout }: Props) {
       navigate('/workouts/active', { state: payload });
     };
     return (
-      <section className={bannerClass} aria-labelledby="next-step-title">
+      <section className={bannerClass(className)} aria-labelledby="next-step-title">
         <div className="flex items-center gap-4 bg-transparent p-4 sm:p-5">
           <span className="flex h-11 w-11 flex-none items-center justify-center bg-transparent">
             <Dumbbell size={20} className="text-accent-500" aria-hidden />
@@ -68,7 +71,7 @@ export function NextBestAction({ date, day, workout }: Props) {
   }
 
   return (
-    <section className={bannerClass} aria-labelledby="next-step-title">
+    <section className={bannerClass(className)} aria-labelledby="next-step-title">
       <div className="flex items-center gap-4 p-4 sm:p-5">
         <span className="flex h-11 w-11 flex-none items-center justify-center rounded-full bg-accent-100 text-accent-500"><Sparkles size={21} aria-hidden /></span>
         <div className="min-w-0 flex-1">
